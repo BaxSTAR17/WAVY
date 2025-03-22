@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-neutral-900">
-        <div class="flex flex-col w-64">
+    <div class="bg-neutral-900 w-64 h-screen">
+        <div class="flex flex-col">
             <div class="fixed pl-6 pt-8 pb-6 pr-12 h-full justify-left overflow-y-auto">
                 <div class="py-1 logo">
                     <NuxtLink to="/" class="font-bold text-4xl leading-0">
@@ -22,19 +22,43 @@
                 
                 <div class="py-1">
                     <NuxtLink to="/" class="text-xl text-white">
-                        Favorites
+                        Liked
                     </NuxtLink>
                 </div>
 
                 <div class="py-1">
                     <NuxtLink to="/" class="text-xl text-white">
-                        Saved
+                        Profile
                     </NuxtLink>
                 </div>
 
                 <div class="py-1">
                     <NuxtLink to="/" class="text-xl text-white">
-                        History
+                        Settings
+                    </NuxtLink>
+                </div>
+
+                <div class="py-1">
+                    <NuxtLink to="/" class="text-xl text-white">
+                        About Us
+                    </NuxtLink>
+                </div>
+
+                <div class="py-1">
+                    <NuxtLink to="/" class="text-xl text-white">
+                        Contact Us
+                    </NuxtLink>
+                </div>
+
+                <div class="py-1">
+                    <NuxtLink to="/" class="text-xl text-white">
+                        FAQ
+                    </NuxtLink>
+                </div>
+
+                <div class="py-1">
+                    <NuxtLink to="/" class="text-xl text-white">
+                        Log Out
                     </NuxtLink>
                 </div>
             </div>
