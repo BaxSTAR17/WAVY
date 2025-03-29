@@ -1,15 +1,15 @@
 <template>
     <div class="bg-neutral-900 w-64 h-screen">
         <div class="flex flex-col">
-            <div class="fixed pl-6 pt-8 pb-6 pr-12 h-full justify-left overflow-y-auto">
+            <div class="fixed pl-6 pt-8 pb-6 pr-12 h-screen max-h-400 justify-left overflow-y-auto">
                 <div class="py-1 logo">
-                    <NuxtLink to="/" class="font-bold text-4xl leading-0">
+                    <NuxtLink to="/main" class="font-bold text-4xl leading-0">
                         <span class="bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100% bg-clip-text text-transparent">WAVY</span>
                     </NuxtLink>
                 </div>
                 
                 <div class="py-1">
-                    <NuxtLink to="/" class="text-xl text-white">
+                    <NuxtLink to="/main" class="text-xl text-white">
                         Home
                     </NuxtLink>
                 </div>
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="py-1">
-                    <NuxtLink to="/" class="text-xl text-white">
+                    <NuxtLink to="/faq" class="text-xl text-white">
                         FAQ
                     </NuxtLink>
                 </div>
