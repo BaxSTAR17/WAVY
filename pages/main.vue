@@ -1,6 +1,7 @@
 <template >
     <main class="h-screen w-screen flex flex-row">
-        <DesktopSidebar />
+        <LeftSidebar />
+        <RideSidebar />
         <div class="bg-neutral-800 min-h-dvh p-5 w-screen">
             <h1>Home Page</h1>
             <p>

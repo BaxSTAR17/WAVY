@@ -1,6 +1,7 @@
 <template >
     <main class="h-screen w-screen flex flex-row">
-        <DesktopSidebar />
+        <LeftSidebar />
+        <RideSidebar />
         <div class="bg-neutral-800 min-h-dvh h-screen overflow-scroll overflow-x-hidden max-h-400 p-5 w-screen">
             <h1 class="text-4xl">Frequently Asked Questions</h1>
 
