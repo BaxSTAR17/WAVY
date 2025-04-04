@@ -1,27 +1,52 @@
+<script setup>
+    const user = useSupabaseUser()
+    const supabase = useSupabaseClient()
+    const username = ref('')
+    const guestMode = ref(true)
+    const mode = ref('mode1')
+    onMounted(async () => {
+        if(!user.value) {
+            mode.value = 'mode1'
+            guestMode.value = true
+        } else {
+            guestMode.value = false
+            const { data, error } = await supabase.from('USER').select('UserName').eq('UserEmail', user.value.email)
+            if(error) console.log(error)
+            else {
+                username.value = data[0].UserName
+            }
+        }
+    })
+</script>
+
 <template >
     <main class="h-screen w-screen flex flex-row">
-        <div class="bg-neutral-800 min-h-dvh p-5 w-screen flex justify-center items-center">
-            <form @submit.prevent="async () => (registerMode ? register() : await navigateTo('/main'))" class="flex flex-col gap-4 items-center justify-center">
-                <h3>LOGIN FOR WAVY BAYBE (doesnt work yet, just press the button to get to the homepage)</h3>
-                <input type="email" placeholder="Email" v-model="email" class="bg-gray-800 rounded p-3 w-full">
-                <input type="password" placeholder="Password" v-model="pass" class="bg-gray-800 rounded p-3 w-full">
-                <button type="submit" class="p-3 test-white bg-blue-400 rounded w-full cursor-pointer">
-                    <span v-if="registerMode">Sign Up</span>
-                    <span v-else>Log In</span>
-                </button> 
-            </form>
+        <LeftSidebar />
+        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3">
+            <div class="w-full flex flex-row h-20">
+                <UIcon name="i-uil-user" size="80" />
+                <div class="w-full flex flex-col h-20 justify-around items-start">
+                    <span class="text-4xl m-0" v-if="guestMode">GUEST</span>
+                    <span class="text-4xl m-0" v-else>{{ username }}</span>
+                    <NuxtLink to="/login" class="underline text-lg" v-if="guestMode">Sign in</NuxtLink>
+                    <NuxtLink to="/" class="underline text-lg" v-else>View Channel</NuxtLink>
+                </div>
+            </div>
+            <div class="w-full flex flex-row h-10 box-border">
+                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer" @click="mode = 'mode1'">TUTORIAL</button>
+                <div v-else-if="mode === 'mode1' && guestMode" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center">TUTORIAL</div>
+                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer" @click="mode = 'mode1'">FOR YOU</button>
+                <div v-else-if="mode === 'mode1' && guestMode === false" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center">FOR YOU</div>
+                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer" @click="mode = 'mode2'">EXPLORE</button>
+                <div v-else-if="mode === 'mode2'" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center">EXPLORE</div>
+            </div>
+            <div class="w-full flex flex-col h-content" v-if="mode === 'mode2'">
+                <PodcastPlayer />
+            </div>
         </div>
+        <RightSidebar />
     </main>
 </template>
-
-<script setup lang="ts">
-    const email = ref('')
-    const pass = ref('')
-    const registerMode = ref(false)
-
-    const register = async () => {}
-    const login = async () => {}
-</script>
 
 <style>
     body {
