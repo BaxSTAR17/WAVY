@@ -5,6 +5,9 @@ export default defineAppConfig({
          trailingIcon: 'shrink-0 size-5 ms-auto group-data-[state=open]:rotate-180 transition-transform duration-200',
       }
      },
+     skeleton: {
+      base: 'animate-pulse rounded-[calc(var(--ui-radius)*1.5)] bg-(--ui-bg-elevated)'
+    },
      commandPalette: {
       slots: {
         root: 'flex flex-col min-h-0 min-w-0 divide-y divide-(--ui-border)',

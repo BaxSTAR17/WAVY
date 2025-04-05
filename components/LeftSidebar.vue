@@ -90,12 +90,15 @@
 </template>
 
 <script setup>
+import { USkeleton } from '#components'
+
     const supabase = useSupabaseClient()
     const user = useSupabaseUser()
     const router = useRouter()
     const logOutError = ref(false)
     const guestMode = ref(false)
     const email = ref('')
+    const pending = ref(true)
     const logOut = async () => {
         try {
             const { error } = await supabase.auth.signOut()
@@ -109,8 +112,10 @@
     }
     onMounted(async () => {
         if(!user.value) {
+            pending.value = false;
             guestMode.value = true;
         } else {
+            pending.value = false;
             guestMode.value = false
             email.value = user.value.email
         }
