@@ -73,7 +73,7 @@
     // }
     onMounted(() => {
         formChange.value = () => {
-            
+            console.log("hello")
         }
     })
 </script>

@@ -1,7 +1,7 @@
 <script setup>
     const endtime = ref('')
     const starttime = ref('')
-    const liked = ref(false)
+    const liked = ref('i-basil-heart-outline')
     const isPlaying = ref(false)
     const muted = ref(false)
     const operateAudio = ref(() => {console.log('h')})
@@ -92,8 +92,8 @@
                     <UIcon v-else name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                     <input type="range" id="volume-slide" max="100" value="100" class="w-40">
-                    <UIcon v-if="liked === false" name="i-basil-heart-outline" size="60" class="text-[#8c52ff] cursor-pointer" @click="liked=true"/>
-                    <UIcon v-else name="i-basil-heart-solid" size="60" class="text-[#8c52ff] cursor-pointer" @click="liked=false"/>
+                    <UIcon :name="liked" size="60" class="text-[#8c52ff] cursor-pointer" @click="liked = liked == 'i-basil-heart-solid' ? 'i-basil-heart-outline' : 'i-basil-heart-solid'"/>
+                    <!-- <UIcon v-else name="i-basil-heart-solid" size="60" class="text-[#8c52ff] cursor-pointer" @click="liked=false"/> -->
                     <UIcon name="i-uil-ellipsis-v" size="50" class="text-neutral-500" />
                 </div>
             </div>
