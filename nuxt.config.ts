@@ -16,6 +16,12 @@ export default defineNuxtConfig({
       exclude: ['/', '/login', '/faq']
     }
   },
+  icon: {
+    clientBundle: {
+      scan: true,
+      sizeLimitKb: 256,
+    },
+  },
   vite: {
     plugins: [tailwindcss()]
   },

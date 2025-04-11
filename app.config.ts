@@ -2,7 +2,7 @@ export default defineAppConfig({
    ui: {
     accordion: {
       slots: {
-         trailingIcon: 'shrink-0 size-5 ms-auto group-data-[state=open]:rotate-180 transition-transform duration-200',
+        trailingIcon: 'shrink-0 size-5 ms-auto group-data-[state=open]:rotate-180 transition-transform duration-200',
       }
      },
      skeleton: {
@@ -20,7 +20,7 @@ export default defineAppConfig({
         label: 'px-2 py-1.5 text-xs font-semibold text-(--ui-text-highlighted)',
         item: 'group relative w-full flex items-center gap-2 px-2 py-1.5 text-sm select-none outline-none before:absolute before:z-[-1] before:inset-px before:rounded-[calc(var(--ui-radius)*1.5)] data-disabled:cursor-not-allowed data-disabled:opacity-75',
         itemLeadingIcon: 'shrink-0 size-5',
-        itemLeadingAvatar: 'shrink-0',
+        itemLeadingAvatar: 'shrink-0 size-5 rounded-4xl',
         itemLeadingAvatarSize: '2xs',
         itemLeadingChip: 'shrink-0 size-5',
         itemLeadingChipSize: 'md',
