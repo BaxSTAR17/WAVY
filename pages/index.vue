@@ -34,13 +34,16 @@
                 id.value = data[0].UserID
             }
             try {
-                const { data: subdata, error: error1 } = await supabase.from('SUBSCRIBE FEED').select("*").eq('SubscriberID', id)
-                subdata.forEach(async (subbed) => {
-                    const { data: poddata, error } = await supabase.from('PODCAST').select("*").eq('CreatorID', subbed.CreatorID).order('PodcastID', { ascending: false })
-                    poddata.forEach((pod)=>{foryou.value.push(pod)})
-                })
+                const { data: subdata, error } = await supabase.from('SUBSCRIBE FEED').select("*").eq('SubscriberID', id.value)
                 if(error) throw error
-            } catch(error) { homeError.value = true }
+                subdata.forEach(async (subbed) => {
+                    try {
+                        const { data: poddata, error } = await supabase.from('PODCAST').select("*").eq('CreatorID', subbed.CreatorID).order('PodcastID', { ascending: false })
+                        if(error) throw error
+                        poddata.forEach((pod)=>{foryou.value.push(pod)})
+                    } catch(error) { homeError.value = true; console.log(error) }
+                })
+            } catch(error) { homeError.value = true; console.log(error) }
         }
     })
 </script>
@@ -55,7 +58,7 @@
                     <span class="text-4xl m-0 font-bold" v-if="guestMode">GUEST</span>
                     <span class="text-4xl m-0" v-else>{{ username }}</span>
                     <NuxtLink to="/login" class="underline text-lg" v-if="guestMode">Sign in</NuxtLink>
-                    <NuxtLink :to="`/profile/${id}`" class="underline text-lg" v-else>View Channel</NuxtLink>
+                    <NuxtLink :to="`/profile/${id}`" class="underline text-lg" v-else>View Profile</NuxtLink>
                 </div>
             </div>
             <div class="w-full flex flex-row h-10 box-border">
@@ -67,11 +70,10 @@
                 <div v-else-if="mode === 'mode2'" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-if="mode === 'mode2'">
-                <PodcastPlayer src="https://krkvsaegpxmilldbextp.supabase.co/storage/v1/object/public/files/podcasts/Mind%20the%20Beat%20Podcast%20-%20Coffin%20Dance%20Makes%20Me%20Feel%20Alive.mp3" :uid="2"/>
-                <PodcastPlayer v-for="exp in explore" :pid="`${exp.PodcastID}`"/>
+                <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID"/>
             </div>
             <div class="w-full flex flex-col h-content" v-else-if="mode === 'mode1' && guestMode === false">
-                <PodcastPlayer v-for="fyp in foryou" :pid="`${fyp.PodcastID}`"/>
+                <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID"/>
             </div>
         </div>
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col justify-center items-center gap-5" v-else>

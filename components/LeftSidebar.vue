@@ -1,4 +1,6 @@
 <script setup>
+import { NuxtLink } from '#components'
+
     const loading = ref(true)
     const supabase = useSupabaseClient()
     const user = useSupabaseUser()
@@ -58,28 +60,32 @@
             <div class="pt-3" v-if="guestMode === false">
                 <NuxtLink :to="`/profile/${id}`" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-user-circle" size="21" />
-                    <span>Profile</span>
+                    <span class="font-extrabold underline" v-if="useRoute().path.startsWith('/profile') === true">Profile</span>
+                    <span v-else>Profile</span>
                 </NuxtLink>
             </div>
             
             <div class="pt-3" v-if="guestMode === false">
-                <NuxtLink to="/" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
+                <NuxtLink to="/subscriptions" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-headphones" size="21" />
-                    <span>Subscriptions</span>
+                    <span class="font-extrabold underline" v-if="useRoute().path === '/subscriptions'">Subscriptions</span>
+                    <span v-else>Subscriptions</span>
                 </NuxtLink>
             </div>
 
             <div class="pt-3" v-if="guestMode === false">
-                <NuxtLink to="/" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
+                <NuxtLink to="/likes" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-heart" size="22" />
-                    <span>Liked</span>
+                    <span class="font-extrabold underline" v-if="useRoute().path === '/likes'">Liked</span>
+                    <span v-else>Liked</span>
                 </NuxtLink>
             </div>
 
             <div class="pt-3" v-if="useRoute().path !== '/register'">
-                <NuxtLink to="/" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
+                <NuxtLink to="/settings" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-setting" size="21" />
-                    <span>Settings</span>
+                    <span class="font-extrabold underline" v-if="useRoute().path === '/settings'">Settings</span>
+                    <span v-else>Settings</span>
                 </NuxtLink>
             </div>
 
@@ -93,6 +99,10 @@
                     <span class="text-purple-400">Log In</span>
                 </NuxtLink>
             </div>
+
+            <NuxtLink to="/upload" v-if="guestMode === false && useRoute().path !== '/upload'" class="p-2 text-white text-md flex itemx-center justify-start gap-2 mt-3 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl w-full cursor-pointer">
+                <UIcon name="i-uil-plus" size="20"/> UPLOAD
+            </NuxtLink>
         </div>
 
         <div class="w-full flex flex-col">
@@ -121,7 +131,7 @@
             </div>
 
             <div class="pt-3">
-                <NuxtLink to="/" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
+                <NuxtLink to="/contact" class="text-sl text-white cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-700 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-phone" size="21"/>
                     <span>Contact Us</span>
                 </NuxtLink>
@@ -134,10 +144,10 @@
     </div>
     <div class="bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-start items-center gap-5" v-else-if="logOutError === false && loading === true">
         <Skeleload class="rounded-lg bg-neutral-700 h-[45px] w-full pb-[4px] pt-[4px]" />
-        <hr class="w-full pl-0 ml-0 mt-3" />
-        <Skeleload class="rounded-lg bg-neutral-700 h-[32px] w-full mt-3" />
-        <Skeleload class="rounded-lg bg-neutral-700 h-[32px] w-full mt-3" />
-        <Skeleload class="rounded-lg bg-neutral-700 h-[32px] w-full mt-3" />
+        <hr class="w-full pl-0 ml-0 mt-1" />
+        <Skeleload class="rounded-lg bg-neutral-700 h-[32px] w-full mt-1" />
+        <Skeleload class="rounded-lg bg-neutral-700 h-[32px] w-full mt-1" />
+        <Skeleload class="rounded-lg bg-neutral-700 h-[32px] w-full mt-1" />
     </div>
 </template>
 

@@ -6,6 +6,8 @@
     const guestMode = ref(false)
     const fetchError = ref(true)
     const thumbnail = supabase.storage.from('files').getPublicUrl('thumbnails/01110.svg')
+    const favorites = ref([])
+    const favored = ref(false)
     const groups = ref([
     {
         id: 'Podcasts',
@@ -68,6 +70,22 @@
             guestMode.value = true;
         } else {
             guestMode.value = false
+            try {
+                const { data: userdata, error } = await supabase.from('USER').select("UserID").eq("UserEmail", user.value.email)
+                if(error) throw error
+                try {
+                    const { data: subdata, error } = await supabase.from('SUBSCRIBE FEED').select("CreatorID").eq("SubscriberID", userdata[0].UserID)
+                    if(error) throw error
+                    subdata.forEach(async (sub) => {
+                        try {
+                            const { data, error } = await supabase.from('USER').select("*").eq("UserID", sub.CreatorID)
+                            if(error) throw error
+                            favorites.value.push(data)
+                        } catch(error) { console.log(error) }
+                    })
+                    if(favorites.value.length > 0) favored.value = true
+                } catch(error) { console.log(error) }
+            } catch(error) { console.log(error) }
         }
     })
 </script>
@@ -83,7 +101,15 @@
             </div>
             <hr class="w-full pl-0 ml-0" />
             <h1 class="text-xl font-bold">FAVORITE CREATORS</h1>
-            <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer">Sign in to subscribe to channels!</NuxtLink>
+            <div class="w-full h-full overflow-y-auto flex flex-col gap-2">
+                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer">Sign in to subscribe to channels!</NuxtLink>
+                <span v-else-if="favorites.length > 0" class="text-lg text-center text-neutral-500 self-center">Users you subscribe to appear here</span>
+                <NuxtLink v-for="fav in favorites" :to="`/profile/${fav.CreatorID}`" class="rounded-xl bg-neutral-900 h-content w-full flex justify-start items-center gap-2">
+                    <img src="../public/WAVY Default Profile Picture.svg" alt="pfp" class="w-5 h-5 rounded-full">
+                    <span class="text-white text-lg">{{ fav.UserName }}</span>
+                </NuxtLink>
+                <UIcon v-if="favorites.length > 0" name="i-uil-star" class="text-neutral-500 self-center" size="40" />
+            </div>
         </div>
     </div>
 </template>
