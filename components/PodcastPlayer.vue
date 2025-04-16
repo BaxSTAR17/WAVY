@@ -143,8 +143,8 @@ import { data } from 'autoprefixer'
     if(!user.value) guestMode.value = true
     onMounted(() => {
         const duration_slide = document.getElementById('durationslide')
-        const volume_slide = document.getElementById('volumeslide')
-        const audio = document.getElementById('audio')
+        const volume_slide = document.getElementById(`volumeslide${props.pid}`)
+        const audio = document.getElementById(`audio${props.pid}`)
         let hack = null
         volume_slide.style.background = `linear-gradient(to right, #8c52ff ${volume_slide.value*(1/3)}%, #5735fd ${volume_slide.value*(2/3)}%, #2299ef ${volume_slide.value}%, gray ${duration_slide.value}%)`
         duration_slide.addEventListener('input', () => {
@@ -220,7 +220,7 @@ import { data } from 'autoprefixer'
 
 <template>
     <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border" v-if="found === true && loading == false">
-        <audio :src="link" id="audio" preload="metadata" />
+        <audio :src="link" :id="`audio${props.pid}`" preload="metadata" />
         <div class="w-full flex flex-row items-center h-full gap-3">
             <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg bg-neutral-800"><img :src="thumbnail" id="img" alt="Thumbnail"></NuxtLink>
             <div class="w-full flex flex-col justify-center p-1 box-border" v-if="props.pod === false">
@@ -238,7 +238,7 @@ import { data } from 'autoprefixer'
                     <UIcon v-if="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <UIcon v-else name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
-                    <input type="range" id="volumeslide" max="100" value="100" class="w-40">
+                    <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
                     <div v-if="guestMode === false">
                         <UIcon v-if="liked === true" name="i-basil-heart-solid" size="40" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
                         <UIcon name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
@@ -276,7 +276,7 @@ import { data } from 'autoprefixer'
                         <UIcon v-if="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                         <UIcon v-else name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
-                        <input type="range" id="volumeslide" max="100" value="100" class="w-40">
+                        <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
                     </div>
                     <div class="flex flex-row items-center" v-if="guestMode === false">
                         <UIcon v-if="liked === true" name="i-basil-heart-solid" size="50" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
@@ -291,13 +291,13 @@ import { data } from 'autoprefixer'
         <span class="text-neutral-500">Sorry, we are having trouble loading the audio</span>
         <UIcon name="i-uil-annoyed" class="text-neutral-500" size="40" />
         <input type="range" id="durationslide" max="100" value="0" class="w-0 h-0 invisible">
-        <input type="range" id="volumeslide" max="100" value="0" class="w-0 h-0 invisible">
+        <input type="range" id="volumeslide0" max="100" value="0" class="w-0 h-0 invisible">
         <audio src="" id="audio" preload="metadata" />
     </main>
     <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found===true && loading === true">
         <Skeleload class="w-full h-25 rounded-lg bg-neutral-700" />
         <input type="range" id="durationslide" max="100" value="0" class="w-0 h-0 invisible">
-        <input type="range" id="volumeslide" max="100" value="0" class="w-0 h-0 invisible">
+        <input type="range" id="volumeslide0" max="100" value="0" class="w-0 h-0 invisible">
         <audio src="" id="audio" preload="metadata" />
     </main>
     <hr class="w-full pl-0 ml-0 text-neutral-400" style="height: 5px;"/>

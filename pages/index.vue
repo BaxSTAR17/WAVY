@@ -69,11 +69,11 @@
                 <button v-if="mode !== 'mode2'" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'">EXPLORE</button>
                 <div v-else-if="mode === 'mode2'" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
             </div>
-            <div class="w-full flex flex-col h-content" v-if="mode === 'mode2'">
-                <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID"/>
+            <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
+                <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>
             </div>
-            <div class="w-full flex flex-col h-content" v-else-if="mode === 'mode1' && guestMode === false">
-                <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID"/>
+            <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === false">
+                <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID"/>
             </div>
         </div>
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col justify-center items-center gap-5" v-else>
