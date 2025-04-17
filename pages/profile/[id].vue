@@ -86,7 +86,7 @@ import Subscriptions from '../subscriptions.vue'
                 <img src="../../public/WAVY Default Profile Picture.svg" alt="PFP" class="rounded-4xl h-40 w-40">
                 <div class="w-full flex flex-col h-40 justify-evenly items-start">
                     <span class="text-4xl m-0 font-bold flex items-center gap-2">{{profileName}} <div v-if="online" class="w-5 h-5 rounded-full bg-green-600"></div></span>
-                    <span class="text-xl m-0">{{ listeners }} subscribers</span>
+                    <span class="text-xl m-0">{{ listeners }} {{ listeners > 1 ? 'subscribers' : 'subscriber' }}</span>
                     <div class="flex flex-row gap-3">
                         <span class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl w-content">
                             <NuxtLink v-if="selfProfile" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD PODCAST</NuxtLink>

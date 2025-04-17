@@ -18,6 +18,10 @@
                 errormsg.value = "* Cannot confirm password, Please type your password correctly"
                 form.reset()
                 return;
+            } else if(pass.value.length < 6 || pass2.value.length < 6) {
+                errormsg.value = "* Password should be at least 6 characters"
+                form.reset()
+                return;
             }
             const { data, error: error } = await supabase.from('USER').select('*').eq('UserName', username.value)
             if(data.length > 0) {
@@ -42,7 +46,6 @@
                     const { error } = await supabase.from('USER').insert({
                         UserName: username.value,
                         UserEmail: email.value,
-                        Theme: 'dark',
                         isOnline: false,
                         isPrivate: false,
                         HasPFP: false,
