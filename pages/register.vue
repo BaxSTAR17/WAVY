@@ -52,6 +52,7 @@
                         Listeners: 0
                     })
                     if(error) throw error;
+                    verifying.value = true;
                 } catch(error) { console.log(error); loading.value = false; errormsg.value = "* Sorry, We're having trouble creating your account, Please try again later"; form.reset() }
             } catch(error) { console.log(error); loading.value = false; errormsg.value = "* Sorry, We're having trouble registering your account, Please try again later"; form.reset() }
         }
