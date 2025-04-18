@@ -8,7 +8,10 @@
     const file = ref()
     const readytoupload = ref(false)
     const uploading = ref(false)
-    const fileCheck = () => {
+    // const assembly = new AssemblyAI({
+    //     apiKey: '91b0ee4da9f34ecf9afb4c05a2f61b7e'
+    // })
+    const fileCheck = async () => {
         if(user.value) {
             accepting.value = true
             const blob = window.URL || window.webkitURL
@@ -80,8 +83,6 @@
 </script>
 
 <template>
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col p-3 gap-3">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold">UPLOAD PODCAST</h1>
             <form @submit.prevent="upload()" name="form" id="form" class="w-full flex flex-col gap-2 items-start justify-start">
@@ -108,8 +109,6 @@
                 </button> 
             </form>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <style>

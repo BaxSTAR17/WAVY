@@ -1,6 +1,4 @@
 <template >
-   <main class="h-screen w-screen flex flex-row">
-       <LeftSidebar />
        <div class="bg-neutral-800 min-h-dvh h-screen overflow-scroll overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
            <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold">FREQUENTLY ASKED QUESTIONS</h1>
 
@@ -8,7 +6,7 @@
            <h2 class="p-5 text-2xl border border-blue-500 rounded-xl font-bold">GENERAL QUESTIONS</h2>
            <UAccordion type="multiple" :items="general_questions">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -24,7 +22,7 @@
            <h2 class="p-5 text-2xl border border-indigo-600 rounded-xl font-bold">GETTING STARTED</h2>
            <UAccordion type="multiple" :items="getting_started">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -40,7 +38,7 @@
            <h2 class="p-5 text-2xl border border-purple-700 rounded-xl font-bold">HOSTING AND DISTRIBUTION</h2>
            <UAccordion type="multiple" :items="hosting">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -56,7 +54,7 @@
            <h2 class="p-5 text-2xl border border-blue-500 rounded-xl font-bold">MONETIZATION AND GROWTH</h2>
            <UAccordion type="multiple" :items="monetization">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -72,7 +70,7 @@
            <h2 class="p-5 text-2xl border border-indigo-600 rounded-xl font-bold">ANALYTICS AND PERFORMANCE</h2>
            <UAccordion type="multiple" :items="analytics">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -88,7 +86,7 @@
            <h2 class="p-5 text-2xl border border-purple-700 rounded-xl font-bold">TECHNICAL SUPPORT</h2>
            <UAccordion type="multiple" :items="tech_support">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -104,7 +102,7 @@
            <h2 class="p-5 text-2xl border border-blue-500 rounded-xl font-bold">LEGAL AND COPYRIGHT</h2>
            <UAccordion type="multiple" :items="copyright">
               <template #default="{item,open}">
-                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1">
+                 <div class="px-2 py-5 m-1 w-250 text-left text-xl border-t-1 cursor-pointer">
                     {{ item.label }}
                  </div>
               </template>
@@ -116,8 +114,6 @@
               </template>
            </UAccordion>
        </div>
-       <RightSidebar />
-   </main>
 </template>
 
 <script setup lang="ts">

@@ -6,32 +6,36 @@
     const mode = ref('mode1')
     const homeError = ref(false)
     const id = ref(0)
-    const uid = ref(2)
     const explore = ref([])
     const foryou = ref([])
+    const src = ref('')
     const compare = (a, b) => {
         if(a < b) return -1
         else if(a > b) return 1
         return 0
     }
-
     try {
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
         if(error) throw error
         data.forEach((explores) => { explore.value.push(explores)})
-    } catch(error) { homeError.value = true }
-
+    } catch(error) { homeError.value = true; console.log(error) }
+    src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
     onMounted(async () => {
         if(!user.value) {
             mode.value = 'mode1'
             guestMode.value = true
         } else {
             guestMode.value = false
-            const { data, error } = await supabase.from('USER').select('*').eq('UserEmail', user.value.email)
+            const { data: userdata, error } = await supabase.from('USER').select('*').eq('UserEmail', user.value.email)
             if(error) homeError.value = true;
             else {
-                username.value = data[0].UserName
-                id.value = data[0].UserID
+                username.value = userdata[0].UserName
+                id.value = userdata[0].UserID
+            }
+            if(userdata[0].HasPFP === true) {
+                const { error } = await supabase.storage.from('files').exists(`pfps/${userdata[0].UserID}.jpg`)
+                if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.png`).data.publicUrl
+                else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.jpg`).data.publicUrl
             }
             try {
                 const { data: subdata, error } = await supabase.from('SUBSCRIBE FEED').select("*").eq('SubscriberID', id.value)
@@ -49,11 +53,9 @@
 </script>
 
 <template >
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
-        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="homeError === false">
+        <div class="bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
             <div class="w-full flex flex-row h-20 gap-3">
-                <img src="../public/WAVY Default Profile Picture.svg" alt="PFP" class="rounded-2xl h-20 w-20">
+                <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">
                     <span class="text-4xl m-0 font-bold" v-if="guestMode">GUEST</span>
                     <span class="text-4xl m-0" v-else>{{ username }}</span>
@@ -80,8 +82,6 @@
             <div class="text-3xl text-neutral-500">Sorry... We cannot connect to the network!</div>
             <UIcon name="i-uil-wifi-slash" class="text-neutral-500" size="80"/>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <style>

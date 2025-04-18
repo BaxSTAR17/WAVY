@@ -15,6 +15,7 @@ import Subscriptions from '../subscriptions.vue'
     const subscribed = ref(false)
     const subscribe = ref(async () => {})
     const subscribings = ref([])
+    const src = ref('')
     try {
         const { data, error } = await supabase.from('USER').select("*").eq('UserID', route.params.id)
         if(error) throw error
@@ -22,12 +23,25 @@ import Subscriptions from '../subscriptions.vue'
         online.value = data[0].isOnline
         id.value = data[0].UserID
         listeners.value = data[0].Listeners
+        if(data[0].HasPFP === true) {
+            const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
+            if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl
+            else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.jpg`).data.publicUrl
+        } else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
         if(user.value) {
             try {
                 const { data: userdata, error } = await supabase.from('USER').select("UserID").eq('UserEmail', user.value.email)
                 if(error) throw error
                 if(id.value == userdata[0].UserID) selfProfile.value = true
                 else {
+                    try {
+                        const {data: subbed, error} = await supabase.from('SUBSCRIBE FEED').select("CreatorID").match({
+                            CreatorID: id.value,
+                            SubscriberID: userdata[0].UserID
+                        })
+                        if(error) throw error
+                        if(data.length > 0) subscribed.value = true
+                    } catch(error) {noUser.value = true; console.log(error)}
                     subscribe.value = async () => {
                         if(subscribed.value === true) {
                             try {
@@ -79,16 +93,14 @@ import Subscriptions from '../subscriptions.vue'
 </script>
 
 <template>
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5" v-if="noUser === false">
             <div class="w-full flex flex-row h-50 gap-3">
-                <img src="../../public/WAVY Default Profile Picture.svg" alt="PFP" class="rounded-4xl h-40 w-40">
+                <img :src="src" alt="PFP" class="rounded-4xl h-40 w-40">
                 <div class="w-full flex flex-col h-40 justify-evenly items-start">
                     <span class="text-4xl m-0 font-bold flex items-center gap-2">{{profileName}} <div v-if="online" class="w-5 h-5 rounded-full bg-green-600"></div></span>
-                    <span class="text-xl m-0">{{ listeners }} {{ listeners > 1 ? 'subscribers' : 'subscriber' }}</span>
+                    <span class="text-xl m-0">{{ listeners }} {{ listeners === 1 ? 'subscriber' : 'subscribers' }}</span>
                     <div class="flex flex-row gap-3">
-                        <span class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl w-content">
+                        <span class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl">
                             <NuxtLink v-if="selfProfile" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD PODCAST</NuxtLink>
                             <NuxtLink v-else-if="!user" to="/login" class="flex items-center gap-2">SIGN IN TO SUBSCRIBE</NuxtLink>
                             <button class="w-content pt-3 pb-3 cursor-pointer" v-else-if="subscribed === false" @click="subscribed = true; subscribe()">SUBSCRIBE</button>
@@ -115,8 +127,6 @@ import Subscriptions from '../subscriptions.vue'
             <div class="text-3xl text-neutral-500">Sorry, The profile page requested does not exist</div>
             <UIcon name="i-uil-user-times" class="text-neutral-500" size="80"/>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <style>

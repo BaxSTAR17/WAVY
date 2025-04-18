@@ -17,8 +17,6 @@
 </script>
 
 <template>
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">LIKED</h1>
             <div v-if="likeError === true" class="bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5">
@@ -29,8 +27,6 @@
                 <PodcastPlayer v-for="likee in likings" :pid="likee.PodcastID" />
             </div>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <style>

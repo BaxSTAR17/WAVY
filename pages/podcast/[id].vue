@@ -13,8 +13,6 @@
 </script>
 
 <template>
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 gap-2" v-if="noPodcast === false">
             <PodcastPlayer :pid="pid" pod/>
             <div class="p-3 text-white tracking-widest bg-purple-800 rounded-2xl w-40 text-center">
@@ -29,8 +27,6 @@
             <div class="text-3xl text-neutral-500">Sorry, The podcast requested does not exist</div>
             <UIcon name="i-uil-headphone-slash" class="text-neutral-500" size="80"/>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <style></style>

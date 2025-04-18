@@ -1,6 +1,4 @@
 <template >
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh h-screen overflow-scroll overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold">ABOUT US</h1>
 
@@ -55,8 +53,6 @@
                 </div>
             </div>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <script setup lang="ts">

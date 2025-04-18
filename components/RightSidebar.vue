@@ -8,6 +8,9 @@
     const thumbnail = supabase.storage.from('files').getPublicUrl('thumbnails/01110.svg')
     const favorites = ref([])
     const favored = ref(false)
+    const src = ref('')
+    const podsrc = ref('')
+    const favsrc = ref([])
     const groups = ref([
     {
         id: 'Podcasts',
@@ -34,36 +37,48 @@
     try{
         const { data, error } = await supabase.from('USER').select().order('Listeners', { ascending: false})
         if(error) throw error
-        const url = supabase.storage.from('files').getPublicUrl('pfps/01110.svg')
-        data.forEach((user) => {
+        data.forEach(async (user) => {
+            if(user.HasPFP === true) {
+                const { error } = await supabase.storage.from('files').exists(`pfps/${user.UserID}.jpg`)
+                if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${user.UserID}.png`).data.publicUrl
+                else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${user.UserID}.jpg`).data.publicUrl
+            } else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
             groups.value[1].items.push(
                 {
                     label: user.UserName,
                     avatar: {
-                        src: url.data.publicUrl
+                        src: src.value
                     },
                     to: `/profile/${user.UserID}`
                 }
             )
         })
         try {
-            const { data, error } = await supabase.from('PODCAST').select('*').order('Listens', { ascending: false})
+            const { data: podcastdata, error } = await supabase.from('PODCAST').select('*').order('Listens', { ascending: false})
             if(error) throw error
-            const url = supabase.storage.from('files').getPublicUrl('thumbnails/01110.svg')
-            data.forEach((pod) => {
+            podcastdata.forEach(async (pod) => {
+                try {
+                    const { data: user, error } = await supabase.from('USER').select("UserID, HasPFP").eq("UserID", pod.CreatorID)
+                    if(error) throw error
+                    if(user[0].HasPFP === true) {
+                        const { error } = await supabase.storage.from('files').exists(`pfps/${user[0].UserID}.jpg`)
+                        if(error) podsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${user[0].UserID}.png`).data.publicUrl
+                        else podsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${user[0].UserID}.jpg`).data.publicUrl
+                    } else podsrc.value = supabase.storage.from('files').getPublicUrl(`thumbnails/01110.svg`).data.publicUrl
+                } catch(error) { fetchError.value = true; console.log(error)}
                 groups.value[0].items.push(
                     {
                         label: pod.Title,
                         avatar: {
-                            src: url.data.publicUrl
+                            src: podsrc.value
                         },
                         to: `/podcast/${pod.PodcastID}`
                     }
                 )
             })
             fetchError.value = false;
-        } catch(error) { fetchError.value = true; }
-    } catch(error) { fetchError.value = true; }
+        } catch(error) { fetchError.value = true;console.log(error) }
+    } catch(error) { fetchError.value = true;console.log(error) }
 
     onMounted(async () => {
         if(!user.value) {
@@ -80,6 +95,11 @@
                         try {
                             const { data, error } = await supabase.from('USER').select("*").eq("UserID", sub.CreatorID)
                             if(error) throw error
+                            if(data[0].HasPFP === true) {
+                                const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
+                                if(error) favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl)
+                                else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.jpg`).data.publicUrl)
+                            } else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl)
                             favorites.value.push(data)
                             favored.value = true
                         } catch(error) { console.log(error) }
@@ -91,7 +111,7 @@
 </script>
 
 <template>
-    <div class="bg-neutral-900 w-80 h-screen p-5 flex flex-col">
+    <div class="bg-neutral-100 dark:bg-neutral-900 w-80 h-screen p-5 flex flex-col">
         <div class="w-full flex flex-col">
             <div class="w-full h-110" v-if="fetchError === false">
                 <UCommandPalette placeholder="Search" :groups="groups" v-model="search" class="w-full flex-1 h-110"/>
@@ -100,14 +120,14 @@
                 <Skeleload class="w-full h-110 rounded-xl bg-neutral-700" />
             </div>
             <hr class="w-full pl-0 ml-0" />
-            <h1 class="text-xl font-bold">FAVORITE CREATORS</h1>
+            <h1 class="text-xl font-bold text-neutral-900 dark:text-neutral-100">FAVORITE CREATORS</h1>
             <div class="w-full h-full overflow-y-auto flex flex-col gap-2">
-                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer">Sign in to subscribe to channels!</NuxtLink>
+                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100">Sign in to subscribe to channels!</NuxtLink>
                 <span v-if="favored === false && guestMode === false" class="text-lg text-center text-neutral-500 self-center">Users you subscribe to appear here</span>
                 <UIcon v-if="favored===false && guestMode === false" name="i-uil-star" class="text-neutral-500 self-center" size="40" />
-                <NuxtLink v-for="fav in favorites" :to="`/profile/${fav[0].UserID}`" class="rounded-xl bg-neutral-900 h-content w-full flex justify-start items-center gap-2">
-                    <img src="../public/WAVY Default Profile Picture.svg" alt="pfp" class="w-5 h-5 rounded-full">
-                    <span class="text-white text-lg">{{ fav[0].UserName }}</span>
+                <NuxtLink v-for="(fav, index) in favorites" :to="`/profile/${fav[0].UserID}`" class="rounded-xl bg-neutral-100 dark:bg-neutral-900 h-content w-full flex justify-start items-center gap-2">
+                    <img :src="favsrc[index]" alt="pfp" class="w-5 h-5 rounded-full">
+                    <span class="text-neutral-900 dark:text-neutral-100 text-lg">{{ fav[0].UserName }}</span>
                 </NuxtLink>
             </div>
         </div>

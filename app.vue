@@ -6,8 +6,9 @@ import {NuxtLayout} from '#components';
   <div>
     <NuxtProject>
       <NuxtLoadingIndicator color="purple"/>
-      <NuxtLayout />
-      <NuxtPage />
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </NuxtProject>
   </div>
 </template>

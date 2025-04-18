@@ -24,6 +24,9 @@ import { data } from 'autoprefixer'
     const cid = ref(0)
     const thumbnail = ref('')
     const dwnld = ref('')
+    const deletePod = ref(() => {})
+    const listenPlus = ref(async() => {})
+    const shareLink = ref('Share')
     const props = defineProps({
         src: String,
         uid: Number,
@@ -32,6 +35,7 @@ import { data } from 'autoprefixer'
     })
     const likes = ref(0)
     const liking = ref([])
+    const listentime = ref(0)
     const likey = ref(async () => {})
     const items = [
         [
@@ -41,15 +45,22 @@ import { data } from 'autoprefixer'
             onSelect: () => { const { data } = supabase.storage.from('files').getPublicUrl(dwnld.value, { download: true }); window.open(data.publicUrl) }
         },
         {
-            label: 'Share',
-            icon: 'i-uil-share',
-            onSelect: () => {}
+            label: shareLink.value,
+            icon: shareLink.value === 'Share' ? 'i-uil-share' : 'i-uil-check',
+            onSelect: () => {
+                if(shareLink.value === 'Share') {
+                    navigator.clipboard.writeText(`wavy-chi.vercel.app/podcast/${props.pid}`)
+                    shareLink.value = 'Copied Link!'
+                    setTimeout(() => {shareLink.value = 'Share'}, 1000)
+                }
+            }
         },
         ],
         [
         {
             label: 'Report',
-            icon: 'i-uil-comment-alt-exclamation'
+            icon: 'i-uil-comment-alt-exclamation',
+            to: '/contact'
         }
         ]
     ]
@@ -80,13 +91,26 @@ import { data } from 'autoprefixer'
                 }
                 likes.value = podcastdata[0].Likes
                 listens.value = podcastdata[0].Listens
+                listenPlus.value = async() => {
+                    try {
+                        const { data, error } = await supabase.from('PODCAST').update({
+                            Listens: podcastdata[0].Listens + 1
+                        }).eq("PodcastID", props.pid).select()
+                        if(error) throw error
+                        listens.value = data[0].Listens
+                    } catch(error) { console.log(error); found.value = false}
+                }
                 try {
-                    const { data: userdata, error } = await supabase.from('USER').select("UserName, HasPFP").eq("UserID", podcastdata[0].CreatorID)
+                    const { data: userdata, error } = await supabase.from('USER').select("UserID, UserName, HasPFP").eq("UserID", podcastdata[0].CreatorID)
                     if(error) throw error
                     creator.value = userdata[0].UserName
                     cid.value = podcastdata[0].CreatorID
                     if(userdata[0].HasPFP === false) thumbnail.value = supabase.storage.from('files').getPublicUrl('thumbnails/01110.svg').data.publicUrl
-                    else thumbnail.value = supabase.storage.from('files').getPublicUrl(`pfps/${cid.value}.svg`).data.publicUrl
+                    else {
+                        const { error } = await supabase.storage.from('files').exists(`pfps/${userdata[0].UserID}.jpg`)
+                        if(error) thumbnail.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.png`).data.publicUrl
+                        else thumbnail.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.jpg`).data.publicUrl
+                    }
                     title.value = podcastdata[0].Title
                 } catch (error) { found.value = false; console.log(error) }
                 if(user.value) {
@@ -94,6 +118,14 @@ import { data } from 'autoprefixer'
                         const { data, error } = await supabase.from('USER').select("UserID").eq("UserEmail", user.value.email)
                         if(error) throw error
                         id.value = data[0].UserID
+                        if(id.value === podcastdata[0].CreatorID) {
+                            items[0].push({
+                                label: 'Delete',
+                                class: 'text-red-500',
+                                icon: 'i-uil-trash-alt',
+                                onSelect: () => {}
+                            })
+                        }
                         try {
                             const { data, error } = await supabase.from('LIKE FEED').select("LikeID").match({ LikerID: id.value, PodcastID: props.pid })
                             if(error) throw error
@@ -133,7 +165,7 @@ import { data } from 'autoprefixer'
                                 }
                             }
                         }
-                    } catch(error) { found.value; console.log(error)}
+                    } catch(error) { found.value = true; console.log(error)}
                 }
             }
         } catch (error) { found.value = false; console.log(error) }
@@ -181,6 +213,9 @@ import { data } from 'autoprefixer'
                 cancelAnimationFrame(hack)
                 isPlaying.value = false
             } else {
+                if(audio.currentTime === 0) {
+                    listenPlus.value()
+                }
                 audio.play()
                 requestAnimationFrame(whilePlayingHack)
                 isPlaying.value = true
@@ -244,7 +279,7 @@ import { data } from 'autoprefixer'
                         <UIcon name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
                     </div>
                     <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">
-                        <UButton class="cursor-pointer active:bg-neutral-800 rounded-full"><UIcon name="i-uil-ellipsis-v" size="30" class="text-neutral-500" /></UButton>
+                        <UButton class="cursor-pointer active:bg-neutral-800 rounded-full" color="black"><UIcon name="i-uil-ellipsis-v" size="30" class="text-neutral-500" /></UButton>
                     </UDropdownMenu>
                 </div>
             </div>

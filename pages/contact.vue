@@ -1,6 +1,4 @@
 <template>
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh h-screen overflow-y-auto overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">CONTACT US</h1>
 
@@ -8,7 +6,7 @@
                 Have any inquiries? Contact Us!
             </h3>
 
-            <UForm :validate="validate" :state="state" class="mt-3" id="form">
+            <UForm :validate="validate" :state="state" class="mt-3" id="form" @submit.prevent="submit">
                 <UFormField label="Email" name="email" required>
                     <UInput v-model="state.email" placeholder="Enter your email" class="border-purple-800 rounded-xl px-2 py-1 border-3 w-100"/>
                 </UFormField>
@@ -18,7 +16,7 @@
                     placeholder="Select a category"
                     :items="query_list"
                     :content="{align:'start', side:'right', sideOffset:8}"
-                    :ui="{content: 'bg-neutral-900 rounded-lg box-border p-2 shadow-2xl', input:'border-b border-neutral-100', arrow: 'self-end', item: 'mt-2'}"
+                    :ui="{content: 'bg-neutral-900 rounded-lg box-border p-2 shadow-2xl w-50', input:'border-b border-neutral-100', arrow: 'self-end', item: 'mt-2'}"
                     class="my-2 border-purple-800 p-2 rounded-xl text-gray-400 border-3 w-content"
                 />
 
@@ -31,7 +29,7 @@
                         />
                 </UFormField>
 
-                <UButton type="submit" class="border-purple-800 rounded-xl mt-2 px-2 py-1 border-3 bg-purple-800 w-fit text-center tracking-widest">
+                <UButton type="submit" class="cursor-pointer border-purple-800 rounded-xl mt-2 px-2 py-1 border-3 bg-purple-800 w-fit text-center tracking-widest">
                     Submit
                 </UButton>
 
@@ -54,8 +52,6 @@
                 </div>
             </UForm>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <script setup lang="ts">
@@ -98,11 +94,5 @@
 
     .text-2xl {
       margin-bottom: 10px;
-    }
-
-    .wavy_mask {
-        -webkit-mask-image: url(../assets/svg/wavy2ndblack.svg);
-        mask-image: url(../assets/svg/wavy2ndblack.svg);
-        mask-repeat: no-repeat;
     }
 </style>
