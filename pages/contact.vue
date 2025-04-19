@@ -1,6 +1,4 @@
 <template>
-    <main class="h-screen w-screen flex flex-row">
-        <LeftSidebar />
         <div class="bg-neutral-800 min-h-dvh h-screen overflow-scroll overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">CONTACT US</h1>
 
@@ -53,8 +51,6 @@
                 </div>
             </UForm>
         </div>
-        <RightSidebar />
-    </main>
 </template>
 
 <script setup lang="ts">
@@ -62,7 +58,7 @@
     const email = ref('')
     const desc = ref('')
 
-    const query_list = ref(['About My Profile', 'About Another Profile', 'About Wavy Guidelines', 'About Content Creation', 'Errors/Bugs', 'Report', 'Others'])
+    const query_list = ref(['About My Profile', 'About Another Profile', 'About Wavy Guidelines', 'About Content Creation', 'Errors/Bugs', 'Report', 'User Report', 'Others'])
     const state = reactive({
         email: undefined,
         issue: undefined,
