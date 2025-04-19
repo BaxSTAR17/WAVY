@@ -1,8 +1,10 @@
 <template>
-        <div class="bg-neutral-800 min-h-dvh h-screen overflow-y-auto overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
+    <main class="h-screen w-screen flex flex-row">
+        <LeftSidebar />
+        <div class="bg-neutral-800 min-h-dvh h-screen overflow-scroll overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">CONTACT US</h1>
 
-            <h3 class="text-xl bg-neutral-900 px-5 py-2 text-justify rounded-xl mt-3 w-fit tracking-widest">
+            <h3 class="text-xl bg-neutral-900 px-5 py-2 text-justify rounded-xl mt-5 w-fit tracking-widest">
                 Have any inquiries? Contact Us!
             </h3>
 
@@ -16,24 +18,23 @@
                     placeholder="Select a category"
                     :items="query_list"
                     :content="{align:'start', side:'right', sideOffset:8}"
-                    :ui="{content: 'bg-neutral-900 rounded-lg box-border p-2 shadow-2xl w-50', input:'border-b border-neutral-100', arrow: 'self-end', item: 'mt-2'}"
-                    class="my-2 border-purple-800 p-2 rounded-xl text-gray-400 border-3 w-content"
+                    class="my-2 border-purple-800 p-2 rounded-xl text-gray-400 border-3 w-100"
                 />
 
                 <UFormField label="Description of the Query" name="desc" class="mt-5">
                     <UTextarea
                         v-model="state.desc"
                         placeholder="Enter a message here..."
-                        :rows="10"
+                        :rows="12"
                         class="border-purple-800 rounded-xl px-2 py-1 border-3 w-full" 
                         />
                 </UFormField>
 
-                <UButton type="submit" class="cursor-pointer border-purple-800 rounded-xl mt-2 px-2 py-1 border-3 bg-purple-800 w-fit text-center tracking-widest">
+                <UButton type="reset" @click="submit" class="border-purple-800 rounded-xl mt-2 px-2 py-1 border-3 bg-purple-800 w-fit text-center tracking-widest">
                     Submit
                 </UButton>
 
-                <p class="mt-5 text-md">
+                <p class="mt-5 text-xs">
                     Or visit our socials:
                 </p>
                 <div class="flex flex-row">
@@ -52,6 +53,8 @@
                 </div>
             </UForm>
         </div>
+        <RightSidebar />
+    </main>
 </template>
 
 <script setup lang="ts">
@@ -59,7 +62,7 @@
     const email = ref('')
     const desc = ref('')
 
-    const query_list = ref(['About My Profile', 'About Another Profile', 'About Wavy Guidelines', 'About Content Creation', 'Errors/Bugs', 'Others'])
+    const query_list = ref(['About My Profile', 'About Another Profile', 'About Wavy Guidelines', 'About Content Creation', 'Errors/Bugs', 'Report', 'Others'])
     const state = reactive({
         email: undefined,
         issue: undefined,
@@ -78,7 +81,7 @@
         const input_category = state.issue
         const input_desc = state.desc
         window.open('mailto:josephgalicia713@gmail.com?subject=' + input_category + '&body=' + input_desc);
-        (form as HTMLFormElement)?.reset()
+        (form as HTMLFormElement)?.clear()
     }
 </script>
 

@@ -8,11 +8,12 @@
     const file = ref()
     const readytoupload = ref(false)
     const uploading = ref(false)
+    const autosubtitles = ref('')
     // const assembly = new AssemblyAI({
     //     apiKey: '91b0ee4da9f34ecf9afb4c05a2f61b7e'
     // })
     const fileCheck = async () => {
-        if(user.value) {
+        if(user.value && uploading.value === false) {
             accepting.value = true
             const blob = window.URL || window.webkitURL
             if(!blob) { console.log("FAILED"); return; }
@@ -22,6 +23,10 @@
             if(file.value.value.endsWith('.mp3') === true) format.value = 'mp3'
             else if(file.value.value.endsWith('.ogg') === true) format.value = 'ogg'
             else if(file.value.value.endsWith('.wav') === true) format.value = 'wav'
+            const transcript = await useFetch('/api/transcribe', {
+                method: 'post',
+                body: { url: "https://krkvsaegpxmilldbextp.supabase.co/storage/v1/object/public/files/podcasts/You%20Know%20Ball%20-%202019%20Kawhi.mp3" }
+            })
             audio.src = fileURL
             audio.preload = "metadata"
             audio.addEventListener("loadedmetadata", async () => { 
@@ -36,6 +41,7 @@
     const uploadFile = ref(() => {})
     const checked = ref(false)
     const upload = async () => {
+        if(uploading.value === true) return;
         if(title.value.length === 0) {
             errormsg.value = "* Your upload must have a title"
             return;
@@ -53,9 +59,6 @@
             const { data: userdata, error } = await supabase.from('USER').select("UserID").eq('UserEmail', user.value.email)
             if(error) throw error
             try {
-                if(checked === true) {
-                    //do transcribing code here
-                }
                 const { data: poddata, error } = await supabase.from('PODCAST').insert({
                     Title: title.value,
                     CreatorID: userdata[0].UserID,
@@ -65,6 +68,17 @@
                 try {
                     const { error } = await supabase.storage.from('files').upload(`podcasts/${poddata[0].PodcastID}.${format.value}`, file.value.files[0])
                     if(error) throw error
+                    if(checked.value === true) {
+                        const link = supabase.storage.from('files').getPublicUrl(`podcasts/${poddata[0].PodcastID}.${format.value}`).data.publicUrl
+                        const transcript = await useFetch('/api/transcribe', {
+                            method: 'post',
+                            body: { url: link }
+                        })
+                        try {
+                            const { error } = await supabase.from('PODCAST').update({ Subtitles: transcript.data.value.text }).eq("PodcastID", poddata[0].PodcastID)
+                            if(error) throw error
+                        } catch(error) { errormsg.value = "* Sorry, we're having trouble making subtitles for your upload"; uploading.value = false; console.log(error)}
+                    }
                     router.push(`/podcast/${poddata[0].PodcastID}`)
                 } catch(error) { errormsg.value = "* Sorry, we're having trouble uploading your audio"; uploading.value = false; console.log(error) }
             } catch(error) { errormsg.value = "* Sorry, we're having trouble creating your upload"; uploading.value = false; console.log(error) }
