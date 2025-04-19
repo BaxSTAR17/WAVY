@@ -15,7 +15,9 @@ import { data } from 'autoprefixer'
     const muteAudio = ref(() => {console.log('h')})
     const skipAudio = ref(()=>{})
     const found = ref(true)
-    const loading = ref(false)
+    const maxtime = ref(0)
+    const loading = ref(true)
+    const buffering = ref(true)
     // const podcastpage = ref(false)
     const creator = ref('')
     const link = ref('')
@@ -84,6 +86,7 @@ import { data } from 'autoprefixer'
                 if(link.value.length == 0) { 
                     link.value = supabase.storage.from('files').getPublicUrl(`podcasts/${props.pid}.ogg`).data.publicUrl
                     dwnld.value = `podcasts/${props.pid}.ogg`
+                    console.log(link.value)
                 }
                 if(link.value.length == 0) {
                     link.value = supabase.storage.from('files').getPublicUrl(`podcasts/${props.pid}.wav`).data.publicUrl
@@ -113,6 +116,7 @@ import { data } from 'autoprefixer'
                     }
                     title.value = podcastdata[0].Title
                 } catch (error) { found.value = false; console.log(error) }
+                loading.value = false
                 if(user.value) {
                     try {
                         const { data, error } = await supabase.from('USER').select("UserID").eq("UserEmail", user.value.email)
@@ -123,7 +127,9 @@ import { data } from 'autoprefixer'
                                 label: 'Delete',
                                 class: 'text-red-500',
                                 icon: 'i-uil-trash-alt',
-                                onSelect: () => {}
+                                onSelect: () => {
+                                    
+                                }
                             })
                         }
                         try {
@@ -174,22 +180,23 @@ import { data } from 'autoprefixer'
     }
     if(!user.value) guestMode.value = true
     onMounted(() => {
-        const duration_slide = document.getElementById('durationslide')
+        const duration_slide = document.getElementById(`durationslide${props.pid}`)
         const volume_slide = document.getElementById(`volumeslide${props.pid}`)
         const audio = document.getElementById(`audio${props.pid}`)
         let hack = null
         volume_slide.style.background = `linear-gradient(to right, #8c52ff ${volume_slide.value*(1/3)}%, #5735fd ${volume_slide.value*(2/3)}%, #2299ef ${volume_slide.value}%, gray ${duration_slide.value}%)`
         duration_slide.addEventListener('input', () => {
-            duration_slide.style.background = `linear-gradient(to right, #8c52ff ${duration_slide.value*(1/3)}%, #5735fd ${duration_slide.value*(2/3)}%, #2299ef ${duration_slide.value}%, gray ${duration_slide.value}%)`
+            duration_slide.style.background = `linear-gradient(to right, #8c52ff ${(duration_slide.value/audio.duration*100)*(1/3)}%, #5735fd ${(duration_slide.value/audio.duration*100)*(2/3)}%, #2299ef ${(duration_slide.value/audio.duration*100)}%, gray ${(duration_slide.value/audio.duration*100)}%)`
+            audio.currentTime = duration_slide.value
             starttime.value = endTime(Math.floor(audio.currentTime))
             if(!audio.paused) cancelAnimationFrame(hack)
         })
         duration_slide.addEventListener('change', () => {
-            audio.currentTime = duration_slide.value/100*audio.duration
+            audio.currentTime = duration_slide.value
             if(!audio.paused) requestAnimationFrame(whilePlayingHack)
         })
         volume_slide.addEventListener('input', () => {
-            volume_slide.style.background = `linear-gradient(to right, #8c52ff ${volume_slide.value*(1/3)}%, #5735fd ${volume_slide.value*(2/3)}%, #2299ef ${volume_slide.value}%, gray ${duration_slide.value}%)`
+            volume_slide.style.background = `linear-gradient(to right, #8c52ff ${volume_slide.value*(1/3)}%, #5735fd ${volume_slide.value*(2/3)}%, #2299ef ${volume_slide.value}%, gray ${volume_slide.value}%)`
             audio.volume = volume_slide.value / 100
         })
         const endTime = (secs) => {
@@ -200,25 +207,29 @@ import { data } from 'autoprefixer'
         }
         skipAudio.value = () => {
             if(audio.currentTime + 30 < audio.duration) {
+                buffering.value = true
                 audio.currentTime += 30
                 duration_slide.value += 30
                 starttime.value = endTime(Math.floor(audio.currentTime))
-                duration_slide.style.background = `linear-gradient(to right, #8c52ff ${duration_slide.value*(1/3)}%, #5735fd ${duration_slide.value*(2/3)}%, #2299ef ${duration_slide.value}%, gray ${duration_slide.value}%)`
+                duration_slide.style.background = `linear-gradient(to right, #8c52ff ${(duration_slide.value/audio.duration*100)*(1/3)}%, #5735fd ${(duration_slide.value/audio.duration*100)*(2/3)}%, #2299ef ${(duration_slide.value/audio.duration*100)}%, gray ${(duration_slide.value/audio.duration*100)}%)`
                 if(!audio.paused) requestAnimationFrame(whilePlayingHack)
             }
         }
         operateAudio.value = () => {
-            if(isPlaying.value) {
-                audio.pause()
-                cancelAnimationFrame(hack)
-                isPlaying.value = false
-            } else {
-                if(audio.currentTime === 0) {
-                    listenPlus.value()
+            if(buffering.value === false) {
+                buffering.value = true
+                if(isPlaying.value) {
+                    audio.pause()
+                    cancelAnimationFrame(hack)
+                    isPlaying.value = false
+                } else {
+                    if(audio.currentTime === 0) {
+                        listenPlus.value()
+                    }
+                    audio.play()
+                    requestAnimationFrame(whilePlayingHack)
+                    isPlaying.value = true
                 }
-                audio.play()
-                requestAnimationFrame(whilePlayingHack)
-                isPlaying.value = true
             }
         }
         muteAudio.value = () => {
@@ -233,13 +244,15 @@ import { data } from 'autoprefixer'
             }
         }
         const whilePlayingHack = () => {
-            duration_slide.value = Math.floor(Math.floor(audio.currentTime)/Math.floor(audio.duration)*100)
+            duration_slide.value = Math.floor(audio.currentTime)//Math.floor(Math.floor(audio.currentTime)/Math.floor(audio.duration)*100)
             starttime.value = endTime(Math.floor(audio.currentTime))
-            duration_slide.style.background = `linear-gradient(to right, #8c52ff ${duration_slide.value*(1/3)}%, #5735fd ${duration_slide.value*(2/3)}%, #2299ef ${duration_slide.value}%, gray ${duration_slide.value}%)`
+            duration_slide.style.background = `linear-gradient(to right, #8c52ff ${(duration_slide.value/audio.duration*100)*(1/3)}%, #5735fd ${(duration_slide.value/audio.duration*100)*(2/3)}%, #2299ef ${(duration_slide.value/audio.duration*100)}%, gray ${(duration_slide.value/audio.duration*100)}%)`
             hack = requestAnimationFrame(whilePlayingHack)
         }
         audio.addEventListener("loadedmetadata", () => {
+            maxtime.value = audio.duration
             endtime.value = endTime(audio.duration)
+            buffering.value = false
             starttime.value = endTime(Math.floor(duration_slide.value*audio.duration/100))
         })
         audio.addEventListener("ended", () => {
@@ -247,6 +260,18 @@ import { data } from 'autoprefixer'
             cancelAnimationFrame(hack)
             duration_slide.value = Math.floor(audio.currentTime/audio.duration*100)
             starttime.value = endTime(Math.floor(duration_slide.value*audio.duration/100))
+        })
+        audio.addEventListener("playing", () => {
+            buffering.value = false
+        })
+        audio.addEventListener("play", () => {
+            buffering.value = false
+        })
+        audio.addEventListener("pause", () => {
+            buffering.value = false
+        })
+        audio.addEventListener("waiting", () => {
+            buffering.value = true
         })
         endtime.value = endTime(audio.duration)
         loading.value = false
@@ -264,14 +289,15 @@ import { data } from 'autoprefixer'
                     <NuxtLink :to="`/profile/${cid}`" class="text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
                 </div>
                 <div class="w-full flex flex-row h-7 items-center">
-                    <UIcon v-if="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
-                    <UIcon v-else name="i-basil-pause-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
+                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
+                    <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
+                    <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
                     <span>&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
-                    <input type="range" id="durationslide" max="100" value="0" class="w-full">
+                    <input type="range" :id="`durationslide${props.pid}`" min="0" :max="maxtime" value="0" class="w-full">
                     <span id="endtime">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
-                    <UIcon v-if="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
-                    <UIcon v-else name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
+                    <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
+                    <UIcon v-show="muted === true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                     <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
                     <div v-if="guestMode === false">
@@ -300,16 +326,17 @@ import { data } from 'autoprefixer'
                 <div class="w-full flex flex-row items-center">
                     <span>&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
-                    <input type="range" id="durationslide" max="100" value="0" class="w-full">
+                    <input type="range" :id="`durationslide${props.pid}`" max="100" value="0" class="w-full">
                     <span id="endtime">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
-                        <UIcon v-if="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
-                        <UIcon v-else name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
+                        <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
+                        <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
+                        <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                         <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
-                        <UIcon v-if="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
-                        <UIcon v-else name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
+                        <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
+                        <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                         <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
                     </div>
@@ -325,15 +352,15 @@ import { data } from 'autoprefixer'
     <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found === false && (loading === true || loading === false)">
         <span class="text-neutral-500">Sorry, we are having trouble loading the audio</span>
         <UIcon name="i-uil-annoyed" class="text-neutral-500" size="40" />
-        <input type="range" id="durationslide" max="100" value="0" class="w-0 h-0 invisible">
-        <input type="range" id="volumeslide0" max="100" value="0" class="w-0 h-0 invisible">
-        <audio src="" id="audio" preload="metadata" />
+        <input type="range" :id="`durationslide`" max="100" value="0" class="w-0 h-0 invisible">
+        <input type="range" :id="`volumeslide`" max="100" value="0" class="w-0 h-0 invisible">
+        <audio src="" :id="`audio`" preload="metadata" />
     </main>
     <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found===true && loading === true">
         <Skeleload class="w-full h-25 rounded-lg bg-neutral-700" />
-        <input type="range" id="durationslide" max="100" value="0" class="w-0 h-0 invisible">
-        <input type="range" id="volumeslide0" max="100" value="0" class="w-0 h-0 invisible">
-        <audio src="" id="audio" preload="metadata" />
+        <input type="range" :id="`durationslide`" max="100" value="0" class="w-0 h-0 invisible">
+        <input type="range" :id="`volumeslide`" max="100" value="0" class="w-0 h-0 invisible">
+        <audio src="" :id="`audio`" preload="metadata" />
     </main>
     <hr class="w-full pl-0 ml-0 text-neutral-400" style="height: 5px;"/>
 </template>

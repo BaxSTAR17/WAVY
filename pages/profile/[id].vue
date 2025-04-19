@@ -40,7 +40,7 @@ import Subscriptions from '../subscriptions.vue'
                             SubscriberID: userdata[0].UserID
                         })
                         if(error) throw error
-                        if(data.length > 0) subscribed.value = true
+                        if(subbed.length > 0) subscribed.value = true
                     } catch(error) {noUser.value = true; console.log(error)}
                     subscribe.value = async () => {
                         if(subscribed.value === true) {
