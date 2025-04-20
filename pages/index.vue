@@ -53,23 +53,23 @@
 </script>
 
 <template >
-        <div class="bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
+        <div class="bg-neutral-300 dark:bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
             <div class="w-full flex flex-row h-20 gap-3">
                 <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">
-                    <span class="text-4xl m-0 font-bold" v-if="guestMode">GUEST</span>
-                    <span class="text-4xl m-0" v-else>{{ username }}</span>
-                    <NuxtLink to="/login" class="underline text-lg" v-if="guestMode">Sign in</NuxtLink>
-                    <NuxtLink :to="`/profile/${id}`" class="underline text-lg" v-else>View Profile</NuxtLink>
+                    <span class="text-4xl m-0 font-bold text-neutral-900 dark:text-neutral-100" v-if="guestMode">GUEST</span>
+                    <span class="text-4xl m-0 text-neutral-900 dark:text-neutral-100" v-else>{{ username }}</span>
+                    <NuxtLink to="/login" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-if="guestMode">Sign in</NuxtLink>
+                    <NuxtLink :to="`/profile/${id}`" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-else>View Profile</NuxtLink>
                 </div>
             </div>
             <div class="w-full flex flex-row h-10 box-border">
-                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'">TUTORIAL</button>
-                <div v-else-if="mode === 'mode1' && guestMode" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
-                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'">FOR YOU</button>
-                <div v-else-if="mode === 'mode1' && guestMode === false" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
-                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-700 w-full font-thin rounded-4xl tracking-widest bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'">EXPLORE</button>
-                <div v-else-if="mode === 'mode2'" class="w-full font-thin rounded-4xl tracking-widest bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
+                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'">TUTORIAL</button>
+                <div v-else-if="mode === 'mode1' && guestMode" class="w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
+                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'">FOR YOU</button>
+                <div v-else-if="mode === 'mode1' && guestMode === false" class="w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
+                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'">EXPLORE</button>
+                <div v-else-if="mode === 'mode2'" class="w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
                 <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>
@@ -78,9 +78,9 @@
                 <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID"/>
             </div>
         </div>
-        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col justify-center items-center gap-5" v-else>
-            <div class="text-3xl text-neutral-500">Sorry... We cannot connect to the network!</div>
-            <UIcon name="i-uil-wifi-slash" class="text-neutral-500" size="80"/>
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col justify-center items-center gap-5" v-else>
+            <div class="text-3xl text-neutral-400 dark:text-neutral-500">Sorry... We cannot connect to the network!</div>
+            <UIcon name="i-uil-wifi-slash" class="text-neutral-400 dark:text-neutral-400" size="80"/>
         </div>
 </template>
 

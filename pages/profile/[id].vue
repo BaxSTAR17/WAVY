@@ -93,12 +93,12 @@ import Subscriptions from '../subscriptions.vue'
 </script>
 
 <template>
-        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5" v-if="noUser === false">
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5" v-if="noUser === false">
             <div class="w-full flex flex-row h-50 gap-3">
                 <img :src="src" alt="PFP" class="rounded-4xl h-40 w-40">
                 <div class="w-full flex flex-col h-40 justify-evenly items-start">
-                    <span class="text-4xl m-0 font-bold flex items-center gap-2">{{profileName}} <div v-if="online" class="w-5 h-5 rounded-full bg-green-600"></div></span>
-                    <span class="text-xl m-0">{{ listeners }} {{ listeners === 1 ? 'subscriber' : 'subscribers' }}</span>
+                    <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold flex items-center gap-2">{{profileName}} <div v-if="online" class="w-5 h-5 rounded-full bg-green-600"></div></span>
+                    <span class="text-neutral-900 dark:text-neutral-100 text-xl m-0">{{ listeners }} {{ listeners === 1 ? 'subscriber' : 'subscribers' }}</span>
                     <div class="flex flex-row gap-3">
                         <span class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl">
                             <NuxtLink v-if="selfProfile" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD PODCAST</NuxtLink>
@@ -109,9 +109,9 @@ import Subscriptions from '../subscriptions.vue'
                     </div>
                 </div>
             </div>
-            <hr class="w-full pl-0 ml-0 mt-0 mb-3" />
-            <span class="text-4xl m-0 font-bold" v-if="selfProfile === false">RECENT UPLOADS</span>
-            <span class="text-4xl m-0 font-bold" v-else>YOUR UPLOADS</span>
+            <hr class="w-full pl-0 ml-0 mt-0 mb-3 text-neutral-900 dark:text-neutral-100" />
+            <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold" v-if="selfProfile === false">RECENT UPLOADS</span>
+            <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold" v-else>YOUR UPLOADS</span>
             <div v-if="hasUploaded">
                 <div class="w-full flex flex-col h-content" v-for="pod in podcasts">
                     <PodcastPlayer :pid="pod.PodcastID"/>

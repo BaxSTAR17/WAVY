@@ -93,19 +93,25 @@
                     if(error) throw error
                     subdata.forEach(async (sub) => {
                         try {
-                            const { data, error } = await supabase.from('USER').select("*").eq("UserID", sub.CreatorID)
+                            const { data: subberdata, error } = await supabase.from('SUBSCRIBE FEED').select("CreatorID").eq("SubscriberID", sub.CreatorID)
                             if(error) throw error
-                            if(data[0].HasPFP === true) {
-                                const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
-                                if(error) favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl)
-                                else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.jpg`).data.publicUrl)
-                            } else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl)
-                            favorites.value.push(data)
-                            favored.value = true
-                        } catch(error) { console.log(error) }
+                            subberdata.forEach(async (subber) => {
+                                try {
+                                    const { data, error } = await supabase.from('USER').select("*").eq("UserID", subber.CreatorID)
+                                    if(error) throw error
+                                    if(data[0].HasPFP === true) {
+                                        const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
+                                        if(error) favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl)
+                                        else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.jpg`).data.publicUrl)
+                                    } else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl)
+                                    favorites.value.push(data)
+                                    favored.value = true
+                                } catch(error) { fetchError.value = true; console.log(error) }
+                            })
+                        } catch(error) { fetchError.value = true; console.log(error) }
                     })
-                } catch(error) { console.log(error) }
-            } catch(error) { console.log(error) }
+                } catch(error) { fetchError.value = true; console.log(error) }
+            } catch(error) { fetchError.value = true; console.log(error) }
         }
     })
 </script>
@@ -116,14 +122,14 @@
             <div class="w-full h-110" v-if="fetchError === false">
                 <UCommandPalette placeholder="Search" :groups="groups" v-model="search" class="w-full flex-1 h-110"/>
             </div>
-            <div class="w-full h-110 flex flex-col items-center" v-else>
+            <div class="w-full h-full flex flex-col items-center" v-else>
                 <Skeleload class="w-full h-110 rounded-xl bg-neutral-700" />
             </div>
-            <hr class="w-full pl-0 ml-0" />
-            <h1 class="text-xl font-bold text-neutral-900 dark:text-neutral-100">FAVORITE CREATORS</h1>
-            <div class="w-full h-full overflow-y-auto flex flex-col gap-2">
-                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100">Sign in to subscribe to channels!</NuxtLink>
-                <span v-if="favored === false && guestMode === false" class="text-lg text-center text-neutral-500 self-center">Users you subscribe to appear here</span>
+            <hr class="w-full pl-0 ml-0 text-neutral-900 dark:text-neutral-100" v-show="fetchError===false"/>
+            <h1 class="text-xl font-bold text-neutral-900 dark:text-neutral-100" v-show="fetchError===false">USERS YOU MAY LIKE</h1>
+            <div class="w-full h-full overflow-y-auto flex flex-col gap-2" v-show="fetchError===false">
+                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100">Sign in to subscribe to users!</NuxtLink>
+                <span v-if="favored === false && guestMode === false" class="text-lg text-center text-neutral-500 self-center">Users your subscribers are subscribed to appear here</span>
                 <UIcon v-if="favored===false && guestMode === false" name="i-uil-star" class="text-neutral-500 self-center" size="40" />
                 <NuxtLink v-for="(fav, index) in favorites" :to="`/profile/${fav[0].UserID}`" class="rounded-xl bg-neutral-100 dark:bg-neutral-900 h-content w-full flex justify-start items-center gap-2">
                     <img :src="favsrc[index]" alt="pfp" class="w-5 h-5 rounded-full">

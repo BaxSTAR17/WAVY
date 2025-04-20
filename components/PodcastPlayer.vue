@@ -1,6 +1,7 @@
 <script setup>
 import Icon from '@nuxt/ui/runtime/components/Icon.vue'
 import { data } from 'autoprefixer'
+import { routerKey } from 'vue-router'
 
     const endtime = ref('0:00')
     const starttime = ref('0:00')
@@ -17,8 +18,13 @@ import { data } from 'autoprefixer'
     const found = ref(true)
     const maxtime = ref(0)
     const loading = ref(true)
+    const popUp = ref(false)
+    const popUpContent = ref('')
+    const popUpIcon = ref('')
     const buffering = ref(true)
+    const router = useRouter()
     // const podcastpage = ref(false)
+    const deleting = ref(false)
     const creator = ref('')
     const link = ref('')
     const listens = ref(0)
@@ -26,7 +32,8 @@ import { data } from 'autoprefixer'
     const cid = ref(0)
     const thumbnail = ref('')
     const dwnld = ref('')
-    const deletePod = ref(() => {})
+    const deletePod = ref(false)
+    const deleteConfirm = ref(async () => {})
     const listenPlus = ref(async() => {})
     const shareLink = ref('Share')
     const props = defineProps({
@@ -50,10 +57,12 @@ import { data } from 'autoprefixer'
             label: shareLink.value,
             icon: shareLink.value === 'Share' ? 'i-uil-share' : 'i-uil-check',
             onSelect: () => {
+                deletePod.value = false
                 if(shareLink.value === 'Share') {
                     navigator.clipboard.writeText(`wavy-chi.vercel.app/podcast/${props.pid}`)
-                    shareLink.value = 'Copied Link!'
-                    setTimeout(() => {shareLink.value = 'Share'}, 1000)
+                    popUpContent.value = "Podcast link has been copied to the clipboard!"
+                    popUpIcon.value = "i-uil-link"
+                    popUp.value = true
                 }
             }
         },
@@ -86,7 +95,6 @@ import { data } from 'autoprefixer'
                 if(link.value.length == 0) { 
                     link.value = supabase.storage.from('files').getPublicUrl(`podcasts/${props.pid}.ogg`).data.publicUrl
                     dwnld.value = `podcasts/${props.pid}.ogg`
-                    console.log(link.value)
                 }
                 if(link.value.length == 0) {
                     link.value = supabase.storage.from('files').getPublicUrl(`podcasts/${props.pid}.wav`).data.publicUrl
@@ -123,12 +131,32 @@ import { data } from 'autoprefixer'
                         if(error) throw error
                         id.value = data[0].UserID
                         if(id.value === podcastdata[0].CreatorID) {
+                            deleteConfirm.value = async () => {
+                                deleting.value = true
+                                popUpContent.value = "Deleting Podcast..."
+                                const deletePodcast = await supabase.from('PODCAST').delete().eq("PodcastID", props.pid)
+                                if(deletePodcast.status === 404) { popUpContent.value = "Deleting failed. Try Again Later"; deletePod.value = false; deleting.value = false; return; }
+                                popUpContent.value = "Delete Successful!"
+                                const deleteLike = await supabase.from('LIKE FEED').delete().eq("PodcastID", props.pid)
+                                try {
+                                    const { data, error } = await supabase.storage.from('files').remove([dwnld.value])
+                                    if(error) throw error
+                                } catch(error) { popUpContent.value = "Deleting failed. Try Again Later"; deleting.value = false; console.log(error)}
+                                deletePod.value = false
+                                popUp.value = false
+                                router.push("/")
+                                reloadNuxtApp()
+                            }
                             items[0].push({
                                 label: 'Delete',
                                 class: 'text-red-500',
                                 icon: 'i-uil-trash-alt',
+                                color: 'error',
                                 onSelect: () => {
-                                    
+                                    deletePod.value = true
+                                    popUpIcon.value = "uil-exclamation-triangle"
+                                    popUpContent.value = "Are you sure? (Deleting is irreversible)"
+                                    popUp.value = true
                                 }
                             })
                         }
@@ -279,23 +307,23 @@ import { data } from 'autoprefixer'
 </script>
 
 <template>
-    <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border" v-if="found === true && loading == false">
+    <main class="w-full bg-neutral-100 dark:bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border" v-if="found === true && loading == false">
         <audio :src="link" :id="`audio${props.pid}`" preload="metadata" />
         <div class="w-full flex flex-row items-center h-full gap-3">
-            <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg bg-neutral-800"><img :src="thumbnail" id="img" alt="Thumbnail"></NuxtLink>
+            <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg bg-neutral-200 dark:bg-neutral-800"><img :src="thumbnail" id="img" alt="Thumbnail"></NuxtLink>
             <div class="w-full flex flex-col justify-center p-1 box-border" v-if="props.pod === false">
                 <div>
-                    <NuxtLink :to="`/podcast/${props.pid}`" class="text-lg font-bold hover:underline">{{ title }}&nbsp;</NuxtLink>
-                    <NuxtLink :to="`/profile/${cid}`" class="text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
+                    <NuxtLink :to="`/podcast/${props.pid}`" class="text-neutral-900 dark:text-neutral-100 text-lg font-bold hover:underline">{{ title }}&nbsp;</NuxtLink>
+                    <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
                 </div>
                 <div class="w-full flex flex-row h-7 items-center">
                     <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
                     <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
                     <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
-                    <span>&nbsp;&nbsp;{{starttime}}&nbsp;</span>
+                    <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
                     <input type="range" :id="`durationslide${props.pid}`" min="0" :max="maxtime" value="0" class="w-full">
-                    <span id="endtime">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
+                    <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
                     <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <UIcon v-show="muted === true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
@@ -310,11 +338,11 @@ import { data } from 'autoprefixer'
                 </div>
             </div>
             <div v-if="props.pod === true">
-                <span class="text-3xl font-bold">{{ title }}&nbsp;</span>
-                <NuxtLink :to="`/profile/${cid}`" class="text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
+                <span class="text-neutral-900 dark:text-neutral-100 text-3xl font-bold">{{ title }}&nbsp;</span>
+                <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
             </div>
         </div>
-        <div class="text-sm text-neutral-400 tracking-wide flex flex-row items-center w-full h-5" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
+        <div class="text-sm text-neutral-600 dark:text-neutral-400 tracking-wide flex flex-row items-center w-full h-5" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
             <UIcon name="i-uil-play" size="15" />
             <span>{{ listens }}  |&nbsp;</span>
             <UIcon name="i-uil-heart" size="15" />
@@ -324,10 +352,10 @@ import { data } from 'autoprefixer'
         <div v-if="props.pod === true">
             <div class="w-full flex flex-col h-content">
                 <div class="w-full flex flex-row items-center">
-                    <span>&nbsp;&nbsp;{{starttime}}&nbsp;</span>
+                    <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
                     <input type="range" :id="`durationslide${props.pid}`" max="100" value="0" class="w-full">
-                    <span id="endtime">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
+                    <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
@@ -340,29 +368,48 @@ import { data } from 'autoprefixer'
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                         <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
                     </div>
-                    <div class="flex flex-row items-center" v-if="guestMode === false">
-                        <UIcon v-if="liked === true" name="i-basil-heart-solid" size="50" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
-                        <UIcon name="i-basil-heart-outline" size="50" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
-                        <UIcon name="i-uil-share" size="55" class="text-[#8c52ff] self-end" />
+                    <div class="flex">
+                        <div class="flex flex-row items-center" v-if="guestMode === false">
+                            <UIcon v-if="liked === true" name="i-basil-heart-solid" size="50" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
+                            <UIcon name="i-basil-heart-outline" size="50" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
+                        </div>
+                        <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-300 dark:bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">
+                            <UButton class="cursor-pointer active:bg-neutral-200 dark:active:bg-neutral-800 rounded-full" color="black"><UIcon name="i-uil-ellipsis-v" size="30" class="text-neutral-500" /></UButton>
+                        </UDropdownMenu>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found === false && (loading === true || loading === false)">
+    <main class="w-full bg-neutral-100 dark:bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found === false && (loading === true || loading === false)">
         <span class="text-neutral-500">Sorry, we are having trouble loading the audio</span>
         <UIcon name="i-uil-annoyed" class="text-neutral-500" size="40" />
         <input type="range" :id="`durationslide`" max="100" value="0" class="w-0 h-0 invisible">
         <input type="range" :id="`volumeslide`" max="100" value="0" class="w-0 h-0 invisible">
         <audio src="" :id="`audio`" preload="metadata" />
     </main>
-    <main class="w-full bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found===true && loading === true">
+    <main class="w-full bg-neutral-100 dark:bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border justify-center items-center" v-else-if="found===true && loading === true">
         <Skeleload class="w-full h-25 rounded-lg bg-neutral-700" />
         <input type="range" :id="`durationslide`" max="100" value="0" class="w-0 h-0 invisible">
         <input type="range" :id="`volumeslide`" max="100" value="0" class="w-0 h-0 invisible">
         <audio src="" :id="`audio`" preload="metadata" />
     </main>
     <hr class="w-full pl-0 ml-0 text-neutral-400" style="height: 5px;"/>
+    <UModal v-model:open="popUp" class="border-box p-10">
+        <template #content>
+            <UIcon name="i-uil-link" id="modalicon" v-show="deletePod === false" class="text-neutral-500 self-center mb-5" size="60"/>
+            <UIcon name="i-uil-exclamation-triangle" v-show="deletePod === true && popUpContent !== 'Delete Successful!'" id="modalicon" class="text-yellow-500 self-center mb-5" size="60"/>
+            <UIcon name="i-uil-check" v-show="popUpContent === 'Delete Successful!'" id="modalicon" class="text-green-500 self-center mb-5" size="60"/>
+            <span class="text-neutral-900 dark:text-neutral-100 self-center font-bold text-xl text-center">{{ popUpContent }}</span>
+            <div class="w-full flex gap-5 mt-3" v-show="deletePod === true">
+                <button class="pr-3 pl-3 text-white w-full h-10 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl font-bold cursor-pointer" @click="popUp = false" v-show="deleting === false">CANCEL</button>
+                <button class="pr-3 pl-3 text-white w-full h-10 tracking-widest bg-neutral-700 hover:bg-neutral-800 rounded-2xl font-bold cursor-pointer transition-all ease-linear delay-[0.3s]" @click="deleteConfirm">
+                    <UIcon name="i-svg-spinners-bars-scale" v-show="deleting === true"/>
+                    <span class="text-red-500" v-show="deleting === false">DELETE</span>
+                </button>
+            </div>
+        </template>
+    </UModal>
 </template>
 
 <style>
