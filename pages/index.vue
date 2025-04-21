@@ -53,7 +53,7 @@
 </script>
 
 <template >
-        <div class="bg-neutral-300 dark:bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-full overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
             <div class="w-full flex flex-row h-20 gap-3">
                 <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">
@@ -78,8 +78,8 @@
                 <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID"/>
             </div>
         </div>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col justify-center items-center gap-5" v-else>
-            <div class="text-3xl text-neutral-400 dark:text-neutral-500">Sorry... We cannot connect to the network!</div>
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5" v-else>
+            <div class="text-3xl text-center text-neutral-400 dark:text-neutral-500">Sorry... We cannot connect to the network!</div>
             <UIcon name="i-uil-wifi-slash" class="text-neutral-400 dark:text-neutral-400" size="80"/>
         </div>
 </template>

@@ -67,7 +67,7 @@
 
 <template >
     <main class="h-screen w-screen flex flex-row">
-        <div class="bg-neutral-100 dark:bg-neutral-900 min-h-dvh w-full flex flex-col items-start">
+        <div class="bg-neutral-100 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
             <div class="p-3">
                 <NuxtLink to="/" class="font-bold text-4xl leading-0">
                     <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
@@ -80,7 +80,11 @@
                 <div class="flex flex-col h-100 w-50 text-9xl font-bold text-neutral-900 dark:text-neutral-100"> WE ALWAYS LISTEN</div>
             </div>
         </div>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-120 flex flex-col justify-center items-center">
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-full lg:w-120 flex flex-col justify-start items-center">
+            <NuxtLink to="/" class="font-bold text-4xl leading-0 block lg:hidden self-start mb-20">
+                <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
+                <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
+            </NuxtLink>
             <form @submit.prevent="register()" id="form" class="w-100 flex flex-col gap-2 items-start justify-center">
                 <h1 v-if="verifying" class="w-full self-center text-center text-neutral-900 dark:text-neutral-100 text-4xl flex flex-col items-center">Please check your email to verify your account<UIcon name="i-uil-fast-mail" size="100"/></h1>
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100" v-if="!verifying">Username</h3>
