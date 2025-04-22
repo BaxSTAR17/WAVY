@@ -3,7 +3,7 @@
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold">ABOUT US</h1>
 
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold">About WAVY</h2>
-            <div class="flex flex-row justify-center m-10">
+            <div class="flex flex-row flex-wrap justify-center m-10">
                 <div class="mt-10">
                     <div class="wavy_mask w-100 h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
                 </div>
@@ -20,7 +20,7 @@
             </div>
             
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold">About RBGStudios</h2>
-            <div class="flex flex-row justify-center content-center m-10">
+            <div class="flex flex-row flex-wrap justify-center content-center m-10">
                 <div class="mt-10">
                     <div class="wavy_mask w-100 h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
                 </div>

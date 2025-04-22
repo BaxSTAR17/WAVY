@@ -1,5 +1,11 @@
 <script setup>
+    const supabase = useSupabaseClient()
+    const user = useSupabaseUser()
+    const guestMode = ref(true)
 
+    onMounted(() => {
+        if(user.value) guestMode.value = false
+    })
 </script>
 
 <template>
@@ -9,7 +15,7 @@
             <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
         </NuxtLink>
         <div class="flex w-content min-h-20 items-center gap-3">
-            <UIcon name="i-uil-plus" size="45"/>
+            <NuxtLink to="/upload" v-show="guestMode === false"><UIcon name="i-uil-plus" size="45"/></NuxtLink>
             <NuxtLink to="/searchmob"><UIcon name="i-uil-search" size="40"/></NuxtLink>
         </div>
     </div>

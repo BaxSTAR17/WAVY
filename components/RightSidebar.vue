@@ -16,13 +16,7 @@
         id: 'Podcasts',
         label: 'Podcasts',
         items: [
-            // {
-            //     label: 'test',
-            //     avatar: {
-            //         src: thumbnail.data.publicUrl
-            //     },
-            //     to: '/podcast/0'
-            // }
+            
         ]
     },
     {
