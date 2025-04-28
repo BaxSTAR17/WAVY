@@ -1,8 +1,8 @@
 <template>
-        <div class="bg-neutral-800 min-h-dvh h-screen overflow-scroll overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
-            <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">CONTACT US</h1>
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh h-screen overflow-y-auto overflow-x-hidden max-h-400 p-5 w-full no-scrollbar">
+            <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest">CONTACT US</h1>
 
-            <h3 class="text-xl bg-neutral-900 px-5 py-2 text-justify rounded-xl mt-5 w-fit tracking-widest">
+            <h3 class="text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-5 py-2 text-justify rounded-xl mt-5 w-fit tracking-widest">
                 Have any inquiries? Contact Us!
             </h3>
 
@@ -23,7 +23,7 @@
                     <UTextarea
                         v-model="state.desc"
                         placeholder="Enter a message here..."
-                        :rows="12"
+                        :rows="10"
                         class="border-purple-800 rounded-xl px-2 py-1 border-3 w-full" 
                         />
                 </UFormField>
@@ -32,7 +32,7 @@
                     Submit
                 </UButton>
 
-                <p class="mt-5 text-xs">
+                <p class="mt-5 text-xs text-neutral-900 dark:text-neutral-100">
                     Or visit our socials:
                 </p>
                 <div class="flex flex-row">

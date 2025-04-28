@@ -146,7 +146,7 @@ import { NuxtLink } from '#components'
         <div class="text-3xl text-neutral-500">Sorry, An unexpected error occurred</div>
         <UIcon name="i-uil-sync-exclamation" class="text-neutral-500" size="80"/>
     </div>
-    <div class="bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-start items-center gap-5" v-else-if="logOutError === false && loading === true">
+    <div class="bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-start items-center gap-2" v-else-if="logOutError === false && loading === true">
         <Skeleload class="rounded-lg bg-neutral-600 h-[45px] w-full pb-[4px] pt-[4px]" />
         <hr class="w-full pl-0 ml-0 mt-1" />
         <Skeleload class="rounded-lg bg-neutral-600 h-[32px] w-full mt-1" />

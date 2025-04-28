@@ -52,8 +52,8 @@
     })
 </script>
 
-<template >
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-full overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
+<template>
+        <div class="bg-neutral-300 dark:bg-neutral-800 overflow-y-auto w-full box-border flex flex-col p-3 gap-3" v-if="homeError === false">
             <div class="w-full flex flex-row h-20 gap-3">
                 <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">

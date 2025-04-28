@@ -10,17 +10,21 @@
         subtitles.value = data[0].Subtitles
         if(error) throw error
     } catch(error) { noPodcast.value = true; console.log(error) }
+    const formatText = (text) => {
+        const forPeriods = text.replaceAll(/\. /g, ".\n\n")
+        return forPeriods.replaceAll(/\? /g, "?\n\n")
+    }
 </script>
 
 <template>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 gap-2" v-if="noPodcast === false">
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col border-box p-5 gap-2" v-if="noPodcast === false">
             <PodcastPlayer :pid="pid" pod/>
             <div class="p-3 text-white tracking-widest bg-purple-800 rounded-2xl w-40 text-center">
                 <!-- <span>UPLOAD PODCAST</span> -->
                 <span>TRANSCRIPT</span>
             </div>
-            <div class="w-full h-content rounded-lg overflow-y-auto bg-neutral-400 dark:bg-neutral-600 border-box p-3">
-                {{ subtitles }}
+            <div class="w-full text-wrap h-content rounded-lg overflow-y-auto bg-neutral-400 text-justify dark:bg-neutral-600 border-box p-3" style="white-space: pre-wrap; line-height: 15px">
+                {{ formatText(subtitles) }}
             </div>
         </div>
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>

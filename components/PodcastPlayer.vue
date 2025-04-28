@@ -166,36 +166,38 @@ import { routerKey } from 'vue-router'
                             if(data.length > 0) liked.value = true
                         } catch(error) { console.log(error) }
                         likey.value = async () => {
-                            if(liked.value === true) {
-                                try {
-                                    const { data: likedata, error } = await supabase.from('LIKE FEED').insert({
-                                        LikerID: id.value,
-                                        PodcastID: props.pid
-                                    }).select()
-                                    if(error) throw error
-                                    liking.value.push(likedata)
+                            if(buffering.value===false) {
+                                if(liked.value === true) {
                                     try {
-                                        const { data, error } = await supabase.from('PODCAST').update({
-                                            Likes: podcastdata[0].Likes + 1
-                                        }).eq("PodcastID", props.pid).select()
+                                        const { data: likedata, error } = await supabase.from('LIKE FEED').insert({
+                                            LikerID: id.value,
+                                            PodcastID: props.pid
+                                        }).select()
                                         if(error) throw error
-                                        likes.value = data[0].Likes
-                                    } catch(error) { found.value = true; console.log(error)}
-                                } catch(error) { found.value = true; console.log(error) }
-                            } else {
-                                if(liking.value.length > 0) {
-                                    try {
-                                        const { error } = await supabase.from('LIKE FEED').delete().eq("LikeID", liking.value[0].LikeID)
-                                        if(error) throw error
-                                        liking.value.pop()
+                                        liking.value.push(likedata)
                                         try {
                                             const { data, error } = await supabase.from('PODCAST').update({
-                                                Likes: podcastdata[0].Likes > 0 ? podcastdata[0].Likes - 1 : 0
+                                                Likes: podcastdata[0].Likes + 1
                                             }).eq("PodcastID", props.pid).select()
                                             if(error) throw error
                                             likes.value = data[0].Likes
                                         } catch(error) { found.value = true; console.log(error)}
                                     } catch(error) { found.value = true; console.log(error) }
+                                } else {
+                                    if(liking.value.length > 0) {
+                                        try {
+                                            const { error } = await supabase.from('LIKE FEED').delete().eq("LikeID", liking.value[0].LikeID)
+                                            if(error) throw error
+                                            liking.value.pop()
+                                            try {
+                                                const { data, error } = await supabase.from('PODCAST').update({
+                                                    Likes: podcastdata[0].Likes > 0 ? podcastdata[0].Likes - 1 : 0
+                                                }).eq("PodcastID", props.pid).select()
+                                                if(error) throw error
+                                                likes.value = data[0].Likes
+                                            } catch(error) { found.value = true; console.log(error)}
+                                        } catch(error) { found.value = true; console.log(error) }
+                                    }
                                 }
                             }
                         }
@@ -234,8 +236,10 @@ import { routerKey } from 'vue-router'
             return `${mins}:${seconds}`
         }
         skipAudio.value = () => {
-            if(audio.currentTime + 30 < audio.duration) {
+            if(audio.currentTime + 30 < audio.duration && buffering.value == false) {
                 buffering.value = true
+                duration_slide.disabled = true
+                volume_slide.disabled = true
                 audio.currentTime += 30
                 duration_slide.value += 30
                 starttime.value = endTime(Math.floor(audio.currentTime))
@@ -261,14 +265,16 @@ import { routerKey } from 'vue-router'
             }
         }
         muteAudio.value = () => {
-            if(muted.value) {
-                audio.muted = false
-                muted.value = false
-                volume_slide.disabled = false
-            } else {
-                audio.muted = true
-                muted.value = true
-                volume_slide.disabled = true
+            if(buffering.value === false) {
+                if(muted.value) {
+                    audio.muted = false
+                    muted.value = false
+                    volume_slide.disabled = false
+                } else {
+                    audio.muted = true
+                    muted.value = true
+                    volume_slide.disabled = true
+                }
             }
         }
         const whilePlayingHack = () => {
@@ -281,6 +287,8 @@ import { routerKey } from 'vue-router'
             maxtime.value = audio.duration
             endtime.value = endTime(audio.duration)
             buffering.value = false
+            duration_slide.disabled = false
+            volume_slide.disabled = false
             starttime.value = endTime(Math.floor(duration_slide.value*audio.duration/100))
         })
         audio.addEventListener("ended", () => {
@@ -291,15 +299,23 @@ import { routerKey } from 'vue-router'
         })
         audio.addEventListener("playing", () => {
             buffering.value = false
+            duration_slide.disabled = false
+            volume_slide.disabled = false
         })
         audio.addEventListener("play", () => {
             buffering.value = false
+            duration_slide.disabled = false
+            volume_slide.disabled = false
         })
         audio.addEventListener("pause", () => {
             buffering.value = false
+            duration_slide.disabled = false
+            volume_slide.disabled = false
         })
         audio.addEventListener("waiting", () => {
             buffering.value = true
+            duration_slide.disabled = true
+            volume_slide.disabled = true
         })
         endtime.value = endTime(audio.duration)
         loading.value = false
@@ -310,7 +326,7 @@ import { routerKey } from 'vue-router'
     <main class="w-full bg-neutral-100 dark:bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border" v-if="found === true && loading == false">
         <audio :src="link" :id="`audio${props.pid}`" preload="metadata" />
         <div class="w-full flex flex-row items-center h-full gap-3">
-            <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg bg-neutral-200 dark:bg-neutral-800"><img :src="thumbnail" id="img" alt="Thumbnail"></NuxtLink>
+            <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg hidden lg:block bg-neutral-200 dark:bg-neutral-800"><img :src="thumbnail" class="w-full h-full" id="img" alt="Thumbnail"></NuxtLink>
             <div class="w-full flex flex-col justify-center p-1 box-border" v-if="props.pod === false">
                 <div>
                     <NuxtLink :to="`/podcast/${props.pid}`" class="text-neutral-900 dark:text-neutral-100 text-lg font-bold hover:underline">{{ title }}&nbsp;</NuxtLink>
@@ -322,27 +338,27 @@ import { routerKey } from 'vue-router'
                     <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
                     <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
-                    <input type="range" :id="`durationslide${props.pid}`" min="0" :max="maxtime" value="0" class="w-full">
+                    <input type="range" :id="`durationslide${props.pid}`" min="0" :max="maxtime" value="0" class="w-full disabled:opacity-30" disabled>
                     <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
                     <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <UIcon v-show="muted === true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
-                    <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
+                    <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40 disabled:opacity-30" disabled>
                     <div v-if="guestMode === false">
                         <UIcon v-if="liked === true" name="i-basil-heart-solid" size="40" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
                         <UIcon name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
                     </div>
-                    <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">
+                    <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-300 dark:bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">
                         <UButton class="cursor-pointer active:bg-neutral-800 rounded-full" color="black"><UIcon name="i-uil-ellipsis-v" size="30" class="text-neutral-500" /></UButton>
                     </UDropdownMenu>
                 </div>
             </div>
             <div v-if="props.pod === true">
-                <span class="text-neutral-900 dark:text-neutral-100 text-3xl font-bold">{{ title }}&nbsp;</span>
+                <span class="text-neutral-900 dark:text-neutral-100 text-xl font-bold">{{ title }}&nbsp;</span>
                 <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
             </div>
         </div>
-        <div class="text-sm text-neutral-600 dark:text-neutral-400 tracking-wide flex flex-row items-center w-full h-5" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
+        <div class="text-md text-neutral-600 dark:text-neutral-400 tracking-wide flex flex-row items-center w-full h-5" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
             <UIcon name="i-uil-play" size="15" />
             <span>{{ listens }}  |&nbsp;</span>
             <UIcon name="i-uil-heart" size="15" />
@@ -354,7 +370,7 @@ import { routerKey } from 'vue-router'
                 <div class="w-full flex flex-row items-center">
                     <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
-                    <input type="range" :id="`durationslide${props.pid}`" max="100" value="0" class="w-full">
+                    <input type="range" :id="`durationslide${props.pid}`" max="100" value="0" class="w-full disabled:opacity-30" disabled>
                     <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
@@ -366,7 +382,7 @@ import { routerKey } from 'vue-router'
                         <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                         <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
-                        <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40">
+                        <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40 disabled:opacity-30" disabled>
                     </div>
                     <div class="flex">
                         <div class="flex flex-row items-center" v-if="guestMode === false">

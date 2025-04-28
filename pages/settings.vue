@@ -20,19 +20,20 @@
     const content = ref('')
     const username = ref('')
     const isPrivate = ref(false)
-    const changeTheme = () => {
-        if(darkMode.value === false) document.documentElement.classList.add('dark')
-        else document.documentElement.classList.remove('dark')
-    }
-    if(user.value) guestMode.value = false
-    else if(!user.value) guestMode.value = true
-    if(document.documentElement.classList.contains('dark')) darkMode.value = true
-    else darkMode.value = false
-    const link = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
+    const changeTheme = ref(false)
     onMounted(async ()=> {
+        changeTheme.value = () => {
+            if(darkMode.value === false) document.documentElement.classList.add('dark')
+            else document.documentElement.classList.remove('dark')
+        }
+        if(user.value) guestMode.value = false
+        else if(!user.value) guestMode.value = true
+        if(document.documentElement.classList.contains('dark')) darkMode.value = true
+        else darkMode.value = false
+        const link = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
         const fileTag = document.getElementById('file')
-        document.getElementById('pfp').setAttribute("src", link)
         if(user.value) {
+            document.getElementById('pfp').setAttribute("src", link)
             try {
                 const { data: userdata, error } = await supabase.from('USER').select("*").eq("UserEmail", user.value.email)
                 if(error) throw error
@@ -101,7 +102,7 @@
             <div v-else class="w-full h-content flex flex-col gap-2">
                 <h1 class="text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest w-content self-start">GENERAL</h1>
                 <div class="flex self-start">
-                    <USwitch v-model="darkMode" label="Dark Mode" @click="changeTheme()" default-value class="w-40 mt-3 cursor-pointer font-bold" size="xl"/>
+                    <USwitch v-model="darkMode" label="Dark Mode" @click="changeTheme" default-value class="w-40 mt-3 cursor-pointer font-bold" size="xl"/>
                 </div>
                 <div v-if="guestMode === false" class="w-full h-content flex flex-col gap-2">
                     <h1 class="mt-10 text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest w-content self-start">PROFILE</h1>

@@ -52,7 +52,7 @@
                 <div class="flex flex-col h-100 w-50 text-9xl font-bold text-neutral-900 dark:text-neutral-100"> WE ALWAYS LISTEN</div>
             </div>
         </div>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-full lg:w-120 flex flex-col justify-start lg:justify-center items-center">
+        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-full h-full lg:w-120 flex flex-col justify-start lg:justify-center items-center">
             <NuxtLink to="/" class="font-bold text-4xl leading-0 block lg:hidden self-start mb-20">
                 <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
                 <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
