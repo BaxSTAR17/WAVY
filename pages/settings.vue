@@ -21,6 +21,8 @@
     const username = ref('')
     const isPrivate = ref(false)
     const changeTheme = ref(false)
+    const logOut = ref(false)
+    const email = ref('')
     onMounted(async ()=> {
         changeTheme.value = () => {
             if(darkMode.value === false) document.documentElement.classList.add('dark')
@@ -33,6 +35,18 @@
         const link = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
         const fileTag = document.getElementById('file')
         if(user.value) {
+            logOut.value = async () => {
+                try {
+                    email.value = user.value.email
+                    const { error } = await supabase.auth.signOut()
+                    if(error) throw error;
+                    try {
+                        const { error } = await supabase.from('USER').update({ isOnline: false}).eq('UserEmail', email.value);
+                        if(error) throw error;
+                        router.push("/login")
+                    } catch(error) { setError.value = true; console.log(error) }
+                } catch(error) { setError.value = true; console.log(error) }
+            }
             document.getElementById('pfp').setAttribute("src", link)
             try {
                 const { data: userdata, error } = await supabase.from('USER').select("*").eq("UserEmail", user.value.email)
@@ -107,6 +121,7 @@
                 </div>
                 <div v-if="guestMode === false" class="w-full h-content flex flex-col gap-2">
                     <h1 class="mt-10 text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest w-content self-start">PROFILE</h1>
+                    <hr class="mt-2 mb-2 w-full text-neutral-900 dark:text-neutral-100" />
                     <div class="flex gap-2 items-center">
                         <img id="pfp" src="../public/WAVY Default Profile Picture.svg" alt="pfp" class="w-25 h-25 rounded-full">
                         <input type="file" id="file" @change="fileSelected" accept=".jpg,.png" class="hidden">
@@ -129,11 +144,16 @@
                         </UModal>
                     </div>
                     <button class="pr-3 pl-3 text-white w-60 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2" v-show="readyToChange" @click="changePFP">Change Profile Picture</button>
+                    <hr class="mt-2 w-full text-neutral-900 dark:text-neutral-100" />
                     <span class="mb-2 mt-5 text-neutral-900 dark:text-neutral-100">Change Username</span>
                     <div class="flex gap-3 items-center">
                         <input type="text" id="username" v-model="username" class="h-9 bg-[#4e4b55] rounded-3xl p-3 w-60"/>
                         <button class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2" v-show="username" @click="changeUsername">Change Username</button>
                     </div>
+                    <button @click="logOut" class="block lg:hidden mt-5 text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full border-b-solid border-b-neutral-900 dark:border-b-neutral-100 border-b-1 border-t-solid border-t-neutral-900 dark:border-t-neutral-100 border-t-1 hover:bg-neutral-300 h-15 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-if="guestMode == false">
+                        <UIcon name="i-uil-signout" size="21" class="text-red-500"/>
+                        <span class="text-red-500">Log Out</span>
+                    </button>
                     <UButton color="error" variant="outline" class="text-red-500 w-30 mt-10 cursor-pointer h-10"><UIcon name="i-uil-trash-alt" class="text-red-500" @click="deleteWarn"/>Delete User</UButton>
                     <!-- <USwitch v-model="isPrivate" label="Dark Mode" default-value class="w-40 mt-3 cursor-pointer font-bold" size="xl"/> -->
                 </div>

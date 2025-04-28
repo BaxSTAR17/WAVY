@@ -103,7 +103,7 @@ import Subscriptions from '../subscriptions.vue'
                     <span class="text-neutral-900 dark:text-neutral-100 text-xl m-0">{{ listeners }} {{ listeners === 1 ? 'subscriber' : 'subscribers' }}</span>
                     <div class="flex flex-row gap-3">
                         <span class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl">
-                            <NuxtLink v-if="selfProfile" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD PODCAST</NuxtLink>
+                            <NuxtLink v-if="selfProfile" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD</NuxtLink>
                             <NuxtLink v-else-if="!user" to="/login" class="flex items-center gap-2">SIGN IN TO SUBSCRIBE</NuxtLink>
                             <button class="w-content pt-3 pb-3 cursor-pointer" v-else-if="subscribed === false" @click="subscribed = true; subscribe()">SUBSCRIBE</button>
                             <button class="w-content pt-3 pb-3 cursor-pointer" v-else-if="subscribed === true" @click="subscribed = false; subscribe()"> X UNSUBSCRIBE</button>

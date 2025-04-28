@@ -1,14 +1,14 @@
 <template >
-        <div class="bg-neutral-300 dark:bg-neutral-800 h-full overflow-y-auto overflow-x-hidden p-5 w-full no-scrollbar">
+        <div class="bg-neutral-300 dark:bg-neutral-800 h-full overflow-y-auto overflow-x-hidden p-5 w-screen no-scrollbar">
             <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold">ABOUT US</h1>
 
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About WAVY</h2>
-            <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center m-10">
+            <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center m-5 lg:m-10">
                 <div class="mt-10">
-                    <div class="wavy_mask w-100 h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
+                    <div class="wavy_mask w-50 h-50 lg:w-100 lg:h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
                 </div>
             
-                <p class="ml-10 text-justify text-lg leading-12 flex flex-col w-auto text-neutral-900 dark:text-neutral-100">
+                <p class="lg:ml-10 text-justify text-lg leading-12 flex flex-col w-auto text-neutral-900 dark:text-neutral-100">
                     WAVY is a dynamic podcast hosting and viewing platform designed to simplify the creation, distribution, and discovery of podcasts.
                     Whether you're a seasoned podcaster or just starting out, WAVY provides user-friendly tools to upload, manage, and share your episodes effortlessly.
                     <br />
@@ -21,12 +21,12 @@
             </div>
             
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About RBGStudios</h2>
-            <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center content-center m-10 text-neutral-900 dark:text-neutral-100">
+            <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center content-center m-5 lg:m-10 text-neutral-900 dark:text-neutral-100">
                 <div class="mt-10">
-                    <div class="wavy_mask w-100 h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
+                    <div class="wavy_mask w-50 h-50 lg:w-100 lg:h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
                 </div>
                 
-                <div class="flex flex-col ml-10">
+                <div class="flex flex-col lg:ml-10">
                     <h1 class="text-justify text-lg leading-12 w-auto font-bold text-neutral-900 dark:text-neutral-100">
                         Welcome to RBGStudios — where creativity meets entertainment!
                     </h1>

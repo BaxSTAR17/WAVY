@@ -39,7 +39,7 @@
 </script>
 
 <template >
-    <main class="h-screen w-screen flex flex-row">
+    <main class="h-screen w-full flex flex-row">
         <div class="bg-neutral-100 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
             <div class="p-3">
                 <NuxtLink to="/" class="font-bold text-4xl leading-0">
@@ -58,11 +58,11 @@
                 <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
                 <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
             </NuxtLink>
-            <form @submit.prevent="login()" id="form" class="w-100 flex flex-col gap-2 items-start justify-center">
+            <form @submit.prevent="login()" id="form" class="w-full flex flex-col gap-2 items-start justify-center">
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100">Email</h3>
-                <input type="email" placeholder="email@RGB.com" v-model="email" class="text-neutral-900 dark:text-neutral-100 h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full">
+                <input type="email" placeholder="email@RGB.com" v-model="email" class="text-neutral-900 dark:text-neutral-100 h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 box-border w-full self-center">
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100">Password</h3>
-                <input type="password" autocomplete="new-password" placeholder="pass123" v-model="pass" class="text-neutral-900 dark:text-neutral-100 h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full">
+                <input type="password" autocomplete="new-password" placeholder="pass123" v-model="pass" class="text-neutral-900 dark:text-neutral-100 h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl box-border p-3 w-full self-center">
                 <div class="text-red-500 error h-10">{{ errormsg }}</div>
                 <button type="submit" class="p-3 text-white tracking-widest bg-purple-800 rounded-2xl w-50 self-center cursor-pointer">
                     <span v-if="loading === false">LOG IN</span>

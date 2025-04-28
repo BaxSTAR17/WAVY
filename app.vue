@@ -4,7 +4,10 @@ import {NuxtLayout} from '#components';
 useHead({
   title: 'Home | Wavy',
   meta: [
-    { name: 'viewport', content: 'width=device-width; user-scalable=0;' }
+    {
+      name: 'viewport',
+      content: 'width=device-width; user-scalable=0; initial-scale=1'
+    }
   ]
 })
 </script>

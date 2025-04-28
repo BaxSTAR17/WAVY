@@ -340,10 +340,10 @@ import { routerKey } from 'vue-router'
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
                     <input type="range" :id="`durationslide${props.pid}`" min="0" :max="maxtime" value="0" class="w-full disabled:opacity-30" disabled>
                     <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
-                    <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
-                    <UIcon v-show="muted === true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
+                    <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
+                    <UIcon v-show="muted === true" name="i-uil-volume-mute" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
-                    <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40 disabled:opacity-30" disabled>
+                    <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>
                     <div v-if="guestMode === false">
                         <UIcon v-if="liked === true" name="i-basil-heart-solid" size="40" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
                         <UIcon name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
@@ -379,10 +379,10 @@ import { routerKey } from 'vue-router'
                         <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                         <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                         <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
-                        <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
-                        <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
+                        <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
+                        <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
-                        <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="w-40 disabled:opacity-30" disabled>
+                        <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>
                     </div>
                     <div class="flex">
                         <div class="flex flex-row items-center" v-if="guestMode === false">
