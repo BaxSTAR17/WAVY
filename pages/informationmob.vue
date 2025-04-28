@@ -1,4 +1,5 @@
 <script setup>
+    useHead({title:'Information | Wavy'})
 </script>
 
 <template>

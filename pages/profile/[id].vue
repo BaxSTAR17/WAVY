@@ -23,6 +23,7 @@ import Subscriptions from '../subscriptions.vue'
         online.value = data[0].isOnline
         id.value = data[0].UserID
         listeners.value = data[0].Listeners
+        useHead({title:`${data[0].UserName} | Wavy`})
         if(data[0].HasPFP === true) {
             const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
             if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl
@@ -86,6 +87,7 @@ import Subscriptions from '../subscriptions.vue'
             if(podcasts.value.length > 0) hasUploaded.value = true
         } catch(error) { console.log(error) }
     } catch(error) { noUser.value = true; console.log(error) }
+    if(noUser.value === true) useHead({title: 'User Not Found | Wavy'})
 
     onMounted(async () => {
     

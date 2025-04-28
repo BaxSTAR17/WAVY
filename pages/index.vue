@@ -50,6 +50,7 @@
             } catch(error) { homeError.value = true; console.log(error) }
         }
     })
+    useHead({title:'Home | Wavy'})
 </script>
 
 <template>

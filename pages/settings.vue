@@ -90,6 +90,7 @@
             }
         }
     })
+    useHead({title:'Settings | Wavy'})
 </script>
 
 <template>

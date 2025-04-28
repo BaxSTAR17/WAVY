@@ -14,6 +14,7 @@
             } catch(error) {likeError.value = true; console.log(error)}
         } catch(error) {likeError.value = true; console.log(error)}
     } else { likeError.value = true; }
+    useHead({title:'Likes | Wavy'})
 </script>
 
 <template>

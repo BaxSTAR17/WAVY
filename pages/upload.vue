@@ -94,6 +94,7 @@
             }
         }
     })
+    useHead({title:'Upload a Podcast | Wavy'})
 </script>
 
 <template>

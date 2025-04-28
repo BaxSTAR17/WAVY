@@ -6,6 +6,8 @@
     onMounted(() => {
         if(user.value) guestMode.value = false
     })
+
+    useHead({title: 'Favorites | Wavy'})
 </script>
 
 <template>

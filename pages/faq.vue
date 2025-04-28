@@ -159,6 +159,8 @@
      {label: 'Can I use copyrighted music in my episodes?', content:'Hell no.'},
      {label: 'What happens if I violate content guidelines?', content:'Straight to jail. Do not pass go, do not collect $200.'}
   ])
+
+  useHead({title: 'FAQ | Wavy'})
 </script>
 
 <style>

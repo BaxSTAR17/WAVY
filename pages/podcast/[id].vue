@@ -6,14 +6,16 @@
     const subtitles = ref('')
     try {
         const { data, error } = await supabase.from('PODCAST').select("*").eq('PodcastID', route.params.id)
+        if(error) throw error
         pid.value = data[0].PodcastID
         subtitles.value = data[0].Subtitles
-        if(error) throw error
+        useHead({title: `${data[0].Title} | Wavy`})
     } catch(error) { noPodcast.value = true; console.log(error) }
     const formatText = (text) => {
         const forPeriods = text.replaceAll(/\. /g, ".\n\n")
         return forPeriods.replaceAll(/\? /g, "?\n\n")
     }
+    if(noPodcast.value === true) useHead({title: 'Podcast Not Found | Wavy'})
 </script>
 
 <template>

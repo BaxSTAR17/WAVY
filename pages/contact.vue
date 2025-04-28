@@ -79,6 +79,7 @@
         window.open('mailto:josephgalicia713@gmail.com?subject=' + input_category + '&body=' + input_desc);
         (form as HTMLFormElement)?.clear()
     }
+    useHead({title: 'Contact Us | Wavy'})
 </script>
 
 <style>
