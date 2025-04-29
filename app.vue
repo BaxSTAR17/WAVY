@@ -13,12 +13,14 @@ useHead({
 </script>
 
 <template>
-  <div class="h-full bg-neutral-300 dark:bg-neutral-800">
-      <NuxtLoadingIndicator color="purple"/>
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-  </div>
+  <UApp>
+    <div class="h-full bg-neutral-300 dark:bg-neutral-800">
+        <NuxtLoadingIndicator color="purple"/>
+        <NuxtLayout>
+          <NuxtPage />
+        </NuxtLayout>
+    </div>
+  </UApp>
 </template>
 
 <style>

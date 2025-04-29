@@ -164,9 +164,6 @@
 </script>
 
 <style>
-   body {
-       font-family: Arial;
-   }
    .text-xl {
      font-family: Arial;
      font-size: 18px

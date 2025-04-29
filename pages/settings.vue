@@ -146,13 +146,12 @@
                         </UModal>
                     </div>
                     <button class="pr-3 pl-3 text-white w-60 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2" v-show="readyToChange" @click="changePFP">Change Profile Picture</button>
-                    <hr class="mt-2 w-full text-neutral-900 dark:text-neutral-100" />
                     <span class="mb-2 mt-5 text-neutral-900 dark:text-neutral-100">Change Username</span>
                     <div class="flex gap-3 items-center">
                         <input type="text" id="username" v-model="username" class="h-9 bg-[#4e4b55] rounded-3xl p-3 w-60"/>
                         <button class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2" v-show="username" @click="changeUsername">Change Username</button>
                     </div>
-                    <button @click="logOut" class="block lg:hidden mt-5 text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full border-b-solid border-b-neutral-900 dark:border-b-neutral-100 border-b-1 border-t-solid border-t-neutral-900 dark:border-t-neutral-100 border-t-1 hover:bg-neutral-300 h-15 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-if="guestMode == false">
+                    <button @click="logOut" class="block lg:hidden mt-5 text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full hover:bg-neutral-300 h-15 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-if="guestMode == false">
                         <UIcon name="i-uil-signout" size="21" class="text-red-500"/>
                         <span class="text-red-500">Log Out</span>
                     </button>
