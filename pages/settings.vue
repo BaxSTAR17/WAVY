@@ -23,18 +23,19 @@
     const changeTheme = ref(false)
     const logOut = ref(false)
     const email = ref('')
+    const router = useRouter()
     onMounted(async ()=> {
         changeTheme.value = () => {
             if(darkMode.value === false) document.documentElement.classList.add('dark')
             else document.documentElement.classList.remove('dark')
         }
-        if(user.value) guestMode.value = false
-        else if(!user.value) guestMode.value = true
         if(document.documentElement.classList.contains('dark')) darkMode.value = true
         else darkMode.value = false
         const link = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
+        pfpsrc.value = link
         const fileTag = document.getElementById('file')
         if(user.value) {
+            guestMode.value = false
             logOut.value = async () => {
                 try {
                     email.value = user.value.email
@@ -47,15 +48,16 @@
                     } catch(error) { setError.value = true; console.log(error) }
                 } catch(error) { setError.value = true; console.log(error) }
             }
-            document.getElementById('pfp').setAttribute("src", link)
             try {
                 const { data: userdata, error } = await supabase.from('USER').select("*").eq("UserEmail", user.value.email)
                 if(error) throw error
+                document.getElementById('pfp').setAttribute("src", link)
                 isPrivate.value = userdata[0].isPrivate
                 changeUsername.value = async () => {
                     try {
                         const { error } = await supabase.from('USER').update({ UserName: username.value}).eq("UserID", userdata[0].UserID)
                         if(error) throw error
+                        src.value = pfpsrc.value
                         content.value = `You changed your username to ${username.value}!`
                         pfpChanged.value = true
                     } catch(error) {setError.value = true; console.log(error)}
@@ -74,7 +76,7 @@
             } catch(error) {setError.value = true; console.log(error)}
 
             uploadFile.value = () => {
-                fileTag.click()
+                document.getElementById('file').click()
             }
             
             fileSelected.value = () => {
