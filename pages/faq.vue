@@ -120,44 +120,44 @@
   import type { AccordionItem } from '@nuxt/ui';
 
   const general_questions = ref<AccordionItem[]> ([
-     {label: 'What is WAVY about?', content:'imong mama WAVY!'},
-     {label: 'Do I need any technical skills to start a podcast?', content:'No! The only things you need are a mic, the Internet, and a drive for making content.'},
-     {label: 'Is there a mobile app?', content:'Yes! WAVY comes with its very own mobile app for Android only (fuck u Apple users kys).'}
+     {label: 'What is WAVY about?', content:'WAVY is a dynamic podcast hosting and listening platform designed to simplify the creation, distribution, and discovery of podcasts. To learn more, visit our About Us Page!'},
+     {label: 'Do I need any technical skills to start a podcast?', content:'Nope! The only things you need are a microphone, a device, the Internet, and a drive for making content.'},
+     {label: 'Is there a mobile app?', content:'Yes! WAVY comes with its very own mobile app for Android devices.'}
   ])
 
   const getting_started = ref<AccordionItem[]> ([
-     {label: 'How do I create a podcast on WAVY?', content:'Click on upload video. Upload video. Wait for video to upload.'},
+     {label: 'How do I create a podcast on WAVY?', content:'Make an account and Click on the upload audio'},
      {label: 'What audio formats does WAVY support for uploads?', content:'.mp3, .wav, .mp4, .ogg'},
-     {label: 'Can I import my existing podcast from another site?', content:'Yes, but make sure its actually your content.'}
+     {label: 'Can I import my existing podcast from another site?', content:'Yes, but make sure that the content is yours.'}
   ])
 
   const hosting = ref<AccordionItem[]> ([
      {label: 'Where will my podcast be distributed?', content:'Here only, although it can be shared through social media via link.'},
-     {label: 'How much does podcast hosting cost?', content:'Completely FREE! Unless you use Apple (fuck u Apple users kys).'},
-     {label: 'Is there a limit to how many episodes I can upload?', content:'The only limit is your dedication.'}
+     {label: 'How much does podcast hosting cost?', content:'Completely FREE!'},
+     {label: 'Is there a limit to how many podcasts I can upload?', content:'The only limit is your dedication.'}
   ])
 
   const monetization = ref<AccordionItem[]> ([
-     {label: 'How can I make money from my podcast?', content:'You don\'t.'},
-     {label: 'Do you help connect podcasters with sponsors?', content:'As long as you\'re not an Apple user.'},
-     {label: 'Can I sell merchandise or premium content?', content:'As long as its not an Apple product.'}
+     {label: 'How can I make money from my podcast?', content:'We do not currently support monetization but it can be implemented in the future hopefully'},
+     {label: 'Do you help connect podcasters with sponsors?', content:'Sponsorship CAN be possible once monetization is supported'},
+     {label: 'Can I sell merchandise or premium content?', content:'Every content you upload to WAVY is free for everyone on default, so premium content is still a feature yet to be added.'}
   ])
 
   const analytics = ref<AccordionItem[]> ([
-     {label: 'What kind of analytics do you provide?', content:'Sub counts. Daily, monthly, & total views. Like ratio.'},
-     {label: 'Can I see who my top listeners are?', content:'No that\'s kinda parasocial.'}
+     {label: 'What kind of analytics do you provide?', content:'Sub counts, Listens, and even Like ratio!'},
+     {label: 'Can I see who my top listeners are?', content:'We do not currently support the ability to view listeners, likers, or even subscribers but just know that people appreciate your work!'}
   ])
 
   const tech_support = ref<AccordionItem[]> ([
-     {label: 'What if I have issues uploading an episode?', content:'Skill issue.'},
-     {label: 'Can I schedule episodes in advance?', content:'Sure but make sure they\'re uploaded beforehand.'},
-     {label: 'Do you offer transcription services?', content:'On the house unless you\'re an Apple user.'}
+     {label: 'What if I have issues uploading a podcast?', content:'Feel free to contact our technical support team through our contact us page for issues!.'},
+     {label: 'Can I schedule podcasts in advance?', content:'We do not currently support the ability to schedule podcasts'},
+     {label: 'Do you offer transcription services?', content:'Only through uploading1, you have the ability to have the website auto-generate a transcript for your audio!'}
   ])
 
   const copyright = ref<AccordionItem[]> ([
-     {label: 'Who owns the rights to my podcast content?', content:'You.'},
-     {label: 'Can I use copyrighted music in my episodes?', content:'Hell no.'},
-     {label: 'What happens if I violate content guidelines?', content:'Straight to jail. Do not pass go, do not collect $200.'}
+     {label: 'Who owns the rights to my podcast content?', content:'You!'},
+     {label: 'Can I use copyrighted music in my episodes?', content:'Nope.'},
+     {label: 'What happens if I violate content guidelines?', content:'Possibilities of other people reporting content can lead to deletion of reported content.'}
   ])
 
   useHead({title: 'FAQ | Wavy'})
