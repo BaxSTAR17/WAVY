@@ -23,15 +23,15 @@
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About RBGStudios</h2>
             <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center content-center m-5 lg:m-10 text-neutral-900 dark:text-neutral-100">
                 <div class="mt-10">
-                    <img src="../public/Word Mark (White).svg" alt="rgb-studios-logo" class="w-500 h-50">
+                    <div class="rgb_mask w-50 h-50 bg-linear-(--day) dark:bg-linear-(--night)"></div>
                 </div>
                 
                 <div class="flex flex-col lg:ml-10">
                     <h1 class="text-justify text-lg leading-12 w-auto font-bold text-neutral-900 dark:text-neutral-100">
-                        Welcome to RBGStudios — where creativity meets entertainment!
+                        Welcome to RGBStudios — where creativity meets entertainment!
                     </h1>
                     <p class="text-justify text-lg leading-12 w-auto text-neutral-900 dark:text-neutral-100 ">
-                        At RBGStudios, we're passionate about delivering engaging, high-quality content that captivates audiences across social media platforms.
+                        At RGBStudios, we're passionate about delivering engaging, high-quality content that captivates audiences across social media platforms.
                         Whether it's through viral videos, dynamic storytelling, or interactive experiences, our mission is to bring joy, laughter, and excitement to viewers worldwide.
                     </p>
 
@@ -49,7 +49,7 @@
                     <p class="text-justify text-lg leading-12 w-auto text-neutral-900 dark:text-neutral-100 ">
                         To become a leading name in digital entertainment, fostering a community where creativity thrives and every viewer feels connected.
                         <br />
-                        Join us on this exciting journey — follow RBGStudios on social media and be part of the fun!
+                        Join us on this exciting journey — follow RGBStudios on social media and be part of the fun!
                     </p>
                 </div>
             </div>
@@ -74,5 +74,13 @@
         -webkit-mask-image: url('../WAVY\ Secondary\ Logo\ \(Black\).svg');
         mask-image: url('../WAVY\ Secondary\ Logo\ \(Black\).svg');
         mask-repeat: no-repeat;
+    }
+
+    .rgb_mask {
+        -webkit-mask-image: url('../Word\ Mark\ \(White\).svg');
+        mask-image: url('../Word\ Mark\ \(White\).svg');
+        mask-repeat: no-repeat;
+        --day: 90deg, red 0% 10%, green 10% 20%, blue 20% 32%, black 32%;
+        --night: 90deg, red 0% 10%, green 10% 20%, blue 20% 32%, white 32%;
     }
 </style>

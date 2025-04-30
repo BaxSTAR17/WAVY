@@ -231,8 +231,12 @@ import { routerKey } from 'vue-router'
         })
         const endTime = (secs) => {
             if(!secs) return `0:00`
-            const mins = Math.floor(secs / 60)
+            const mins = `${Math.floor((secs / 60) % 60) < 10 ? '0' : ''}${Math.floor((secs / 60) % 60)}`
             const seconds = `${Math.floor(secs % 60) < 10 ? '0' : ''}${Math.floor(secs % 60)}`
+            if((secs / 60) >= 60) {
+                const hours = Math.floor(Math.floor(secs / 60) / 60)
+                return `${hours}:${mins}:${seconds}`
+            }
             return `${mins}:${seconds}`
         }
         skipAudio.value = () => {

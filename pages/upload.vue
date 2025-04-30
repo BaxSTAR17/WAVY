@@ -9,6 +9,7 @@
     const readytoupload = ref(false)
     const uploading = ref(false)
     const autosubtitles = ref('')
+    const progress = ref(0)
     // const assembly = new AssemblyAI({
     //     apiKey: '91b0ee4da9f34ecf9afb4c05a2f61b7e'
     // })
@@ -52,12 +53,18 @@
             errormsg.value = "* Your upload needs an audio file"
             return;
         }
+        progress.value = 25
+        document.getElementById('title').disabled = true
+        document.getElementById('generatesubs').disabled = true
+        document.getElementById('subarea').disabled = true
         if(readytoupload.value === true) {
             errormsg.value = ''
             uploading.value = true
+
             try {
             const { data: userdata, error } = await supabase.from('USER').select("UserID").eq('UserEmail', user.value.email)
             if(error) throw error
+            progress.value = 50
             try {
                 const { data: poddata, error } = await supabase.from('PODCAST').insert({
                     Title: title.value,
@@ -65,24 +72,33 @@
                     Subtitles: subtitles.value
                 }).select()
                 if(error) throw error
+                progress.value = 75
                 try {
                     const { error } = await supabase.storage.from('files').upload(`podcasts/${poddata[0].PodcastID}.${format.value}`, file.value.files[0])
                     if(error) throw error
+                    progress.value = 90
                     if(checked.value === true) {
                         const link = supabase.storage.from('files').getPublicUrl(`podcasts/${poddata[0].PodcastID}.${format.value}`).data.publicUrl
                         const transcript = await useFetch('/api/transcribe', {
                             method: 'post',
                             body: { url: link }
                         })
+                        progress.value = 95
                         try {
                             const { error } = await supabase.from('PODCAST').update({ Subtitles: transcript.data.value.text }).eq("PodcastID", poddata[0].PodcastID)
                             if(error) throw error
                         } catch(error) { errormsg.value = "* Sorry, we're having trouble making subtitles for your upload"; uploading.value = false; console.log(error)}
                     }
                     router.push(`/podcast/${poddata[0].PodcastID}`)
-                } catch(error) { errormsg.value = "* Sorry, we're having trouble uploading your audio"; uploading.value = false; console.log(error) }
-            } catch(error) { errormsg.value = "* Sorry, we're having trouble creating your upload"; uploading.value = false; console.log(error) }
-        } catch(error) { errormsg.value = "* Sorry, we're having trouble loading your profile"; uploading.value = false; console.log(error) }
+                } catch(error) { errormsg.value = "* Sorry, we're having trouble uploading your audio"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
+        document.getElementById('generatesubs').disabled = false;
+        document.getElementById('subarea').disabled = false; }
+            } catch(error) { errormsg.value = "* Sorry, we're having trouble creating your upload"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
+        document.getElementById('generatesubs').disabled = false;
+        document.getElementById('subarea').disabled = false; }
+        } catch(error) { errormsg.value = "* Sorry, we're having trouble loading your profile"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
+        document.getElementById('generatesubs').disabled = false;
+        document.getElementById('subarea').disabled = false; }
         }
     }
 
@@ -102,14 +118,14 @@
             <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold">UPLOAD PODCAST</h1>
             <form @submit.prevent="upload()" name="form" id="form" class="w-full flex flex-col gap-2 items-start justify-start">
                 <h3 class="m-0 font-bold text-lg text-neutral-900 dark:text-neutral-100">Podcast Title</h3>
-                <input type="text" placeholder="Input a captivating title..." v-model="title" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] text-neutral-900 dark:text-neutral-100 rounded-3xl p-3 w-full">
+                <input id="title" type="text" placeholder="Input a captivating title..." v-model="title" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] text-neutral-900 dark:text-neutral-100 rounded-3xl p-3 w-full disabled:opacity-40">
                 <hr class="w-full pl-0 ml-0 mt-0 mb-3 text-neutral-900 dark:text-neutral-100" />
                 <h3 class="m-0 font-bold text-lg text-neutral-900 dark:text-neutral-100">Transcript</h3>
                 <div class="flex gap-1 mb-3">
-                    <input type="checkbox" name="subtitles" value="autogenerate" class="w-10 cursor-pointer" style="accent-color: #8c52ff;" id="generatesubs" v-model="checked">
+                    <input type="checkbox" name="subtitles" value="autogenerate" class="w-10 cursor-pointer disabled:opacity-40" style="accent-color: #8c52ff;" id="generatesubs" v-model="checked">
                     <label for="subtitles" class="text-neutral-900 dark:text-neutral-100">Auto-generate</label>
                 </div>
-                <UTextarea v-if="checked === false" id="subarea" rows=7 autoresizing="false" size="lg" placeholder="Input transcript..." v-model="subtitles" class="h-full bg-neutral-400 dark:bg-[#4e4b55] text-neutral-900 dark:text-neutral-100 rounded-3xl w-full box-border overflow-y-auto mb-5" />
+                <UTextarea v-if="checked === false" id="subarea" rows=7 autoresizing="false" size="lg" placeholder="Input transcript..." v-model="subtitles" class="h-full bg-neutral-400 dark:bg-[#4e4b55] text-neutral-900 dark:text-neutral-100 rounded-3xl w-full box-border overflow-y-auto mb-5 disabled:opacity-40" />
                 <input type="file" @change="fileCheck" id="file" accept=".wav,.mp3,.ogg" class="hidden">
                 <audio id="audio"></audio>
                 <div class="text-red-500 error h-10">{{ errormsg }}</div>
@@ -118,6 +134,7 @@
                     <UIcon name="i-uil-check" size="21" v-else-if="readytoupload === true"/> 
                     <UIcon name="i-svg-spinners-bars-scale" size="21" v-else/> 
                 </div>
+                <UProgress v-model="progress" />
                 <button type="submit" class="p-3 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl w-cpntent self-end cursor-pointer h-content">
                     <span class="font-bold flex items-center justify-center text-center text-xl" v-if="uploading === false"><UIcon name="i-uil-plus" size="25"/>UPLOAD</span>
                     <UIcon name="i-svg-spinners-bars-scale" v-else size="25"/>
