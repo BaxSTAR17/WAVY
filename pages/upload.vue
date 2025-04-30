@@ -56,7 +56,6 @@
         progress.value = 25
         document.getElementById('title').disabled = true
         document.getElementById('generatesubs').disabled = true
-        document.getElementById('subarea').disabled = true
         if(readytoupload.value === true) {
             errormsg.value = ''
             uploading.value = true
@@ -91,14 +90,11 @@
                     }
                     router.push(`/podcast/${poddata[0].PodcastID}`)
                 } catch(error) { errormsg.value = "* Sorry, we're having trouble uploading your audio"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
-        document.getElementById('generatesubs').disabled = false;
-        document.getElementById('subarea').disabled = false; }
+        document.getElementById('generatesubs').disabled = false; }
             } catch(error) { errormsg.value = "* Sorry, we're having trouble creating your upload"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
-        document.getElementById('generatesubs').disabled = false;
-        document.getElementById('subarea').disabled = false; }
+        document.getElementById('generatesubs').disabled = false; }
         } catch(error) { errormsg.value = "* Sorry, we're having trouble loading your profile"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
-        document.getElementById('generatesubs').disabled = false;
-        document.getElementById('subarea').disabled = false; }
+        document.getElementById('generatesubs').disabled = false; }
         }
     }
 
