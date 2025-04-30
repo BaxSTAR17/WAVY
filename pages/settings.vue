@@ -83,6 +83,7 @@
                 readyToChange.value = true
                 const blob = window.URL || window.webkitURL
                 if(!blob) { console.log("FAILED"); return; }
+                const fileTag = document.getElementById('file')
                 const fileURL = blob.createObjectURL(fileTag.files[0])
                 src.value = fileURL
                 document.getElementById('pfp').setAttribute("src", fileURL)
@@ -92,14 +93,19 @@
 
             changePFP.value = async () => {
                 if(readyToChange.value === true) {
+                    const fileTag = document.getElementById('file')
                     try {
-                        const { error } = await supabase.storage.from('files').upload(`pfps/${userdata[0].UserID}.${format.value}`, fileTag.files[0])
+                        const { data: userdata, error } = await supabase.from('USER').select("*").eq("UserEmail", user.value.email)
                         if(error) throw error
                         try {
-                            const { error } = await supabase.from('USER').update({ HasPFP: true }).eq("UserID", userdata[0].UserID)
+                            const { error } = await supabase.storage.from('files').upload(`pfps/${userdata[0].UserID}.${format.value}`, fileTag.files[0])
                             if(error) throw error
-                            content.value = "Your Profile Picture has been changed!"
-                            pfpChanged.value = true
+                            try {
+                                const { error } = await supabase.from('USER').update({ HasPFP: true }).eq("UserID", userdata[0].UserID)
+                                if(error) throw error
+                                content.value = "Your Profile Picture has been changed!"
+                                pfpChanged.value = true
+                            } catch(error) {setError.value = true; console.log(error)}
                         } catch(error) {setError.value = true; console.log(error)}
                     } catch(error) {setError.value = true; console.log(error)}
                 }
