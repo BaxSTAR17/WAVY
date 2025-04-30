@@ -77,7 +77,7 @@
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === false">
                 <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID"/>
-                <div class="w-full min-h-dvh box-border flex p-5 items-center justify-center" v-if="foryou.length == 0">
+                <div class="w-full min-h-dvh box-border flex flex-col p-5 items-center justify-center" v-if="foryou.length == 0">
                     <div class="text-3xl text-neutral-500">You're not subscribed to anyone yet</div>
                     <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>
                 </div>

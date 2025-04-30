@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
             if(transcript.ok) {
                 const transcribe = await transcript.json()
                 if(transcribe.status == 'completed' || transcribe.status == 'error') return transcribe
-                else await new Promise((resolve) => setTimeout(resolve, 2000))
+                else await new Promise((resolve) => setTimeout(resolve, 3000))
             } else return 'GET ERROR'
         }
     }
