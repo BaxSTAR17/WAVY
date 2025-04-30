@@ -249,6 +249,8 @@ import { routerKey } from 'vue-router'
         }
         operateAudio.value = () => {
             if(buffering.value === false) {
+                maxtime.value = audio.duration
+                duration_slide.max = audio.duration
                 buffering.value = true
                 if(isPlaying.value) {
                     audio.pause()

@@ -23,7 +23,7 @@
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About RBGStudios</h2>
             <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center content-center m-5 lg:m-10 text-neutral-900 dark:text-neutral-100">
                 <div class="mt-10">
-                    <img src="../public/Word Mark (Black).svg" alt="rgb-studios-logo" class="w-500 h-50">
+                    <img src="../public/Word Mark (White).svg" alt="rgb-studios-logo" class="w-500 h-50">
                 </div>
                 
                 <div class="flex flex-col lg:ml-10">
