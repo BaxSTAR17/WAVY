@@ -83,6 +83,7 @@
                             body: { url: link }
                         })
                         progress.value = 95
+		                console.log(transcript)
                         try {
                             const { error } = await supabase.from('PODCAST').update({ Subtitles: transcript.data.value.text }).eq("PodcastID", poddata[0].PodcastID)
                             if(error) throw error
