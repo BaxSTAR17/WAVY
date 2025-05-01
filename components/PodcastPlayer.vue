@@ -240,12 +240,13 @@ import { routerKey } from 'vue-router'
             return `${mins}:${seconds}`
         }
         skipAudio.value = () => {
-            if(audio.currentTime + 30 < audio.duration && buffering.value == false) {
+            const number = parseInt(document.documentElement.id)
+            if(audio.currentTime + number < audio.duration && buffering.value == false) {
                 buffering.value = true
                 duration_slide.disabled = true
                 volume_slide.disabled = true
-                audio.currentTime += 30
-                duration_slide.value += 30
+                audio.currentTime += number
+                duration_slide.value += number
                 starttime.value = endTime(Math.floor(audio.currentTime))
                 duration_slide.style.background = `linear-gradient(to right, #8c52ff ${(duration_slide.value/audio.duration*100)*(1/3)}%, #5735fd ${(duration_slide.value/audio.duration*100)*(2/3)}%, #2299ef ${(duration_slide.value/audio.duration*100)}%, gray ${(duration_slide.value/audio.duration*100)}%)`
                 if(!audio.paused) requestAnimationFrame(whilePlayingHack)

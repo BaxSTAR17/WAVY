@@ -49,6 +49,8 @@
                 })
             } catch(error) { homeError.value = true; console.log(error) }
         }
+        const setSpeed = () => {document.documentElement.id = "30"}
+        callOnce(setSpeed)
     })
     useHead({title:'Home | Wavy'})
 </script>
@@ -74,6 +76,26 @@
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
                 <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>
+            </div>
+            <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === true">
+                <video src="../public/audio/WAVY Tutorial with Subs.mp4" controls class="w-full h-130"></video>
+                <p class="w-full h-content bg-neutral-400 dark:bg-[#4e4b55] box-border p-3 text-justify rounded-lg">
+                    Welcome to WAVY! Your number one podcast-hosting platform. Using WAVY, you can get access and create your favorite podcasts efficiently with our UI.
+                    <br/><br/>
+                    To get started, Log in to your WAVY account or register using a valid email if you do not have an account. Once signed in, you will be redirected to the home page.
+                    <br/><br/>
+                    The Home Page includes podcasts recommended to you via the 'For You' section and popular podcasts from unrelated channels on the 'Explore' section.
+                    <br/><br/>
+                    The Profile page includes your subscriber count as well as all the podcast episodes uploaded under your channel name.
+                    <br/><br/>
+                    The Subscriptions page shows a list of all the channels you are subscribed to, to make it easier to keep track of your favorite content.
+                    <br/><br/>
+                    The Liked page shows a list of all the individual podcasts that you have liked via the heart button at the right of the podcast player.
+                    <br/><br/>
+                    To upload your own podcast, click on the upload button at the left-hand side bar. Fill in the necessary information, such as the episode title, the subtitles if applicable, and of course, the audio file for the episode itself. Once confirmed, you have successfully uploaded your own podcast episode for the world to see.
+                    <br/><br/>
+                    There are more features that WAVY provides to ease your podcast-listening experience. Don't be afraid to explore our website and enjoy browsing through WAVY and let your voice be heard.
+                </p>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === false">
                 <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID"/>

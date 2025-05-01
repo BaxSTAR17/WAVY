@@ -22,15 +22,58 @@
     const isPrivate = ref(false)
     const changeTheme = ref(false)
     const logOut = ref(false)
+    const changeSpeed = ref(() => {})
     const email = ref('')
     const router = useRouter()
+    const font = ref('')
+    const speed = ref(20)
+    const speedmsg = ref('Apply')
+    const items = [
+        {
+            label: 'Arial (default)',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "'Arial'" },
+            ui: 'font-sans'
+        },
+        {
+            label: 'Georgia',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "serif" },
+            ui: 'font-serif'
+        },{
+            label: 'Brush Script MT',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "'Brush Script MT'" }
+        },{
+            label: 'Tahoma',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "'Tahoma'" }
+        },{
+            label: 'Courier New',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "monospace" }
+        },{
+            label: 'Verdana',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "'Verdana'" }
+        },{
+            label: 'Times New Roman',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "'Times New Roman'" }
+        },{
+            label: 'Comic Sans / Cursive',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "cursive" }
+        },{
+            label: 'Wingdings',
+            onSelect: () => { document.getElementsByTagName('body')[0].style.fontFamily = "'Wingdings'" }
+        }
+    ]
     onMounted(async ()=> {
         changeTheme.value = () => {
             if(darkMode.value === false) document.documentElement.classList.add('dark')
             else document.documentElement.classList.remove('dark')
         }
+        changeSpeed.value = () => {
+            document.documentElement.id = `${speed.value}`
+            speedmsg.value = 'Applied'
+            document.getElementById('gauge').disabled = true
+        }
         if(document.documentElement.classList.contains('dark')) darkMode.value = true
         else darkMode.value = false
+        speed.value = parseInt(document.documentElement.id)
         const link = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
         pfpsrc.value = link
         const fileTag = document.getElementById('file')
@@ -124,8 +167,17 @@
             </div>
             <div v-else class="w-full h-content flex flex-col gap-2">
                 <h1 class="text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest w-content self-start">GENERAL</h1>
-                <div class="flex self-start">
+                <div class="flex flex-col gap-2 self-start">
                     <USwitch v-model="darkMode" label="Dark Mode" @click="changeTheme" default-value class="w-40 mt-3 cursor-pointer font-bold" size="xl"/>
+                    <span class="mt-5 text-neutral-900 dark:text-neutral-100">Change Website Font</span>
+                    <USelectMenu v-model="font" icon="i-uil-font" :items="items" class="w-48" :ui="{
+                        item: `first:font-sans nth-2:font-serif nth-3:font-['Brush Script MT'] nth-4:font-['Tahoma'] nth-5:font-mono nth-6:font-['Verdana'] nth-7:font-['Times New Roman'] nth-8:font-[cursive] nth-9:font-['Wingdings']`
+                    }"/>
+                    <span class="mt-5 text-neutral-900 dark:text-neutral-100">Fast-Forward Value (in minutes)</span>
+                    <div class="flex items-center gap-2">
+                        <UInputNumber v-model="speed" :min="1" :max="60" class="w-40"/>
+                        <button id="gauge" class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2 disabled:opacity-40" @click="changeSpeed">{{ speedmsg }}</button>
+                    </div>
                 </div>
                 <div v-if="guestMode === false" class="w-full h-content flex flex-col gap-2">
                     <h1 class="mt-10 text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest w-content self-start">PROFILE</h1>

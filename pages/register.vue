@@ -84,7 +84,7 @@
             <hr class="w-full pl-0 ml-0 mt-3 text-neutral-900 dark:text-neutral-100" />
             <div class="w-full h-full flex items-center gap-6 border-box p-6 flex-wrap">
                 <div class="w-15 h-100" style="background:linear-gradient(#00A2E8, #7E84F7, #732BF5)"></div>
-                <div class="flex flex-col h-100 w-50 text-9xl font-bold text-neutral-900 dark:text-neutral-100"> WE ALWAYS LISTEN</div>
+                <div class="flex flex-col h-100 w-100 text-8xl font-bold text-neutral-900 dark:text-neutral-100"> LET YOUR VOICE BE HEARD</div>
             </div>
         </div>
         <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-full lg:w-120 flex flex-col justify-start lg:justify-center items-center">
