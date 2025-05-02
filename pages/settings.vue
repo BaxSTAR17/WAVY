@@ -199,8 +199,8 @@
             <div v-else class="w-full h-content flex flex-col gap-2">
                 <h1 class="text-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest w-content self-start">GENERAL</h1>
                 <div class="flex flex-col gap-2 self-start">
-                    <UTooltip :content="{align:'start'}" text="Dark Mode Switch">
-                    <USwitch v-model="darkMode" label="Dark Mode" @click="changeTheme" default-value class="w-40 mt-3 cursor-pointer font-bold" size="xl"/>
+                    <UTooltip :content="{align:'start'}" text="Theme Switch">
+                    <div><USwitch v-model="darkMode" label="Dark Mode" @click="changeTheme" default-value class="w-40 mt-3 cursor-pointer font-bold" size="xl"/></div>
                     </UTooltip>
                     <span class="mt-5 text-neutral-900 dark:text-neutral-100">Change Website Font</span>
                     <UTooltip :content="{align:'start'}" text="Change the main font of the website">

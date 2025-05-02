@@ -124,9 +124,8 @@
             <h1 class="text-xl font-bold text-neutral-900 dark:text-neutral-100" v-show="fetchError===false">USERS YOU MAY LIKE</h1>
             </UTooltip>
             <div class="w-full h-full overflow-y-auto flex flex-col gap-2" v-show="fetchError===false">
-                <UTooltip :content="{align:'start'}" text="Log in">
-                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100">Log in to subscribe to users!</NuxtLink>
-                </UTooltip>
+                
+                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100"><UTooltip :content="{align:'start'}" text="Log In to subscribe"><span>Log in to subscribe to users!</span></UTooltip></NuxtLink>
                 <span v-if="favored === false && guestMode === false" class="text-lg text-center text-neutral-500 self-center">Users your subscribers are subscribed to appear here</span>
                 <UIcon v-if="favored===false && guestMode === false" name="i-uil-star" class="text-neutral-500 self-center" size="40" />
                 <NuxtLink v-for="(fav, index) in favorites" :to="`/profile/${fav[0].UserID}`" class="rounded-xl bg-neutral-100 dark:bg-neutral-900 h-content w-full flex justify-start items-center gap-2">
