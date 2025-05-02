@@ -21,10 +21,12 @@
 <template>
         <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col border-box p-5 gap-2" v-if="noPodcast === false">
             <PodcastPlayer :pid="pid" pod/>
+            <UTooltip :content="{align:'start'}" text="Transcript of the Podcast">
             <div class="p-3 text-white tracking-widest bg-purple-800 rounded-2xl w-40 text-center">
                 <!-- <span>UPLOAD PODCAST</span> -->
                 <span>TRANSCRIPT</span>
             </div>
+            </UTooltip>
             <div class="w-full text-wrap h-content rounded-lg overflow-y-auto bg-neutral-400 text-justify dark:bg-neutral-600 border-box p-3" style="white-space: pre-wrap; line-height: 15px">
                 {{ formatText(subtitles) }}
             </div>

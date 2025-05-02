@@ -97,23 +97,41 @@ import Subscriptions from '../subscriptions.vue'
 <template>
         <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5" v-if="noUser === false">
             <div class="w-full flex flex-row h-50 gap-3">
+                <UTooltip :content="{align:'start'}" :text="`${profileName}'s Profile Picture'`">
                 <img :src="src" alt="PFP" class="rounded-4xl h-40 w-40">
+                </UTooltip>
                 <div class="w-full flex flex-col h-40 justify-evenly items-start">
+                    <UTooltip :content="{align:'start'}" :text="`${profileName}`">
                     <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold flex items-center gap-2">{{profileName}} <div v-if="online" class="w-5 h-5 rounded-full bg-green-600"></div></span>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" :text="`${listeners} ${listeners === 1 ? 'subscriber' : 'subscribers'}`">
                     <span class="text-neutral-900 dark:text-neutral-100 text-xl m-0">{{ listeners }} {{ listeners === 1 ? 'subscriber' : 'subscribers' }}</span>
+                    </UTooltip>
                     <div class="flex flex-row gap-3">
                         <span class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl">
-                            <NuxtLink v-if="selfProfile" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD</NuxtLink>
-                            <NuxtLink v-else-if="!user" to="/login" class="flex items-center gap-2">SIGN IN TO SUBSCRIBE</NuxtLink>
-                            <button class="w-content pt-3 pb-3 cursor-pointer" v-else-if="subscribed === false" @click="subscribed = true; subscribe()">SUBSCRIBE</button>
-                            <button class="w-content pt-3 pb-3 cursor-pointer" v-else-if="subscribed === true" @click="subscribed = false; subscribe()"> X UNSUBSCRIBE</button>
+                            <UTooltip :content="{align:'start'}" text="Upload a Podcast">
+                            <NuxtLink v-if="selfProfile && user" to="/upload" class="flex items-center gap-2 pt-3 pb-3"><UIcon name="i-uil-plus" size="25"/> UPLOAD</NuxtLink>
+                            </UTooltip>
+                            <UTooltip :content="{align:'start'}" text="Log In to an account">
+                            <NuxtLink v-if="!user" to="/login" class="flex items-center gap-2">LOG IN TO SUBSCRIBE</NuxtLink>
+                            </UTooltip>
+                            <UTooltip :content="{align:'start'}" text="Subscribe">
+                            <button class="w-content pt-3 pb-3 cursor-pointer" v-if="subscribed === false && user && selfProfile === false" @click="subscribed = true; subscribe()">SUBSCRIBE</button>
+                            </UTooltip>
+                            <UTooltip :content="{align:'start'}" text="Unsubscribe">
+                            <button class="w-content pt-3 pb-3 cursor-pointer" v-if="subscribed === true && user && selfProfile === false" @click="subscribed = false; subscribe()"> X UNSUBSCRIBE</button>
+                            </UTooltip>
                         </span>
                     </div>
                 </div>
             </div>
             <hr class="w-full pl-0 ml-0 mt-0 mb-3 text-neutral-900 dark:text-neutral-100" />
+            <UTooltip :content="{align:'start'}" text="Recent Podcast Uploads">
             <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold" v-if="selfProfile === false">RECENT UPLOADS</span>
-            <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold" v-else>YOUR UPLOADS</span>
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="Your Podcast Uploads">
+            <span class="text-neutral-900 dark:text-neutral-100 text-4xl m-0 font-bold" v-if="selfProfile === true">YOUR UPLOADS</span>
+            </UTooltip>
             <div v-if="hasUploaded">
                 <div class="w-full flex flex-col h-content" v-for="pod in podcasts">
                     <PodcastPlayer :pid="pod.PodcastID"/>

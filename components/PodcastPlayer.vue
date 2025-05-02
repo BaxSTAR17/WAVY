@@ -333,71 +333,125 @@ import { routerKey } from 'vue-router'
     <main class="w-full bg-neutral-100 dark:bg-neutral-900 h-content rounded-lg flex flex-col p-3 box-border" v-if="found === true && loading == false">
         <audio :src="link" :id="`audio${props.pid}`" preload="metadata" />
         <div class="w-full flex flex-row items-center h-full gap-3">
+            <UTooltip :content="{align:'start'}" :text="`${title}`">
             <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg hidden lg:block bg-neutral-200 dark:bg-neutral-800"><img :src="thumbnail" class="w-full h-full" id="img" alt="Thumbnail"></NuxtLink>
+            </UTooltip>
             <div class="w-full flex flex-col justify-center p-1 box-border" v-if="props.pod === false">
                 <div>
+                    <UTooltip :content="{align:'start'}" :text="`${title}`">
                     <NuxtLink :to="`/podcast/${props.pid}`" class="text-neutral-900 dark:text-neutral-100 text-lg font-bold hover:underline">{{ title }}&nbsp;</NuxtLink>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" :text="`${creator}`">
                     <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
+                    </UTooltip>
                 </div>
                 <div class="w-full flex flex-row h-7 items-center">
                     <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
+                    <UTooltip :content="{align:'start'}" text="Play">
                     <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" text="Pause">
                     <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" :text="`${starttime}`">
                     <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
+                    </UTooltip>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
                     <input type="range" :id="`durationslide${props.pid}`" min="0" :max="maxtime" value="0" class="w-full disabled:opacity-30" disabled>
+                    <UTooltip :content="{align:'start'}" :text="`${endtime}`">
                     <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" text="Volume">
                     <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" text="Volume Muted">
                     <UIcon v-show="muted === true" name="i-uil-volume-mute" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
+                    </UTooltip>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                     <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>
                     <div v-if="guestMode === false">
+                        <UTooltip :content="{align:'start'}" text="Like">
                         <UIcon v-if="liked === true" name="i-basil-heart-solid" size="40" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
+                        </UTooltip>
+                        <UTooltip :content="{align:'start'}" text="Liked">
                         <UIcon name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
+                        </UTooltip>
                     </div>
                     <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-300 dark:bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">
+                        <UTooltip :content="{align:'start'}" text="More...">
                         <UButton class="cursor-pointer active:bg-neutral-800 rounded-full" color="black"><UIcon name="i-uil-ellipsis-v" size="30" class="text-neutral-500" /></UButton>
+                        </UTooltip>
                     </UDropdownMenu>
                 </div>
             </div>
             <div v-if="props.pod === true">
+                <UTooltip :content="{align:'start'}" :text="`${title}`">
                 <span class="text-neutral-900 dark:text-neutral-100 text-xl font-bold">{{ title }}&nbsp;</span>
+                </UTooltip>
+                <UTooltip :content="{align:'start'}" :text="`${creator}`">
                 <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
+                </UTooltip>
             </div>
         </div>
         <div class="text-md text-neutral-600 dark:text-neutral-400 tracking-wide flex flex-row items-center w-full h-5" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
+            <UTooltip :content="{align:'start'}" text="Listens">
             <UIcon name="i-uil-play" size="15" />
+            </UTooltip>
             <span>{{ listens }}  |&nbsp;</span>
+            <UTooltip :content="{align:'start'}" text="Likes">
             <UIcon name="i-uil-heart" size="15" />
+            </UTooltip>
             <span>{{ likes }}</span>
         </div>
+        <UTooltip :content="{align:'start'}" text="View Transcript">
         <NuxtLink :to="`/podcast/${props.pid}`" v-if="props.pod === false" class="text-neutral-500 hover:text-neutral-400 w-content">View Transcript</NuxtLink>
+        </UTooltip>
         <div v-if="props.pod === true">
             <div class="w-full flex flex-col h-content">
                 <div class="w-full flex flex-row items-center">
+                    <UTooltip :content="{align:'start'}" :text="`${starttime}`">
                     <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
+                    </UTooltip>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-full"></div> -->
                     <input type="range" :id="`durationslide${props.pid}`" max="100" value="0" class="w-full disabled:opacity-30" disabled>
+                    <UTooltip :content="{align:'start'}" :text="`${endtime}`">
                     <span id="endtime" class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{ endtime }}&nbsp;</span>
+                    </UTooltip>
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
                         <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
+                        <UTooltip :content="{align:'start'}" text="Play">
                         <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
+                        </UTooltip>
+                        <UTooltip :content="{align:'start'}" text="Pause">
                         <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
+                        </UTooltip>
+                        <UTooltip :content="{align:'start'}" text="Fast-Forward">
                         <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
+                        </UTooltip>
+                        <UTooltip :content="{align:'start'}" text="Volume">
                         <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
+                        </UTooltip>
+                        <UTooltip :content="{align:'start'}" text="Volume Muted">
                         <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer" @click="muteAudio"/>
+                        </UTooltip>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                         <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>
                     </div>
                     <div class="flex">
                         <div class="flex flex-row items-center" v-if="guestMode === false">
+                            <UTooltip :content="{align:'start'}" text="Like">
                             <UIcon v-if="liked === true" name="i-basil-heart-solid" size="50" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
+                            </UTooltip>
+                            <UTooltip :content="{align:'start'}" text="Liked">
                             <UIcon name="i-basil-heart-outline" size="50" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
+                            </UTooltip>
                         </div>
                         <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-300 dark:bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">
+                            <UTooltip :content="{align:'start'}" text="More...">
                             <UButton class="cursor-pointer active:bg-neutral-200 dark:active:bg-neutral-800 rounded-full" color="black"><UIcon name="i-uil-ellipsis-v" size="30" class="text-neutral-500" /></UButton>
+                            </UTooltip>
                         </UDropdownMenu>
                     </div>
                 </div>

@@ -120,14 +120,20 @@
                 <Skeleload class="w-full h-110 rounded-xl bg-neutral-700" />
             </div>
             <hr class="w-full pl-0 ml-0 text-neutral-900 dark:text-neutral-100" v-show="fetchError===false"/>
+            <UTooltip :content="{align:'start'}" text="Users you may like">
             <h1 class="text-xl font-bold text-neutral-900 dark:text-neutral-100" v-show="fetchError===false">USERS YOU MAY LIKE</h1>
+            </UTooltip>
             <div class="w-full h-full overflow-y-auto flex flex-col gap-2" v-show="fetchError===false">
-                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100">Sign in to subscribe to users!</NuxtLink>
+                <UTooltip :content="{align:'start'}" text="Log in">
+                <NuxtLink to="/login" v-if="guestMode" style="font-weight: 100; font-family: 'Arial Narrow', sans-serif; text-decoration: underline; cursor: pointer" class="text-neutral-900 dark:text-neutral-100">Log in to subscribe to users!</NuxtLink>
+                </UTooltip>
                 <span v-if="favored === false && guestMode === false" class="text-lg text-center text-neutral-500 self-center">Users your subscribers are subscribed to appear here</span>
                 <UIcon v-if="favored===false && guestMode === false" name="i-uil-star" class="text-neutral-500 self-center" size="40" />
                 <NuxtLink v-for="(fav, index) in favorites" :to="`/profile/${fav[0].UserID}`" class="rounded-xl bg-neutral-100 dark:bg-neutral-900 h-content w-full flex justify-start items-center gap-2">
                     <img :src="favsrc[index]" alt="pfp" class="w-5 h-5 rounded-full">
+                    <UTooltip :content="{align:'start'}" :text="`${fav[0].UserName}`">
                     <span class="text-neutral-900 dark:text-neutral-100 text-lg">{{ fav[0].UserName }}</span>
+                    </UTooltip>
                 </NuxtLink>
             </div>
         </div>

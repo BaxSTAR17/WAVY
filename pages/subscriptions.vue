@@ -39,7 +39,9 @@ import { data } from 'autoprefixer'
 
 <template>
         <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="subscripts.length > 0">
+            <UTooltip :content="{align:'start'}" text="Your Subscriptions">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">YOUR SUBSCRIPTIONS</h1>
+            </UTooltip>
             <div v-if="subError === true" class="bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5">
                 <div class="text-3xl text-neutral-500">Sorry... We cannot connect to the network!</div>
                 <UIcon name="i-uil-wifi-slash" class="text-neutral-500" size="80"/>
@@ -48,9 +50,13 @@ import { data } from 'autoprefixer'
                 <NuxtLink v-for="(sub, index) in subscripts" :to="`/profile/${sub[0].UserID}`" class="rounded-xl bg-neutral-700 h-content border-box p-3 w-full flex justify-start items-center gap-2">
                     <img :src="src" alt="pfp" class="w-25 h-25 rounded-xl">
                     <div class="flex flex-col gap-1">
+                        <UTooltip :content="{align:'start'}" :text="`${sub[0].UserName}`">
                         <span class="text-white text-lg font-bold">{{sub[0].UserName}}</span>
+                        </UTooltip>
                         <span class="text-white text-sm">{{''+sub[0].Listeners+' '+(sub[0].Listeners == 1 ? 'subscriber' : 'subscribers')+' | '+uploads[index]+' '+(uploads[index] == 1 ? 'upload' : 'uploads')}}</span>
+                        <UTooltip :content="{align:'start'}" text="Unsubscribe">
                         <NuxtLink :to="`/profile/${sub[0].UserID}`" class="rounded-xl bg-purple-800 hover:bg-purple-900 text-center w-content border-box p-2 h-content">X UNSUBSCRIBE</NuxtLink>
+                        </UTooltip>
                     </div>
                 </NuxtLink>
             </div>

@@ -76,10 +76,12 @@
     <main class="h-screen w-screen flex flex-row">
         <div class="bg-neutral-100 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
             <div class="p-3">
+                <UTooltip :content="{align:'start'}" text="WAVY">
                 <NuxtLink to="/" class="font-bold text-4xl leading-0">
                     <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
                     <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
                 </NuxtLink>
+                </UTooltip>
             </div>
             <hr class="w-full pl-0 ml-0 mt-3 text-neutral-900 dark:text-neutral-100" />
             <div class="w-full h-full flex items-center gap-6 border-box p-6 flex-wrap">
@@ -88,41 +90,59 @@
             </div>
         </div>
         <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-full lg:w-120 flex flex-col justify-start lg:justify-center items-center">
+            <UTooltip :content="{align:'start'}" text="WAVY">
             <NuxtLink to="/" class="font-bold text-4xl leading-0 block lg:hidden self-start mb-20">
                 <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
                 <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
             </NuxtLink>
+            </UTooltip>
             <form @submit.prevent="register()" id="form" class="w-100 flex flex-col gap-2 items-start justify-center">
                 <h1 v-if="verifying" class="w-full self-center text-center text-neutral-900 dark:text-neutral-100 text-4xl flex flex-col items-center">Please check your email to verify your account<UIcon name="i-uil-fast-mail" size="100"/></h1>
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100" v-if="!verifying">Username</h3>
                 <!-- <input v-if="registerMode" type="file" placeholder="Upload a Profile Picture" @change="pfpUpload" class="bg-gray-800 rounded p-3 w-full" accept="image/png, image/jpeg"> -->
+                <UTooltip :content="{align:'start'}" text="Input your Username">
                 <input name="username" v-if="!verifying" type="text" placeholder="podcastLover17" v-model="username" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl mb-6 p-3 w-full text-neutral-900 dark:text-neutral-100">
+                </UTooltip>
                 <h3 v-if="!verifying" class="m-0 text-neutral-900 dark:text-neutral-100">Email</h3>
+                <UTooltip :content="{align:'start'}" text="Input your email">
                 <input name="email" v-if="!verifying" type="email" placeholder="email@RGB.com" v-model="email" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full text-neutral-900 dark:text-neutral-100">
+                </UTooltip>
                 <h3 v-if="!verifying" class="m-0 text-neutral-900 dark:text-neutral-100">Password</h3>
+                <UTooltip :content="{align:'start'}" text="Input your passwordd">
                 <input name="password" v-if="!verifying" type="password" autocomplete="new-password" placeholder="pass123" v-model="pass" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full text-neutral-900 dark:text-neutral-100">
+                </UTooltip>
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100" v-if="!verifying">Confirm Password</h3>
+                <UTooltip :content="{align:'start'}" text="Retype your password">
                 <input name="confirm" v-if="!verifying" type="password" autocomplete="new-password" placeholder="pass123" v-model="pass2" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full text-neutral-900 dark:text-neutral-100">
+                </UTooltip>
                 <div class="flex gap-1 mt-3">
+                    <UTooltip :content="{align:'start'}" text="I agree to the Terms & Conditions">
                     <input type="checkbox" name="terms" value="terms" class="w-10 cursor-pointer" style="accent-color: #8c52ff;" id="termsandconditions" v-model="checked">
+                    </UTooltip>
                     <label for="terms" class="text-neutral-900 dark:text-neutral-100">I agree to the <span class="text-purple-600 dark:text-purple-400 cursor-pointer" @click="checkterms = true">Terms & Conditions</span></label>
                 </div>
                 <div class="text-red-500 error h-10" v-if="!verifying">{{ errormsg }}</div>
+                <UTooltip :content="{align:'start'}" text="Register your account to WAVY">
                 <button v-if="!verifying" type="submit" class="p-3 text-white tracking-widest bg-purple-800 rounded-2xl w-50 self-center cursor-pointer">
                     <span v-if="loading === false">REGISTER</span>
                     <span v-else><UIcon name="i-svg-spinners-bars-scale" /></span>
                 </button> 
+                </UTooltip>
             </form>
             <div class="p-3 mt-6 text-white w-full cursor-pointer flex items-center justify-center">
+                <UTooltip :content="{align:'start'}" text="Log In to your account instead">
                 <span class="flex text-neutral-900 dark:text-neutral-100">Already have an account? <NuxtLink to="./login" class="text-purple-600 dark:text-purple-400">&nbsp;Log In Instead!</NuxtLink></span>
+                </UTooltip>
             </div>
+            <UTooltip :content="{align:'start'}" text="Continue as a Guest">
             <NuxtLink to="/" class="pt-3 text-neutral-400 underline">Continue as Guest</NuxtLink>
+            </UTooltip>
         </div>
         <UModal v-model:open="checkterms">
             <template #content>
                 <div class="flex justify-center items-center p-5 flex-col">
                     <h1 class="text-2xl font-bold underline">TERMS AND CONDITIONS</h1>
-                    <div class="text-justify w-100 h-50 overflow-y-auto text-wrap bg-neutral-300 dark:bg-neutral-800 border-box p-3 rounded-lg">
+                    <div class="text-justify w-full h-50 overflow-y-auto text-wrap bg-neutral-300 dark:bg-neutral-800 border-box p-3 rounded-lg">
                     Welcome to WAVY!
 <br/><br/>
 These Terms & Conditions govern your access and use of Wavy, and provide information about the Wavy Services outlined below.

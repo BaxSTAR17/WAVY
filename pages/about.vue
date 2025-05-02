@@ -1,8 +1,11 @@
 <template >
         <div class="bg-neutral-300 dark:bg-neutral-800 h-full overflow-y-auto overflow-x-hidden p-5 w-screen no-scrollbar">
+            <UTooltip :content="{align:'start'}" text="About Us">
             <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold">ABOUT US</h1>
-
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="About WAVY">
             <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About WAVY</h2>
+            </UTooltip>
             <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center m-5 lg:m-10">
                 <div class="mt-10">
                     <div class="wavy_mask w-50 h-50 lg:w-100 lg:h-100 bg-gradient-to-r from-blue-500 from-10% via-violet-600 via-50% to-purple-700 to-100%"></div>
@@ -19,8 +22,9 @@
                     Whether you're looking to launch your own show or explore compelling content, WAVY is your go-to destination for all things podcasting.
                 </p>
             </div>
-            
-            <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About RBGStudios</h2>
+            <UTooltip :content="{align:'start'}" text="About RGBStudios">
+            <h2 class="p-5 my-10 text-2xl border border-blue-500 rounded-xl font-bold text-neutral-900 dark:text-neutral-100">About RGBStudios</h2>
+            </UTooltip>
             <div class="flex flex-row flex-wrap lg:flex-nowrap justify-center content-center m-5 lg:m-10 text-neutral-900 dark:text-neutral-100">
                 <div class="mt-10">
                     <div class="rgb_mask w-50 h-50 bg-linear-(--day) dark:bg-linear-(--night)"></div>

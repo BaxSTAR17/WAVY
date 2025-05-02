@@ -46,14 +46,17 @@ import { NuxtLink } from '#components'
 <template>
     <div class="bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 w-70 h-screen justify-left p-5 flex flex-col justify-between" v-if="logOutError === false && loading === false">
         <div class="w-full flex flex-col">
+            <UTooltip :content="{align:'start'}" text="WAVY">
             <div class="py-1 logo">
                 <NuxtLink to="/" class="font-bold text-4xl leading-0">
                     <img id="logo" class="hidden dark:block" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
                     <img id="logo" class="block dark:hidden" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
                 </NuxtLink>
             </div>
+            </UTooltip>
             
             <hr class="w-full pl-0 ml-0 mt-3" />
+            <UTooltip :content="{align:'start'}" text="Home">
             <div class="pt-3" v-if="useRoute().path !== '/register'">
                 <NuxtLink to="/" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-home-alt" size="21" />
@@ -61,6 +64,8 @@ import { NuxtLink } from '#components'
                     <span v-else>Home</span>
                 </NuxtLink>
             </div>
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="Profile">
             <div class="pt-3" v-if="guestMode === false">
                 <NuxtLink :to="`/profile/${id}`" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-user-circle" size="21" />
@@ -68,7 +73,8 @@ import { NuxtLink } from '#components'
                     <span v-else>Profile</span>
                 </NuxtLink>
             </div>
-            
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="Subscriptions">
             <div class="pt-3" v-if="guestMode === false">
                 <NuxtLink to="/subscriptions" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-headphones" size="21" />
@@ -76,7 +82,8 @@ import { NuxtLink } from '#components'
                     <span v-else>Subscriptions</span>
                 </NuxtLink>
             </div>
-
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="Liked">
             <div class="pt-3" v-if="guestMode === false">
                 <NuxtLink to="/likes" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-heart" size="22" />
@@ -84,7 +91,8 @@ import { NuxtLink } from '#components'
                     <span v-else>Liked</span>
                 </NuxtLink>
             </div>
-
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="Settings">
             <div class="pt-3" v-if="useRoute().path !== '/register'">
                 <NuxtLink to="/settings" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-setting" size="21" />
@@ -92,21 +100,26 @@ import { NuxtLink } from '#components'
                     <span v-else>Settings</span>
                 </NuxtLink>
             </div>
-
+            </UTooltip>
             <div class="pt-3" v-if="useRoute().path !== '/register'">
-                <button @click="logOut" class="text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-if="guestMode == false">
+                <UTooltip :content="{align:'start'}" text="Log Out">
+                <button @click="logOut" class="text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-if="guestMode === false">
                     <UIcon name="i-uil-signout" size="21" class="text-red-500"/>
                     <span class="text-red-500">Log Out</span>
                 </button>
-                <NuxtLink to="/login" class="text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-else>
+                </UTooltip>
+                <UTooltip :content="{align:'start'}" text="Log In">
+                <NuxtLink to="/login" class="text-sl cursor-pointer flex flex-row gap-2 items-center text-red-500 w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1" v-if="guestMode === true">
                     <UIcon name="i-uil-signin" size="21" class="text-purple-400"/>
                     <span class="text-purple-400">Log In</span>
                 </NuxtLink>
+                </UTooltip>
             </div>
-
+            <UTooltip :content="{align:'start'}" text="Upload a Podcast">
             <NuxtLink to="/upload" v-if="guestMode === false && useRoute().path !== '/upload'" class="p-2 text-neutral-900 dark:text-neutral-100 text-md flex itemx-center justify-start gap-2 mt-3 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl w-full cursor-pointer">
                 <UIcon name="i-uil-plus" size="20"/> UPLOAD
             </NuxtLink>
+            </UTooltip>
         </div>
 
         <div class="w-full flex flex-col">
@@ -118,6 +131,7 @@ import { NuxtLink } from '#components'
             </NuxtLink>
             </div> -->
             
+            <UTooltip :content="{align:'start'}" text="Frequently Asked Questions">
             <div class="pt-3">
                 <NuxtLink to="/faq" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-question-circle" size="40" />
@@ -125,7 +139,8 @@ import { NuxtLink } from '#components'
                     <span v-else>Frequently Asked Questions (FAQ)</span>
                 </NuxtLink>
             </div>
-
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="About Us">
             <div class="pt-3">
                 <NuxtLink to="/about" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-users-alt" size="21" />
@@ -133,13 +148,15 @@ import { NuxtLink } from '#components'
                     <span v-else>About Us</span>
                 </NuxtLink>
             </div>
-
+            </UTooltip>
+            <UTooltip :content="{align:'start'}" text="Contact Us">
             <div class="pt-3">
                 <NuxtLink to="/contact" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-phone" size="21"/>
                     <span>Contact Us</span>
                 </NuxtLink>
             </div>
+            </UTooltip>
         </div>
     </div>
     <div class="bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-center items-center gap-5" v-else-if="logOutError === true && loading === false">
@@ -157,11 +174,10 @@ import { NuxtLink } from '#components'
 
 <style>
     .logo {
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        
     }
 
     .text-sl, .text-xs {
-        font-family: Arial;
         font-weight: bold;
     } .text-sl {
         font-size: 1rem;

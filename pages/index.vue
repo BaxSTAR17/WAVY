@@ -60,25 +60,35 @@
             <div class="w-full flex flex-row h-20 gap-3">
                 <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">
+                    <UTooltip :content="{align:'start'}" text="Guest Profile">
                     <span class="text-4xl m-0 font-bold text-neutral-900 dark:text-neutral-100" v-if="guestMode">GUEST</span>
-                    <span class="text-4xl m-0 text-neutral-900 dark:text-neutral-100" v-else>{{ username }}</span>
-                    <NuxtLink to="/login" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-if="guestMode">Sign in</NuxtLink>
-                    <NuxtLink :to="`/profile/${id}`" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-else>View Profile</NuxtLink>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" :text="`${username}`">
+                    <span class="text-4xl m-0 text-neutral-900 dark:text-neutral-100" v-if="guestMode === false">{{ username }}</span>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" text="Log In">
+                    <NuxtLink to="/login" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-if="guestMode">Log in</NuxtLink>
+                    </UTooltip>
+                    <UTooltip :content="{align:'start'}" text="View Profile Page">
+                    <NuxtLink :to="`/profile/${id}`" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-if="guestMode === false">View Profile</NuxtLink>
+                    </UTooltip>
                 </div>
             </div>
             <div class="w-full flex flex-row h-10 box-border">
-                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'">TUTORIAL</button>
-                <div v-else-if="mode === 'mode1' && guestMode" class="w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
-                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'">FOR YOU</button>
-                <div v-else-if="mode === 'mode1' && guestMode === false" class="w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
-                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'">EXPLORE</button>
-                <div v-else-if="mode === 'mode2'" class="w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
+                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="Tutorial"><span class="w-full">TUTORIAL</span></UTooltip></button>
+                <div v-if="mode === 'mode1' && guestMode" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
+                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="For You Page"><span class="w-full">FOR YOU</span></UTooltip></button>
+                <div v-if="mode === 'mode1' && guestMode === false" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
+                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'"><UTooltip :content="{align:'start'}" text="Explore Page"><span class="w-full">EXPLORE</span></UTooltip></button>
+                <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
                 <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === true">
+                <UTooltip :content="{align:'start'}" text="Tutorial Video">
                 <video src="../public/audio/WAVY Tutorial with Subs.mp4" controls class="w-full h-130"></video>
+                </UTooltip>
                 <p class="w-full h-content bg-neutral-400 dark:bg-[#4e4b55] box-border p-3 text-justify rounded-lg">
                     Welcome to WAVY! Your number one podcast-hosting platform. Using WAVY, you can get access and create your favorite podcasts efficiently with our UI.
                     <br/><br/>
