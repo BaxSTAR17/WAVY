@@ -43,7 +43,7 @@ import { routerKey } from 'vue-router'
         pod: Boolean
     })
     const likes = ref(0)
-    const liking = ref([])
+    const liking = ref(-1)
     const listentime = ref(0)
     const likey = ref(async () => {})
     const items = [
@@ -163,10 +163,11 @@ import { routerKey } from 'vue-router'
                         try {
                             const { data, error } = await supabase.from('LIKE FEED').select("LikeID").match({ LikerID: id.value, PodcastID: props.pid })
                             if(error) throw error
-                            if(data.length > 0) liked.value = true
+                            if(data.length > 0) { liking.value = data[0].LikeID; liked.value = true }
                         } catch(error) { console.log(error) }
                         likey.value = async () => {
                             if(buffering.value===false) {
+                                buffering.value = true
                                 if(liked.value === true) {
                                     try {
                                         const { data: likedata, error } = await supabase.from('LIKE FEED').insert({
@@ -174,7 +175,6 @@ import { routerKey } from 'vue-router'
                                             PodcastID: props.pid
                                         }).select()
                                         if(error) throw error
-                                        liking.value.push(likedata)
                                         try {
                                             const { data, error } = await supabase.from('PODCAST').update({
                                                 Likes: podcastdata[0].Likes + 1
@@ -184,21 +184,22 @@ import { routerKey } from 'vue-router'
                                         } catch(error) { found.value = true; console.log(error)}
                                     } catch(error) { found.value = true; console.log(error) }
                                 } else {
-                                    if(liking.value.length > 0) {
+                                    if(liking.value !== -1) {
                                         try {
-                                            const { error } = await supabase.from('LIKE FEED').delete().eq("LikeID", liking.value[0].LikeID)
+                                            const { error } = await supabase.from('LIKE FEED').delete().eq("LikeID", liking.value)
                                             if(error) throw error
-                                            liking.value.pop()
                                             try {
                                                 const { data, error } = await supabase.from('PODCAST').update({
-                                                    Likes: podcastdata[0].Likes > 0 ? podcastdata[0].Likes - 1 : 0
+                                                    Likes: likes.value > 0 ? likes.value - 1 : 0
                                                 }).eq("PodcastID", props.pid).select()
                                                 if(error) throw error
                                                 likes.value = data[0].Likes
+                                                if(useRoute().path === '/likes') reloadNuxtApp()
                                             } catch(error) { found.value = true; console.log(error)}
                                         } catch(error) { found.value = true; console.log(error) }
                                     }
                                 }
+                                buffering.value = false
                             }
                         }
                     } catch(error) { found.value = true; console.log(error)}
@@ -369,12 +370,12 @@ import { routerKey } from 'vue-router'
                     </UTooltip>
                     <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                     <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>
-                    <div v-if="guestMode === false">
+                    <div v-if="guestMode === false && buffering === false" class="self-center">
                         <UTooltip :content="{align:'start'}" text="Like">
-                        <UIcon v-if="liked === true" name="i-basil-heart-solid" size="40" class="text-[#8c52ff] cursor-pointer absolute" @click=""/>
+                        <UIcon v-if="liked === true" name="i-basil-heart-solid" size="40" class="text-[#8c52ff] cursor-pointer" @click="liked = false; likey()"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Liked">
-                        <UIcon name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = !liked; likey()"/>
+                        <UIcon v-if="liked === false" name="i-basil-heart-outline" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="liked = true; likey()"/>
                         </UTooltip>
                     </div>
                     <UDropdownMenu :items="items" :content="{ align: 'end', side: 'bottom'}" :ui="{content: 'bg-neutral-300 dark:bg-neutral-700 shadow-xl rounded-lg box-border p-2', item: 'mt-2'}">

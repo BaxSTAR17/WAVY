@@ -14,7 +14,7 @@ import Subscriptions from '../subscriptions.vue'
     const hasUploaded = ref(false)
     const subscribed = ref(false)
     const subscribe = ref(async () => {})
-    const subscribings = ref([])
+    const subscribings = ref(-1)
     const src = ref('')
     try {
         const { data, error } = await supabase.from('USER').select("*").eq('UserID', route.params.id)
@@ -36,12 +36,12 @@ import Subscriptions from '../subscriptions.vue'
                 if(id.value == userdata[0].UserID) selfProfile.value = true
                 else {
                     try {
-                        const {data: subbed, error} = await supabase.from('SUBSCRIBE FEED').select("CreatorID").match({
+                        const {data: subbed, error} = await supabase.from('SUBSCRIBE FEED').select("SubID").match({
                             CreatorID: id.value,
                             SubscriberID: userdata[0].UserID
                         })
                         if(error) throw error
-                        if(subbed.length > 0) subscribed.value = true
+                        if(subbed.length > 0) { subscribings.value = subbed[0].SubID; subscribed.value = true }
                     } catch(error) {noUser.value = true; console.log(error)}
                     subscribe.value = async () => {
                         if(subscribed.value === true) {
@@ -51,7 +51,6 @@ import Subscriptions from '../subscriptions.vue'
                                     SubscriberID: userdata[0].UserID
                                 }).select()
                                 if(error) throw error
-                                subscribings.value.push(subdata)
                                 try {
                                     const { data: subscriberdata, error } = await supabase.from('USER').update({
                                         Listeners: listeners.value+1
@@ -61,11 +60,10 @@ import Subscriptions from '../subscriptions.vue'
                                 } catch(error) { noUser.value = true; console.log(error)}
                             } catch(error) { noUser.value = true; console.log(error) }
                         } else {
-                            if(subscribings.value.length > 0) {
+                            if(subscribings.value !== -1) {
                                 try {
-                                    const { error } = await supabase.from('SUBSCRIBE FEED').delete().eq("SubID", subscribings.value[0].SubID)
+                                    const { error } = await supabase.from('SUBSCRIBE FEED').delete().eq("SubID", subscribings.value)
                                     if(error) throw error
-                                    subscribings.value.pop()
                                     try {
                                         const { data, error } = await supabase.from('USER').update({
                                             Listeners: listeners.value > 0 ? listeners.value - 1 : 0
