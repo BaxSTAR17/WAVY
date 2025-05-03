@@ -13,11 +13,11 @@
 <template>
     <div class="bg-neutral-300 dark:bg-neutral-800 w-screen min-h-full flex flex-col lg:hidden" v-show="guestMode === false">
         <UTooltip :content="{align:'start'}" text="Liked Podcasts">
-        <NuxtLink to="/likes" class="w-full h-17 gap-2 hover:bg-neutral-700 text-2xl flex items-center border-box p-3 font-bold"><UIcon name="i-uil-heart" size="30"/>Liked</NuxtLink>
+        <NuxtLink to="/likes" class="w-full text-neutral-900 dark:text-neutral-100 h-17 gap-2 hover:bg-neutral-400 dark:hover:bg-neutral-700 text-2xl flex items-center border-box p-3 font-bold"><UIcon name="i-uil-heart" size="30"/>Liked</NuxtLink>
         </UTooltip>
         <hr class="text-neutral-900 dark;text-neutral-100 w-full ml-0 mr-0 mt-0" />
         <UTooltip :content="{align:'start'}" text="Subscriptions">
-        <NuxtLink to="/subscriptions" class="w-full h-17 gap-2 hover:bg-neutral-700 text-2xl flex items-center border-box p-3 font-bold"><UIcon name="i-uil-headphones" size="30"/> Subscriptions</NuxtLink>
+        <NuxtLink to="/subscriptions" class="w-full text-neutral-900 dark:text-neutral-100 h-17 gap-2 hover:bg-neutral-400 dark:hover:bg-neutral-700 text-2xl flex items-center border-box p-3 font-bold"><UIcon name="i-uil-headphones" size="30"/> Subscriptions</NuxtLink>
         </UTooltip>
         <hr class="text-neutral-900 dark;text-neutral-100 w-full ml-0 mr-0 mt-0" />
     </div>

@@ -18,15 +18,15 @@
         </UTooltip>
         <div class="flex w-content min-h-20 items-center">
             <UTooltip :content="{align:'start'}" text="Upload">
-            <NuxtLink class="active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/upload" v-show="guestMode === false && useRoute().path !== '/upload'"><UIcon name="i-uil-plus" size="45" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
+            <NuxtLink class="active:bg-neutral-200 dark:active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/upload" v-show="guestMode === false && useRoute().path !== '/upload'"><UIcon name="i-uil-plus" size="45" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
             </UTooltip>
             <UTooltip :content="{align:'start'}" text="Search">
-            <NuxtLink class="active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/searchmob"><UIcon name="i-uil-search" size="40" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
+            <NuxtLink class="active:bg-neutral-200 dark:active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/searchmob"><UIcon name="i-uil-search" size="40" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
             </UTooltip>
             <UTooltip :content="{align:'start'}" text="Settings">
-            <NuxtLink class="active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/settings" v-show="useRoute().path !== '/settings'"><UIcon name="i-basil-settings-alt-outline" size="42" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
+            <NuxtLink class="active:bg-neutral-200 dark:active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/settings" v-show="useRoute().path !== '/settings'"><UIcon name="i-basil-settings-alt-outline" size="42" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
             </UTooltip>
-            <NuxtLink class="active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/settings" v-show="useRoute().path === '/settings'"><UIcon name="i-basil-settings-alt-solid" size="42" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
+            <NuxtLink class="active:bg-neutral-200 dark:active:bg-neutral-800 w-15 h-20 flex items-center justify-center" to="/settings" v-show="useRoute().path === '/settings'"><UIcon name="i-basil-settings-alt-solid" size="42" class="text-neutral-900 dark:text-neutral-100"/></NuxtLink>
         </div>
     </div>
 </template>
