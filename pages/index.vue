@@ -89,7 +89,7 @@
                 <UTooltip :content="{align:'start'}" text="Tutorial Video">
                 <video src="../public/audio/WAVY Tutorial with Subs.mp4" controls class="w-full h-130"></video>
                 </UTooltip>
-                <p class="w-full h-content bg-neutral-400 dark:bg-[#4e4b55] box-border p-3 text-justify rounded-lg">
+                <p class="w-full h-content bg-neutral-400 dark:bg-[#4e4b55] box-border p-3 text-justify rounded-lg text-lg">
                     Welcome to WAVY! Your number one podcast-hosting platform. Using WAVY, you can get access and create your favorite podcasts efficiently with our UI.
                     <br/><br/>
                     To get started, Log in to your WAVY account or register using a valid email if you do not have an account. Once signed in, you will be redirected to the home page.
