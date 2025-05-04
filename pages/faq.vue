@@ -189,7 +189,7 @@
      {label: 'What happens if I violate content guidelines?', content:'Deletion of reported content or termination of your account.'}
   ])
 
-  useHead({title: 'FAQ | Wavy'})
+  useHead({title: 'Frequently Asked Questions | WAVY'})
 </script>
 
 <style>

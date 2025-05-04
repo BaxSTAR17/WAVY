@@ -34,7 +34,7 @@ import { data } from 'autoprefixer'
             } catch(error) {subError.value = true; console.log(error)}
         } catch(error) {subError.value = true; console.log(error)}
     } else { subError.value = true; }
-    useHead({title:'Subscriptions | Wavy'})
+    useHead({title:'Subscriptions | WAVY'})
 </script>
 
 <template>

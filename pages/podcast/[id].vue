@@ -9,13 +9,13 @@
         if(error) throw error
         pid.value = data[0].PodcastID
         subtitles.value = data[0].Subtitles
-        useHead({title: `${data[0].Title} | Wavy`})
+        useHead({title: `${data[0].Title} | WAVY`})
     } catch(error) { noPodcast.value = true; console.log(error) }
     const formatText = (text) => {
         const forPeriods = text.replaceAll(/\. /g, ".\n\n")
         return forPeriods.replaceAll(/\? /g, "?\n\n")
     }
-    if(noPodcast.value === true) useHead({title: 'Podcast Not Found | Wavy'})
+    if(noPodcast.value === true) useHead({title: 'Podcast Not Found | WAVY'})
 </script>
 
 <template>

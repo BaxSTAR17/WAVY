@@ -66,7 +66,7 @@
     // const pfpUpload = async (ev) {
     //     const pfp = event?.target.files[0]
     // }
-    useHead({title:'Sign Up | Wavy'})
+    useHead({title:'Register | WAVY'})
     onMounted(() => {
         
     })

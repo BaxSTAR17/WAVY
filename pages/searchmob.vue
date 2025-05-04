@@ -65,7 +65,7 @@
             fetchError.value = false;
         } catch(error) { fetchError.value = true;console.log(error) }
     } catch(error) { fetchError.value = true;console.log(error) }
-    useHead({title:'Search | Wavy'})
+    useHead({title:'Search | WAVY'})
 </script>
 
 <template>

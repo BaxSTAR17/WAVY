@@ -52,7 +52,7 @@
         const setSpeed = () => {document.documentElement.id = "30:30"}
         callOnce(setSpeed)
     })
-    useHead({title:'Home | Wavy'})
+    useHead({title:'Home | WAVY'})
 </script>
 
 <template>

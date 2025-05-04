@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-    useHead({title: 'About Us | Wavy'})
+    useHead({title: 'About Us | WAVY'})
 </script>
 
 <style>

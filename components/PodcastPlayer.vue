@@ -37,6 +37,8 @@ import { routerKey } from 'vue-router'
     const deleteConfirm = ref(async () => {})
     const listenPlus = ref(async() => {})
     const shareLink = ref('Share')
+    const backtrack = ref('')
+    const fastforward = ref('')
     const props = defineProps({
         src: String,
         uid: Number,
@@ -215,6 +217,8 @@ import { routerKey } from 'vue-router'
         const duration_slide = document.getElementById(`durationslide${props.pid}`)
         const volume_slide = document.getElementById(`volumeslide${props.pid}`)
         const audio = document.getElementById(`audio${props.pid}`)
+        fastforward.value = document.documentElement.id.substring(0, 2)
+        backtrack.value = document.documentElement.id.substring(3)
         let hack = null
         volume_slide.style.background = `linear-gradient(to right, #8c52ff ${volume_slide.value*(1/3)}%, #5735fd ${volume_slide.value*(2/3)}%, #2299ef ${volume_slide.value}%, gray ${duration_slide.value}%)`
         duration_slide.addEventListener('input', () => {
@@ -435,7 +439,7 @@ import { routerKey } from 'vue-router'
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
-                        <UTooltip :content="{align:'start'}" text="Backtrack">
+                        <UTooltip :content="{align:'start'}" :text="`Backtrack (${backtrack} minutes)`">
                         <UIcon name="i-uil-backward" size="45" class="text-[#8c52ff] cursor-pointer" @click="backAudio"/>
                         </UTooltip>
                         <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
@@ -445,7 +449,7 @@ import { routerKey } from 'vue-router'
                         <UTooltip :content="{align:'start'}" text="Pause">
                         <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                         </UTooltip>
-                        <UTooltip :content="{align:'start'}" text="Fast-Forward">
+                        <UTooltip :content="{align:'start'}" :text="`Fast-Forward (${fastforward} minutes)`">
                         <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Volume">

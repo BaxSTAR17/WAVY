@@ -1,5 +1,5 @@
  text-neutral-900 dark:text-neutral-100<script setup>
-    useHead({title:'Information | Wavy'})
+    useHead({title:'Information | WAVY'})
 </script>
 
 <template>

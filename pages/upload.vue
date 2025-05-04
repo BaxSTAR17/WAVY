@@ -59,11 +59,12 @@
         if(readytoupload.value === true) {
             errormsg.value = ''
             uploading.value = true
-
+            useHead({title:'Uploading... 25%'})
             try {
             const { data: userdata, error } = await supabase.from('USER').select("UserID").eq('UserEmail', user.value.email)
             if(error) throw error
             progress.value = 50
+            useHead({title:'Uploading... 50%'})
             try {
                 const { data: poddata, error } = await supabase.from('PODCAST').insert({
                     Title: title.value,
@@ -72,10 +73,12 @@
                 }).select()
                 if(error) throw error
                 progress.value = 75
+                useHead({title:'Uploading... 75%'})
                 try {
                     const { error } = await supabase.storage.from('files').upload(`podcasts/${poddata[0].PodcastID}.${format.value}`, file.value.files[0])
                     if(error) throw error
                     progress.value = 90
+                    useHead({title:'Uploading... 90%'})
                     if(checked.value === true) {
                         const link = supabase.storage.from('files').getPublicUrl(`podcasts/${poddata[0].PodcastID}.${format.value}`).data.publicUrl
                         const transcript = await useFetch('/api/transcribe', {
@@ -83,6 +86,7 @@
                             body: { url: link }
                         })
                         progress.value = 95
+                        useHead({title:'Uploading... 95%'})
 		                console.log(transcript)
                         try {
                             const { error } = await supabase.from('PODCAST').update({ Subtitles: transcript.data.value.text }).eq("PodcastID", poddata[0].PodcastID)
@@ -91,11 +95,11 @@
                     }
                     router.push(`/podcast/${poddata[0].PodcastID}`)
                 } catch(error) { errormsg.value = "* Sorry, we're having trouble uploading your audio"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
-        document.getElementById('generatesubs').disabled = false; }
+        document.getElementById('generatesubs').disabled = false; useHead({title:'Upload a Podcast | WAVY'}); }
             } catch(error) { errormsg.value = "* Sorry, we're having trouble creating your upload"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
-        document.getElementById('generatesubs').disabled = false; }
+        document.getElementById('generatesubs').disabled = false; useHead({title:'Uploading a Podcast | WAVY'}); }
         } catch(error) { errormsg.value = "* Sorry, we're having trouble loading your profile"; uploading.value = false; console.log(error); document.getElementById('title').disabled = false;
-        document.getElementById('generatesubs').disabled = false; }
+        document.getElementById('generatesubs').disabled = false; useHead({title:'Upload a Podcast | WAVY'}); }
         }
     }
 
@@ -107,7 +111,7 @@
             }
         }
     })
-    useHead({title:'Upload a Podcast | Wavy'})
+    useHead({title:'Upload a Podcast | WAVY'})
 </script>
 
 <template>

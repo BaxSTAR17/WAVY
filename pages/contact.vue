@@ -77,6 +77,8 @@ import type { FormError, FormErrorEvent, FormSubmitEvent} from '@nuxt/ui'
 const email = ref('')
 const desc = ref('')
 
+useHead({title: 'Contact Us | WAVY'})
+
 const query_list = ref(['About My Profile', 'About Another Profile', 'About Wavy Guidelines', 'About Content Creation', 'Errors/Bugs', 'Report', 'Others'])
 const state = reactive({
     email: undefined,

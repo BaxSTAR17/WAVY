@@ -7,7 +7,7 @@
         if(user.value) guestMode.value = false
     })
 
-    useHead({title: 'Favorites | Wavy'})
+    useHead({title: 'Favorites | WAVY'})
 </script>
 
 <template>
