@@ -2,7 +2,7 @@
 import tailwindcss from "@tailwindcss/vite"
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui', '@nuxtjs/supabase'],
+  modules: ['@nuxt/ui', '@nuxtjs/supabase', '@vite-pwa/nuxt'],
   compatibilityDate: '2025-03-26',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
@@ -14,6 +14,42 @@ export default defineNuxtConfig({
       login: '/login',
       callback: '/confirm',
       exclude: ['/', '/login', '/faq']
+    }
+  },
+  pwa: {
+    manifest: {
+      name: 'WAVY',
+      short_name: 'WAVY',
+      description: 'A dynamic podcast hosting and viewing platform designed to simplify the creation, distribution, and discovery of podcasts',
+      icons: [
+        {
+          src: 'icons/icon-64.png',
+          sizes: '64x64',
+          type: 'image/png'
+        },
+        {
+          src: 'icons/icon-144.png',
+          sizes: '144x144',
+          type: 'image/png'
+        },
+        {
+          src: 'icons/icon-192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: 'icons/icon-512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/'
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module'
     }
   },
   icon: {
