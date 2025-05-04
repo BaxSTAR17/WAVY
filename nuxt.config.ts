@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     manifest: {
       name: 'WAVY',
       short_name: 'WAVY',
-      description: 'A dynamic podcast hosting and viewing platform designed to simplify the creation, distribution, and discovery of podcasts',
+      description: 'A dynamic podcast hosting and listening platform designed to simplify the creation, distribution, and discovery of podcasts',
       icons: [
         {
           src: 'icons/icon-64.png',

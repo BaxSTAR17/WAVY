@@ -12,7 +12,7 @@
                 </div>
             
                 <p class="lg:ml-10 text-justify text-lg leading-12 flex flex-col w-auto text-neutral-900 dark:text-neutral-100">
-                    WAVY is a dynamic podcast hosting and viewing platform designed to simplify the creation, distribution, and discovery of podcasts.
+                    WAVY is a dynamic podcast hosting and listening platform designed to simplify the creation, distribution, and discovery of podcasts.
                     Whether you're a seasoned podcaster or just starting out, WAVY provides user-friendly tools to upload, manage, and share your episodes effortlessly.
                     <br />
                     <br />

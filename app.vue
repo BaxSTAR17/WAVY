@@ -7,6 +7,14 @@ useHead({
     {
       name: 'viewport',
       content: 'width=device-width; user-scalable=0; initial-scale=1'
+    },
+    {
+      name: 'description',
+      content: 'A dynamic podcast hosting and listening platform designed to simplify the creation, distribution, and discovery of podcasts'
+    },
+    {
+      name: 'author',
+      content: 'RGBStudios'
     }
   ]
 })
