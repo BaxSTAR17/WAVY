@@ -49,7 +49,7 @@
                 })
             } catch(error) { homeError.value = true; console.log(error) }
         }
-        const setSpeed = () => {document.documentElement.id = "30"}
+        const setSpeed = () => {document.documentElement.id = "30:30"}
         callOnce(setSpeed)
     })
     useHead({title:'Home | Wavy'})

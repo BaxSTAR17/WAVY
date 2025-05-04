@@ -23,6 +23,9 @@
     const changeTheme = ref(false)
     const logOut = ref(false)
     const changeSpeed = ref(() => {})
+    const changeBack = ref(() => {})
+    const back = ref(20)
+    const backmsg = ref('Apply')
     const email = ref('')
     const router = useRouter()
     const font = ref('')
@@ -67,13 +70,19 @@
             else document.documentElement.classList.remove('dark')
         }
         changeSpeed.value = () => {
-            document.documentElement.id = `${speed.value}`
+            document.documentElement.id = `${speed.value}` + document.documentElement.id.substring(2)
             speedmsg.value = 'Applied'
             document.getElementById('gauge').disabled = true
         }
+        changeBack.value = () => {
+            document.documentElement.id = document.documentElement.id.substring(0, 3) + `${back.value}`
+            backmsg.value = 'Applied'
+            document.getElementById('backer').disabled = true
+        }
         if(document.documentElement.classList.contains('dark')) darkMode.value = true
         else darkMode.value = false
-        speed.value = parseInt(document.documentElement.id)
+        speed.value = parseInt(document.documentElement.id.substring(0, 2))
+        back.value = parseInt(document.documentElement.id.substring(3))
         const link = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
         pfpsrc.value = link
         const fileTag = document.getElementById('file')
@@ -215,6 +224,15 @@
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Apply Changes">
                         <button id="gauge" class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2 disabled:opacity-40" @click="changeSpeed">{{ speedmsg }}</button>
+                        </UTooltip>
+                    </div>
+                    <span class="mt-5 text-neutral-900 dark:text-neutral-100">Backtrack Value (in minutes)</span>
+                    <div class="flex items-center gap-2">
+                        <UTooltip :content="{align:'start'}" text="Change the backtrack value of backtrack feature in a podcast page">
+                        <UInputNumber v-model="back" :min="1" :max="60" class="w-40"/>
+                        </UTooltip>
+                        <UTooltip :content="{align:'start'}" text="Apply Changes">
+                        <button id="backer" class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2 disabled:opacity-40" @click="changeBack">{{ backmsg }}</button>
                         </UTooltip>
                     </div>
                 </div>

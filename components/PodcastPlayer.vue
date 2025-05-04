@@ -15,6 +15,7 @@ import { routerKey } from 'vue-router'
     const operateAudio = ref(() => {console.log('h')})
     const muteAudio = ref(() => {console.log('h')})
     const skipAudio = ref(()=>{})
+    const backAudio = ref(()=>{})
     const found = ref(true)
     const maxtime = ref(0)
     const loading = ref(true)
@@ -241,13 +242,26 @@ import { routerKey } from 'vue-router'
             return `${mins}:${seconds}`
         }
         skipAudio.value = () => {
-            const number = parseInt(document.documentElement.id)
+            const number = parseInt(document.documentElement.id.substring(0, 2))
             if(audio.currentTime + number < audio.duration && buffering.value == false) {
                 buffering.value = true
                 duration_slide.disabled = true
                 volume_slide.disabled = true
                 audio.currentTime += number
                 duration_slide.value += number
+                starttime.value = endTime(Math.floor(audio.currentTime))
+                duration_slide.style.background = `linear-gradient(to right, #8c52ff ${(duration_slide.value/audio.duration*100)*(1/3)}%, #5735fd ${(duration_slide.value/audio.duration*100)*(2/3)}%, #2299ef ${(duration_slide.value/audio.duration*100)}%, gray ${(duration_slide.value/audio.duration*100)}%)`
+                if(!audio.paused) requestAnimationFrame(whilePlayingHack)
+            }
+        }
+        backAudio.value = () => {
+            const number = parseInt(document.documentElement.id.substring(3))
+            if(audio.currentTime - number > 0 && buffering.value == false) {
+                buffering.value = true
+                duration_slide.disabled = true
+                volume_slide.disabled = true
+                audio.currentTime -= number
+                duration_slide.value -= number
                 starttime.value = endTime(Math.floor(audio.currentTime))
                 duration_slide.style.background = `linear-gradient(to right, #8c52ff ${(duration_slide.value/audio.duration*100)*(1/3)}%, #5735fd ${(duration_slide.value/audio.duration*100)*(2/3)}%, #2299ef ${(duration_slide.value/audio.duration*100)}%, gray ${(duration_slide.value/audio.duration*100)}%)`
                 if(!audio.paused) requestAnimationFrame(whilePlayingHack)
@@ -421,6 +435,9 @@ import { routerKey } from 'vue-router'
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
+                        <UTooltip :content="{align:'start'}" text="Backtrack">
+                        <UIcon name="i-uil-backward" size="45" class="text-[#8c52ff] cursor-pointer" @click="backAudio"/>
+                        </UTooltip>
                         <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
                         <UTooltip :content="{align:'start'}" text="Play">
                         <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
