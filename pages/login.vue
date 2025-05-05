@@ -40,7 +40,7 @@
 
 <template >
     <main class="h-screen w-full flex flex-row">
-        <div class="bg-neutral-100 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
+        <div class="bg-neutral-200 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
             <div class="p-3">
                 <UTooltip :content="{align:'start'}" text="WAVY">
                 <NuxtLink to="/" class="font-bold text-4xl leading-0">
@@ -55,7 +55,7 @@
                 <div class="flex flex-col h-100 w-100 text-8xl font-bold text-neutral-900 dark:text-neutral-100"> LET YOUR VOICE BE HEARD</div>
             </div>
         </div>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh p-5 w-full h-full lg:w-120 flex flex-col justify-start lg:justify-center items-center">
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh p-5 w-full h-full lg:w-120 flex flex-col justify-start lg:justify-center items-center">
             <UTooltip :content="{align:'start'}" text="WAVY">
             <NuxtLink to="/" class="font-bold text-4xl leading-0 block lg:hidden self-start mb-20">
                 <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">

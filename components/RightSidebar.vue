@@ -41,7 +41,8 @@
                 {
                     label: user.UserName,
                     avatar: {
-                        src: src.value
+                        src: src.value,
+                        alt: `${user.UserName}`
                     },
                     to: `/profile/${user.UserID}`
                 }
@@ -64,7 +65,8 @@
                     {
                         label: pod.Title,
                         avatar: {
-                            src: podsrc.value
+                            src: podsrc.value,
+                            alt: `${pod.Title}`
                         },
                         to: `/podcast/${pod.PodcastID}`
                     }

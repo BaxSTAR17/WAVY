@@ -115,7 +115,7 @@
 </script>
 
 <template>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col p-3 gap-3">
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col p-3 gap-3">
             <UTooltip :content="{align:'start'}" text="Upload a Podcast">
             <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold">UPLOAD PODCAST</h1>
             </UTooltip>

@@ -69,10 +69,10 @@
 </script>
 
 <template>
-    <div class="bg-neutral-300 dark:bg-neutral-800 w-screen min-h-dv block lg:hidden">
+    <div class="bg-neutral-200 dark:bg-neutral-800 w-screen min-h-dv block lg:hidden">
         <UCommandPalette :groups="groups"/>
     </div>
-    <div class="bg-neutral-300 dark:bg-neutral-800 w-screen min-h-dv hidden lg:flex flex-col justify-center items-center">
+    <div class="bg-neutral-200 dark:bg-neutral-800 w-screen min-h-dv hidden lg:flex flex-col justify-center items-center">
         <div class="text-3xl text-center text-neutral-400 dark:text-neutral-500">Sorry, This page is only for mobile devices</div>
         <UIcon name="i-uil-desktop-slash" class="text-neutral-400 dark:text-neutral-400" size="80"/>
     </div>

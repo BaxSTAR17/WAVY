@@ -93,7 +93,7 @@ import Subscriptions from '../subscriptions.vue'
 </script>
 
 <template>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5" v-if="noUser === false">
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5" v-if="noUser === false">
             <div class="w-full flex flex-row h-50 gap-3">
                 <UTooltip :content="{align:'start'}" :text="`${profileName}'s Profile Picture'`">
                 <img :src="src" alt="PFP" class="rounded-4xl h-40 w-40">
@@ -141,7 +141,7 @@ import Subscriptions from '../subscriptions.vue'
                 <UIcon name="i-uil-annoyed" class="text-neutral-500" size="70"/>
             </div>
         </div>
-        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
             <div class="text-3xl text-neutral-500">Sorry, The profile page requested does not exist</div>
             <UIcon name="i-uil-user-times" class="text-neutral-500" size="80"/>
         </div>

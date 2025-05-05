@@ -153,22 +153,23 @@ import { NuxtLink } from '#components'
             <div class="pt-3">
                 <NuxtLink to="/contact" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-phone" size="21"/>
+                    <span class="underline" v-if="useRoute().path === '/contact'">Contact Us</span>
                     <span>Contact Us</span>
                 </NuxtLink>
             </div>
             </UTooltip>
         </div>
     </div>
-    <div class="bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-center items-center gap-5" v-else-if="logOutError === true && loading === false">
+    <div class="bg-neutral-100 dark:bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-center items-center gap-5" v-else-if="logOutError === true && loading === false">
         <div class="text-3xl text-neutral-500">Sorry, An unexpected error occurred</div>
         <UIcon name="i-uil-sync-exclamation" class="text-neutral-500" size="80"/>
     </div>
-    <div class="bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-start items-center gap-2" v-else-if="logOutError === false && loading === true">
+    <div class="bg-neutral-100 dark:bg-neutral-900 w-70 h-screen justify-left p-5 flex flex-col justify-start items-center gap-2" v-else-if="logOutError === false && loading === true">
         <Skeleload class="rounded-lg bg-neutral-600 h-[45px] w-full pb-[4px] pt-[4px]" />
         <hr class="w-full pl-0 ml-0 mt-1" />
-        <Skeleload class="rounded-lg bg-neutral-600 h-[32px] w-full mt-1" />
-        <Skeleload class="rounded-lg bg-neutral-600 h-[32px] w-full mt-1" />
-        <Skeleload class="rounded-lg bg-neutral-600 h-[32px] w-full mt-1" />
+        <Skeleload class="rounded-lg bg-neutral-200 dark:bg-neutral-600 h-[32px] w-full mt-1" />
+        <Skeleload class="rounded-lg bg-neutral-200 dark:bg-neutral-600 h-[32px] w-full mt-1" />
+        <Skeleload class="rounded-lg bg-neutral-200 dark:bg-neutral-600 h-[32px] w-full mt-1" />
     </div>
 </template>
 

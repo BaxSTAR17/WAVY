@@ -56,7 +56,7 @@
 </script>
 
 <template>
-        <div class="bg-neutral-300 dark:bg-neutral-800 overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="homeError === false">
+        <div class="bg-neutral-200 dark:bg-neutral-800 overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="homeError === false">
             <div class="w-full flex flex-row h-20 gap-3">
                 <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">
@@ -75,12 +75,12 @@
                 </div>
             </div>
             <div class="w-full flex flex-row h-10 box-border">
-                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="Tutorial"><span class="w-full">TUTORIAL</span></UTooltip></button>
-                <div v-if="mode === 'mode1' && guestMode" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
-                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="For You Page"><span class="w-full">FOR YOU</span></UTooltip></button>
-                <div v-if="mode === 'mode1' && guestMode === false" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
-                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-400 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'"><UTooltip :content="{align:'start'}" text="Explore Page"><span class="w-full">EXPLORE</span></UTooltip></button>
-                <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-200 dark:bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
+                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="Tutorial"><span class="w-full">TUTORIAL</span></UTooltip></button>
+                <div v-if="mode === 'mode1' && guestMode" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
+                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="For You Page"><span class="w-full">FOR YOU</span></UTooltip></button>
+                <div v-if="mode === 'mode1' && guestMode === false" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
+                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'"><UTooltip :content="{align:'start'}" text="Explore Page"><span class="w-full">EXPLORE</span></UTooltip></button>
+                <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
                 <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>
@@ -89,7 +89,7 @@
                 <UTooltip :content="{align:'start'}" text="Tutorial Video">
                 <video src="../public/audio/WAVY Tutorial with Subs.mp4" controls class="w-full h-130"></video>
                 </UTooltip>
-                <p class="w-full h-content bg-neutral-400 dark:bg-[#4e4b55] box-border p-3 text-justify rounded-lg text-lg">
+                <p class="w-full h-content bg-neutral-100 dark:bg-[#4e4b55] text-neutral-900 dark:text-neutral-100 box-border p-3 text-justify rounded-lg text-lg">
                     Welcome to WAVY! Your number one podcast-hosting platform. Using WAVY, you can get access and create your favorite podcasts efficiently with our UI.
                     <br/><br/>
                     To get started, Log in to your WAVY account or register using a valid email if you do not have an account. Once signed in, you will be redirected to the home page.
@@ -115,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5" v-else>
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5" v-else>
             <div class="text-3xl text-center text-neutral-400 dark:text-neutral-500">Sorry... We cannot connect to the network!</div>
             <UIcon name="i-uil-wifi-slash" class="text-neutral-400 dark:text-neutral-400" size="80"/>
         </div>

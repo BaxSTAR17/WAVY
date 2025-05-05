@@ -18,7 +18,7 @@
 </script>
 
 <template>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="likings.length > 0">
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="likings.length > 0">
             <UTooltip :content="{align:'start'}" text="Liked Podcasts">
             <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">LIKED</h1>
             </UTooltip>
@@ -30,7 +30,7 @@
                 <PodcastPlayer v-for="likee in likings" :pid="likee.PodcastID" />
             </div>
         </div>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
             <div class="text-3xl text-neutral-500">You haven't liked a podcast yet</div>
             <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>
         </div>

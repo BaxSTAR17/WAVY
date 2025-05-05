@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh h-screen overflow-y-auto overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
+    <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh h-screen overflow-y-auto overflow-x-hidden max-h-400 p-5 w-screen no-scrollbar">
         <UTooltip :content="{align:'start'}" text="Contact Us">
         <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest">CONTACT US</h1>
         </UTooltip>

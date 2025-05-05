@@ -1,5 +1,5 @@
 <template >
-       <div class="bg-neutral-300 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 min-h-dvh h-screen overflow-scroll text-wrap max-h-400 p-5 w-screen no-scrollbar">
+       <div class="bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 min-h-dvh h-screen overflow-scroll text-wrap max-h-400 p-5 w-screen no-scrollbar">
            <UTooltip :content="{align:'start'}" text="Frequently Asked Questions">
            <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold">FREQUENTLY ASKED QUESTIONS</h1>
            </UTooltip>
@@ -17,7 +17,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>
@@ -37,7 +37,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>
@@ -57,7 +57,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>
@@ -77,7 +77,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>
@@ -97,7 +97,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>
@@ -117,7 +117,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>
@@ -137,7 +137,7 @@
               </template>
 
               <template #content="{ item }">
-                 <div class="px-3 pb-5 text-xl text-neutral-400">
+                 <div class="px-3 pb-5 text-xl text-neutral-900 dark:text-neutral-100">
                     {{item.content}}
                  </div>
               </template>

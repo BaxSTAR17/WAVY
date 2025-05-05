@@ -38,16 +38,16 @@ import { data } from 'autoprefixer'
 </script>
 
 <template>
-        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="subscripts.length > 0">
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="subscripts.length > 0">
             <UTooltip :content="{align:'start'}" text="Your Subscriptions">
             <h1 class="text-4xl bg-neutral-900 p-5 text-center rounded-xl font-bold tracking-widest">YOUR SUBSCRIPTIONS</h1>
             </UTooltip>
-            <div v-if="subError === true" class="bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5">
+            <div v-if="subError === true" class="bg-neutral-200 dark:bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5">
                 <div class="text-3xl text-neutral-500">Sorry... We cannot connect to the network!</div>
                 <UIcon name="i-uil-wifi-slash" class="text-neutral-500" size="80"/>
             </div>
             <div v-else class="w-full h-content flex flex-col">
-                <NuxtLink v-for="(sub, index) in subscripts" :to="`/profile/${sub[0].UserID}`" class="rounded-xl bg-neutral-700 h-content border-box p-3 w-full flex justify-start items-center gap-2">
+                <NuxtLink v-for="(sub, index) in subscripts" :to="`/profile/${sub[0].UserID}`" class="rounded-xl bg-neutral-300 dark:bg-neutral-700 h-content border-box p-3 w-full flex justify-start items-center gap-2">
                     <img :src="src" alt="pfp" class="w-25 h-25 rounded-xl">
                     <div class="flex flex-col gap-1">
                         <UTooltip :content="{align:'start'}" :text="`${sub[0].UserName}`">
@@ -61,7 +61,7 @@ import { data } from 'autoprefixer'
                 </NuxtLink>
             </div>
         </div>
-        <div class="bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
+        <div class="bg-neutral-200 darK:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
             <div class="text-3xl text-neutral-500">You're not subscribed to anyone yet</div>
             <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>
         </div>

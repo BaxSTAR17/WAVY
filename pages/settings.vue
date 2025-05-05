@@ -197,11 +197,11 @@
 </script>
 
 <template>
-        <div class="bg-neutral-300 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3">
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col p-3 gap-3">
             <UTooltip :content="{align:'start'}" text="Settings">
             <h1 class="text-4xl bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-5 text-center rounded-xl font-bold tracking-widest">SETTINGS</h1>
             </UTooltip>
-            <div v-if="setError === true" class="bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5">
+            <div v-if="setError === true" class="bg-neutral-200 dark:bg-neutral-800 h-full overflow-y-auto w-full box-border flex flex-col justify-center items-center gap-5">
                 <div class="text-3xl text-neutral-500">Sorry... We cannot connect to the network!</div>
                 <UIcon name="i-uil-wifi-slash" class="text-neutral-500" size="80"/>
             </div>

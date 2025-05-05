@@ -248,7 +248,6 @@ import { routerKey } from 'vue-router'
         skipAudio.value = () => {
             const number = parseInt(document.documentElement.id.substring(0, 2))
             if(audio.currentTime + number < audio.duration && buffering.value == false) {
-                buffering.value = true
                 duration_slide.disabled = true
                 volume_slide.disabled = true
                 audio.currentTime += number
@@ -261,7 +260,6 @@ import { routerKey } from 'vue-router'
         backAudio.value = () => {
             const number = parseInt(document.documentElement.id.substring(3))
             if(audio.currentTime - number > 0 && buffering.value == false) {
-                buffering.value = true
                 duration_slide.disabled = true
                 volume_slide.disabled = true
                 audio.currentTime -= number

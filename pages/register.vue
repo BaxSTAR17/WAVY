@@ -74,7 +74,7 @@
 
 <template >
     <main class="h-screen w-screen flex flex-row">
-        <div class="bg-neutral-100 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
+        <div class="bg-neutral-200 dark:bg-neutral-900 min-h-dvh w-full hidden lg:flex flex-col items-start">
             <div class="p-3">
                 <UTooltip :content="{align:'start'}" text="WAVY">
                 <NuxtLink to="/" class="font-bold text-4xl leading-0">
@@ -101,19 +101,19 @@
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100" v-if="!verifying">Username</h3>
                 <!-- <input v-if="registerMode" type="file" placeholder="Upload a Profile Picture" @change="pfpUpload" class="bg-gray-800 rounded p-3 w-full" accept="image/png, image/jpeg"> -->
                 <UTooltip :content="{align:'start'}" text="Input your Username">
-                <input name="username" v-if="!verifying" type="text" placeholder="podcastLover17" v-model="username" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl mb-6 p-3 w-full text-neutral-900 dark:text-neutral-100">
+                <input name="username" v-if="!verifying" type="text" placeholder="podcastLover17" v-model="username" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl mb-6 p-3 w-full box-border text-neutral-900 dark:text-neutral-100">
                 </UTooltip>
                 <h3 v-if="!verifying" class="m-0 text-neutral-900 dark:text-neutral-100">Email</h3>
                 <UTooltip :content="{align:'start'}" text="Input your email">
-                <input name="email" v-if="!verifying" type="email" placeholder="email@RGB.com" v-model="email" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full text-neutral-900 dark:text-neutral-100">
+                <input name="email" v-if="!verifying" type="email" placeholder="email@RGB.com" v-model="email" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full box-border text-neutral-900 dark:text-neutral-100">
                 </UTooltip>
                 <h3 v-if="!verifying" class="m-0 text-neutral-900 dark:text-neutral-100">Password</h3>
                 <UTooltip :content="{align:'start'}" text="Input your passwordd">
-                <input name="password" v-if="!verifying" type="password" autocomplete="new-password" placeholder="pass123" v-model="pass" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full text-neutral-900 dark:text-neutral-100">
+                <input name="password" v-if="!verifying" type="password" autocomplete="new-password" placeholder="pass123" v-model="pass" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full box-border text-neutral-900 dark:text-neutral-100">
                 </UTooltip>
                 <h3 class="m-0 text-neutral-900 dark:text-neutral-100" v-if="!verifying">Confirm Password</h3>
                 <UTooltip :content="{align:'start'}" text="Retype your password">
-                <input name="confirm" v-if="!verifying" type="password" autocomplete="new-password" placeholder="pass123" v-model="pass2" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full text-neutral-900 dark:text-neutral-100">
+                <input name="confirm" v-if="!verifying" type="password" autocomplete="new-password" placeholder="pass123" v-model="pass2" class="h-9 bg-neutral-400 dark:bg-[#4e4b55] rounded-3xl p-3 w-full box-border text-neutral-900 dark:text-neutral-100">
                 </UTooltip>
                 <div class="flex gap-1 mt-3">
                     <UTooltip :content="{align:'start'}" text="I agree to the Terms & Conditions">
