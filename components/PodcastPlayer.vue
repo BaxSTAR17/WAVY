@@ -3,8 +3,8 @@ import Icon from '@nuxt/ui/runtime/components/Icon.vue'
 import { data } from 'autoprefixer'
 import { routerKey } from 'vue-router'
 
-    const endtime = ref('0:00')
-    const starttime = ref('0:00')
+    const endtime = ref('00:00')
+    const starttime = ref('00:00')
     const liked = ref(false)
     const id = ref(0)
     const supabase = useSupabaseClient()
@@ -236,7 +236,7 @@ import { routerKey } from 'vue-router'
             audio.volume = volume_slide.value / 100
         })
         const endTime = (secs) => {
-            if(!secs) return `0:00`
+            if(!secs) return `00:00`
             const mins = `${Math.floor((secs / 60) % 60) < 10 ? '0' : ''}${Math.floor((secs / 60) % 60)}`
             const seconds = `${Math.floor(secs % 60) < 10 ? '0' : ''}${Math.floor(secs % 60)}`
             if((secs / 60) >= 60) {
@@ -275,7 +275,6 @@ import { routerKey } from 'vue-router'
             if(buffering.value === false) {
                 maxtime.value = audio.duration
                 duration_slide.max = audio.duration
-                buffering.value = true
                 if(isPlaying.value) {
                     audio.pause()
                     cancelAnimationFrame(hack)
@@ -365,7 +364,7 @@ import { routerKey } from 'vue-router'
                     </UTooltip>
                 </div>
                 <div class="w-full flex flex-row h-7 items-center">
-                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
+                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600 transition-all"/>
                     <UTooltip :content="{align:'start'}" text="Play">
                     <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] hover:bg-purple-900 cursor-pointer" @click="operateAudio"/>
                     </UTooltip>
@@ -439,17 +438,16 @@ import { routerKey } from 'vue-router'
                 </div>
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
-                        <UTooltip :content="{align:'start'}" :text="`Backtrack (${backtrack} minutes)`">
+                        <UTooltip :content="{align:'start'}" :text="`Backtrack (${backtrack} seconds)`">
                         <UIcon name="i-uil-backward" size="45" class="text-[#8c52ff] cursor-pointer" @click="backAudio"/>
                         </UTooltip>
-                        <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
                         <UTooltip :content="{align:'start'}" text="Play">
                         <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Pause">
                         <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                         </UTooltip>
-                        <UTooltip :content="{align:'start'}" :text="`Fast-Forward (${fastforward} minutes)`">
+                        <UTooltip :content="{align:'start'}" :text="`Fast-Forward (${fastforward} seconds)`">
                         <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Volume">
@@ -460,6 +458,7 @@ import { routerKey } from 'vue-router'
                         </UTooltip>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                         <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>
+                        <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600"/>
                     </div>
                     <div class="flex">
                         <div class="flex flex-row items-center" v-if="guestMode === false">

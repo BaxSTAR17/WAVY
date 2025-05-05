@@ -217,7 +217,7 @@
                         item: `first:font-sans nth-2:font-serif nth-3:font-['Brush Script MT'] nth-4:font-['Tahoma'] nth-5:font-mono nth-6:font-['Verdana'] nth-7:font-['Times New Roman'] nth-8:font-[cursive] nth-9:font-['Wingdings']`
                     }"/>
                     </UTooltip>
-                    <span class="mt-5 text-neutral-900 dark:text-neutral-100 flex items-center gap-2"><UIcon name="i-uil-forward" class="bg-purple-800" size="30"/> Fast-Forward Value (in minutes)</span>
+                    <span class="mt-5 text-neutral-900 dark:text-neutral-100 flex items-center gap-2"><UIcon name="i-uil-forward" class="bg-purple-800" size="30"/> Fast-Forward Value (in seconds)</span>
                     <div class="flex items-center gap-2">
                         <UTooltip :content="{align:'start'}" text="Change the fast-forward value of the fast-forward feature in a podcast page">
                         <UInputNumber v-model="speed" :min="1" :max="60" class="w-40"/>
@@ -226,7 +226,7 @@
                         <button id="gauge" class="pr-3 pl-3 text-white w-content tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl cursor-pointer mt-2 disabled:opacity-40" @click="changeSpeed">{{ speedmsg }}</button>
                         </UTooltip>
                     </div>
-                    <span class="mt-5 text-neutral-900 dark:text-neutral-100 flex items-center gap-2"><UIcon name="i-uil-backward" class="bg-purple-800" size="30"/> Backtrack Value (in minutes)</span>
+                    <span class="mt-5 text-neutral-900 dark:text-neutral-100 flex items-center gap-2"><UIcon name="i-uil-backward" class="bg-purple-800" size="30"/> Backtrack Value (in seconds)</span>
                     <div class="flex items-center gap-2">
                         <UTooltip :content="{align:'start'}" text="Change the backtrack value of backtrack feature in a podcast page">
                         <UInputNumber v-model="back" :min="1" :max="60" class="w-40"/>
