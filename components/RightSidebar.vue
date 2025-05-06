@@ -32,11 +32,8 @@
         const { data, error } = await supabase.from('USER').select().order('Listeners', { ascending: false})
         if(error) throw error
         data.forEach(async (user) => {
-            if(user.HasPFP === true) {
-                const { error } = await supabase.storage.from('files').exists(`pfps/${user.UserID}.jpg`)
-                if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${user.UserID}.png`).data.publicUrl
-                else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${user.UserID}.jpg`).data.publicUrl
-            } else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
+            if(user.HasPFP === true) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${user.UserID}.${user.PFPExtension}`).data.publicUrl
+            else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
             groups.value[1].items.push(
                 {
                     label: user.UserName,
@@ -53,13 +50,10 @@
             if(error) throw error
             podcastdata.forEach(async (pod) => {
                 try {
-                    const { data: user, error } = await supabase.from('USER').select("UserID, HasPFP").eq("UserID", pod.CreatorID)
+                    const { data: user, error } = await supabase.from('USER').select("UserID, HasPFP, PFPExtension").eq("UserID", pod.CreatorID)
                     if(error) throw error
-                    if(user[0].HasPFP === true) {
-                        const { error } = await supabase.storage.from('files').exists(`pfps/${user[0].UserID}.jpg`)
-                        if(error) podsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${user[0].UserID}.png`).data.publicUrl
-                        else podsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${user[0].UserID}.jpg`).data.publicUrl
-                    } else podsrc.value = supabase.storage.from('files').getPublicUrl(`thumbnails/01110.svg`).data.publicUrl
+                    if(user[0].HasPFP === true) podsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${user[0].UserID}.${user[0].PFPExtension}`).data.publicUrl
+                    else podsrc.value = supabase.storage.from('files').getPublicUrl(`thumbnails/01110.svg`).data.publicUrl
                 } catch(error) { fetchError.value = true; console.log(error)}
                 groups.value[0].items.push(
                     {
@@ -95,11 +89,8 @@
                                 try {
                                     const { data, error } = await supabase.from('USER').select("*").eq("UserID", subber.CreatorID)
                                     if(error) throw error
-                                    if(data[0].HasPFP === true) {
-                                        const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
-                                        if(error) favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl)
-                                        else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.jpg`).data.publicUrl)
-                                    } else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl)
+                                    if(data[0].HasPFP === true) favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.${data[0].PFPExtension}`).data.publicUrl)
+                                    else favsrc.value.push(supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl)
                                     favorites.value.push(data)
                                     favored.value = true
                                 } catch(error) { fetchError.value = true; console.log(error) }

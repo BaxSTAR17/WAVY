@@ -53,7 +53,6 @@
                         UserName: username.value,
                         UserEmail: email.value,
                         isOnline: false,
-                        isPrivate: false,
                         HasPFP: false,
                         Listeners: 0
                     })

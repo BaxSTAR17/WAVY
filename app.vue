@@ -26,7 +26,7 @@ useHead({
 <template>
   <UApp>
     <VitePwaManifest />
-    <div class="h-full bg-neutral-300 dark:bg-neutral-800">
+    <div class="h-full bg-neutral-200 dark:bg-neutral-800">
         <NuxtLoadingIndicator color="purple"/>
         <NuxtLayout>
           <NuxtPage />

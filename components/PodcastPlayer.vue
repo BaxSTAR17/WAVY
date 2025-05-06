@@ -115,16 +115,12 @@ import { routerKey } from 'vue-router'
                     } catch(error) { console.log(error); found.value = false}
                 }
                 try {
-                    const { data: userdata, error } = await supabase.from('USER').select("UserID, UserName, HasPFP").eq("UserID", podcastdata[0].CreatorID)
+                    const { data: userdata, error } = await supabase.from('USER').select("UserID, UserName, HasPFP, PFPExtension").eq("UserID", podcastdata[0].CreatorID)
                     if(error) throw error
                     creator.value = userdata[0].UserName
                     cid.value = podcastdata[0].CreatorID
                     if(userdata[0].HasPFP === false) thumbnail.value = supabase.storage.from('files').getPublicUrl('thumbnails/01110.svg').data.publicUrl
-                    else {
-                        const { error } = await supabase.storage.from('files').exists(`pfps/${userdata[0].UserID}.jpg`)
-                        if(error) thumbnail.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.png`).data.publicUrl
-                        else thumbnail.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.jpg`).data.publicUrl
-                    }
+                    else thumbnail.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.${userdata[0].PFPExtension}`).data.publicUrl
                     title.value = podcastdata[0].Title
                 } catch (error) { found.value = false; console.log(error) }
                 loading.value = false

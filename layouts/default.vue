@@ -5,11 +5,19 @@
             <slot />
             <BottomSidebar v-if="route.path !== '/login' && route.path !== '/register'" class="flex lg:hidden fixed bottom-0"/>
             <RightSidebar v-if="route.path !== '/login' && route.path !== '/register'" class="hidden lg:flex"/>
+            <div v-if="loading" class="absolute t-0 l-0 w-full min-h-dvh flex items-center justify-center bg-neutral-200 dark:bg-neutral-800">
+                <img id="logo" class="hidden dark:block h-10" src='../public/WAVY Main Logo (White).svg' alt="Wavy Logo">
+                <img id="logo" class="block dark:hidden h-10" src='../public/WAVY Main Logo (Black).svg' alt="Wavy Logo">
+            </div>
         </main>
 </template>
 
 <script setup>
     const route = useRoute()
+    const loading = ref(true)
+    const nuxt = useNuxtApp()
+
+    nuxt.hook("page:finish", () => { loading.value = false })
 </script>
 
 <style>

@@ -24,11 +24,8 @@ import Subscriptions from '../subscriptions.vue'
         id.value = data[0].UserID
         listeners.value = data[0].Listeners
         useHead({title:`${data[0].UserName} | WAVY`})
-        if(data[0].HasPFP === true) {
-            const { error } = await supabase.storage.from('files').exists(`pfps/${data[0].UserID}.jpg`)
-            if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.png`).data.publicUrl
-            else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.jpg`).data.publicUrl
-        } else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
+        if(data[0].HasPFP === true) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${data[0].UserID}.${data[0].PFPExtension}`).data.publicUrl
+        else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
         if(user.value) {
             try {
                 const { data: userdata, error } = await supabase.from('USER').select("UserID").eq('UserEmail', user.value.email)

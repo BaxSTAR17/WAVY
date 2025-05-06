@@ -147,12 +147,7 @@
                     content.value = "Are you sure? (Deleting is irreversible)"
                     pfpChanged.value = true
                 }
-                if(userdata[0].HasPFP === true) {
-                    const { error } = await supabase.storage.from('files').exists(`pfps/${userdata[0].UserID}.jpg`)
-                    if(error) pfpsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.png`).data.publicUrl
-                    else pfpsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.jpg`).data.publicUrl
-                    document.getElementById('pfp').setAttribute("src", pfpsrc.value)
-                }
+                if(userdata[0].HasPFP === true) pfpsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.${userdata[0].PFPExtension}`).data.publicUrl
             } catch(error) {setError.value = true; console.log(error)}
 
             uploadFile.value = () => {
@@ -182,7 +177,7 @@
                             const { error } = await supabase.storage.from('files').upload(`pfps/${userdata[0].UserID}.${format.value}`, fileTag.files[0], { upsert: true })
                             if(error) throw error
                             try {
-                                const { error } = await supabase.from('USER').update({ HasPFP: true }).eq("UserID", userdata[0].UserID)
+                                const { error } = await supabase.from('USER').update({ HasPFP: true, PFPExtension: format.value }).eq("UserID", userdata[0].UserID)
                                 if(error) throw error
                                 content.value = "Your Profile Picture has been changed!"
                                 pfpChanged.value = true

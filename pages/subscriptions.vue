@@ -18,11 +18,8 @@ import { data } from 'autoprefixer'
                     try {
                         const { data: subbed, error } = await supabase.from('USER').select("*").eq("UserID", sub.CreatorID)
                         if(error) throw error
-                        if(subbed.HasPFP === true) {
-                            const { error } = await supabase.storage.from('files').exists(`pfps/${subbed.UserID}.jpg`)
-                            if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${subbed.UserID}.png`).data.publicUrl
-                            else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${subbed.UserID}.jpg`).data.publicUrl
-                        } else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
+                        if(subbed.HasPFP === true) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${subbed.UserID}.${subbed.PFPExtension}`).data.publicUrl
+                        else src.value = supabase.storage.from('files').getPublicUrl(`pfps/01110.svg`).data.publicUrl
                         subscripts.value.push(subbed)
                         try {
                             const { data, error } = await supabase.from('PODCAST').select("CreatorID").eq("CreatorID", sub.CreatorID)
