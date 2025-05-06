@@ -19,7 +19,6 @@
     const format = ref('')
     const content = ref('')
     const username = ref('')
-    const isPrivate = ref(false)
     const changeTheme = ref(false)
     const logOut = ref(false)
     const changeSpeed = ref(() => {})
@@ -131,7 +130,7 @@
                 const { data: userdata, error } = await supabase.from('USER').select("*").eq("UserEmail", user.value.email)
                 if(error) throw error
                 document.getElementById('pfp').setAttribute("src", link)
-                isPrivate.value = userdata[0].isPrivate
+                username.value = userdata[0].UserName
                 changeUsername.value = async () => {
                     deleteMode.value = false
                     try {
@@ -147,7 +146,10 @@
                     content.value = "Are you sure? (Deleting is irreversible)"
                     pfpChanged.value = true
                 }
-                if(userdata[0].HasPFP === true) pfpsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.${userdata[0].PFPExtension}`).data.publicUrl
+                if(userdata[0].HasPFP === true) {
+                    pfpsrc.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.${userdata[0].PFPExtension}`).data.publicUrl
+                    document.getElementById('pfp').setAttribute("src", pfpsrc.value)
+                }
             } catch(error) {setError.value = true; console.log(error)}
 
             uploadFile.value = () => {
