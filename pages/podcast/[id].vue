@@ -27,7 +27,7 @@
                 <span>TRANSCRIPT</span>
             </div>
             </UTooltip>
-            <div class="w-full text-lg text-wrap h-content rounded-lg overflow-y-auto bg-neutral-100 dark:bg-neutral-600 text-neutral-900 dark: text-neutral-100 text-justify border-box p-3" style="white-space: pre-wrap; line-height: 20px">
+            <div class="w-full text-lg text-wrap h-content rounded-lg overflow-y-auto bg-neutral-100 dark:bg-neutral-600 text-neutral-900 dark:text-neutral-100 text-justify border-box p-3" style="white-space: pre-wrap; line-height: 20px">
                 {{ formatText(subtitles) }}
             </div>
         </div>
