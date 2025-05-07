@@ -9,46 +9,47 @@
     const explore = ref([])
     const foryou = ref([])
     const src = ref('')
-    const compare = (a, b) => {
-        if(a < b) return -1
-        else if(a > b) return 1
-        return 0
+    const shuffle = (array) => {
+        let length = array.length
+        let rand = 0
+        while(length > 0) {
+            rand = Math.floor(Math.random() * length)
+            length--;
+            [array[length], array[rand]] = [array[rand], array[length]]
+        }
     }
     try {
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
         if(error) throw error
-        data.forEach((explores) => { if(explores.PodcastID !== 1) explore.value.push(explores)})
+        data.forEach((explores) => { explore.value.push(explores)})
     } catch(error) { homeError.value = true; console.log(error) }
     src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
-    onMounted(async () => {
-        if(!user.value) {
-            mode.value = 'mode1'
-            guestMode.value = true
-        } else {
-            guestMode.value = false
-            const { data: userdata, error } = await supabase.from('USER').select('*').eq('UserEmail', user.value.email)
-            if(error) homeError.value = true;
-            else {
-                username.value = userdata[0].UserName
-                id.value = userdata[0].UserID
-            }
-            if(userdata[0].HasPFP === true) {
-                const { error } = await supabase.storage.from('files').exists(`pfps/${userdata[0].UserID}.jpg`)
-                if(error) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.png`).data.publicUrl
-                else src.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.jpg`).data.publicUrl
-            }
-            try {
-                const { data: subdata, error } = await supabase.from('SUBSCRIBE FEED').select("*").eq('SubscriberID', id.value)
-                if(error) throw error
-                subdata.forEach(async (subbed) => {
-                    try {
-                        const { data: poddata, error } = await supabase.from('PODCAST').select("*").eq('CreatorID', subbed.CreatorID).order('PodcastID', { ascending: false })
-                        if(error) throw error
-                        poddata.forEach((pod)=>{if(pod.PodcastID !== 1) foryou.value.push(pod)})
-                    } catch(error) { homeError.value = true; console.log(error) }
-                })
-            } catch(error) { homeError.value = true; console.log(error) }
+    if(user.value) {
+        guestMode.value = false
+        const { data: userdata, error } = await supabase.from('USER').select('*').eq('UserEmail', user.value.email)
+        if(error) homeError.value = true;
+        else {
+            username.value = userdata[0].UserName
+            id.value = userdata[0].UserID
         }
+        if(userdata[0].HasPFP === true) src.value = supabase.storage.from('files').getPublicUrl(`pfps/${userdata[0].UserID}.${userdata[0].PFPExtension}`).data.publicUrl
+        try {
+            const { data: subdata, error } = await supabase.from('SUBSCRIBE FEED').select("*").eq('SubscriberID', id.value)
+            if(error) throw error
+            subdata.forEach(async (subbed) => {
+                try {
+                    const { data: poddata, error } = await supabase.from('PODCAST').select("*").eq('CreatorID', subbed.CreatorID).order('PodcastID', { ascending: false })
+                    if(error) throw error
+                    poddata.forEach((pod)=>{foryou.value.push(pod)})
+                    shuffle(foryou.value)
+                } catch(error) { homeError.value = true; console.log(error) }
+            })
+        } catch(error) { homeError.value = true; console.log(error) }
+    } else {
+        mode.value = 'mode1'
+        guestMode.value = true
+    }
+    onMounted(async () => {
         const setSpeed = () => {document.documentElement.id = "30:30"}
         callOnce(setSpeed)
     })
@@ -63,8 +64,8 @@
                     <UTooltip :content="{align:'start'}" text="Guest Profile">
                     <span class="text-4xl m-0 font-bold text-neutral-900 dark:text-neutral-100" v-if="guestMode">GUEST</span>
                     </UTooltip>
-                    <UTooltip :content="{align:'start'}" :text="`${username}`">
-                    <span class="text-4xl m-0 text-neutral-900 dark:text-neutral-100" v-if="guestMode === false">{{ username }}</span>
+                    <UTooltip :content="{align:'start'}" :text="`${username}`" v-show="username !== ''">
+                    <span class="text-4xl m-0 font-bold text-neutral-900 dark:text-neutral-100" v-if="guestMode === false">{{ username }}</span>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" text="Log In">
                     <NuxtLink to="/login" class="underline text-lg text-neutral-900 dark:text-neutral-100" v-if="guestMode">Log in</NuxtLink>
@@ -75,12 +76,12 @@
                 </div>
             </div>
             <div class="w-full flex flex-row h-10 box-border">
-                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="Tutorial"><span class="w-full">TUTORIAL</span></UTooltip></button>
-                <div v-if="mode === 'mode1' && guestMode" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold">TUTORIAL</div>
-                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="For You Page"><span class="w-full">FOR YOU</span></UTooltip></button>
-                <div v-if="mode === 'mode1' && guestMode === false" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold">FOR YOU</div>
-                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold" @click="mode = 'mode2'"><UTooltip :content="{align:'start'}" text="Explore Page"><span class="w-full">EXPLORE</span></UTooltip></button>
-                <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold">EXPLORE</div>
+                <button v-if="mode !== 'mode1' && guestMode" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold h-content" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="Tutorial"><span class="w-full">TUTORIAL</span></UTooltip></button>
+                <div v-if="mode === 'mode1' && guestMode" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold h-content">TUTORIAL</div>
+                <button v-if="mode !== 'mode1' && guestMode === false" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold h-content" @click="mode = 'mode1'"><UTooltip :content="{align:'start'}" text="For You Page"><span class="w-full">FOR YOU</span></UTooltip></button>
+                <div v-if="mode === 'mode1' && guestMode === false" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold h-content">FOR YOU</div>
+                <button v-if="mode !== 'mode2'" class="hover:bg-zinc-500 dark:hover:bg-neutral-500 w-full font-thin rounded-4xl tracking-widest text-neutral-900 dark:text-neutral-100 bg-neutral-300 dark:bg-[#37363c] cursor-pointer font-bold h-content" @click="mode = 'mode2'"><UTooltip :content="{align:'start'}" text="Explore Page"><span class="w-full">EXPLORE</span></UTooltip></button>
+                <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold h-content">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
                 <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>

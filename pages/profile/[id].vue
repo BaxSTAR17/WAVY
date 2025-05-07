@@ -114,7 +114,7 @@ import Subscriptions from '../subscriptions.vue'
                             <button class="w-content pt-3 pb-3 cursor-pointer" v-if="subscribed === false && user && selfProfile === false" @click="subscribed = true; subscribe()">SUBSCRIBE</button>
                             </UTooltip>
                             <UTooltip :content="{align:'start'}" text="Unsubscribe">
-                            <button class="w-content pt-3 pb-3 cursor-pointer flex items-center gap-3" v-if="subscribed === true && user && selfProfile === false" @click="subscribed = false; subscribe()"><UIcon name="i-uil-user-minus" size="25"/>UNSUBSCRIBE</button>
+                            <button class="w-content pt-3 pb-3 cursor-pointer flex items-center gap-2" v-if="subscribed === true && user && selfProfile === false" @click="subscribed = false; subscribe()"><UIcon name="i-uil-user-minus" size="25"/>UNSUBSCRIBE</button>
                             </UTooltip>
                         </span>
                     </div>
