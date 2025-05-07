@@ -52,7 +52,7 @@ import { data } from 'autoprefixer'
                         </UTooltip>
                         <span class="text-white text-sm">{{''+sub[0].Listeners+' '+(sub[0].Listeners == 1 ? 'subscriber' : 'subscribers')+' | '+uploads[index]+' '+(uploads[index] == 1 ? 'upload' : 'uploads')}}</span>
                         <UTooltip :content="{align:'start'}" text="Unsubscribe">
-                        <NuxtLink :to="`/profile/${sub[0].UserID}`" class="rounded-xl bg-purple-800 hover:bg-purple-900 text-center w-content border-box p-2 h-content">X UNSUBSCRIBE</NuxtLink>
+                        <NuxtLink :to="`/profile/${sub[0].UserID}`" class="rounded-xl bg-purple-800 hover:bg-purple-900 text-center w-content border-box p-2 h-content flex items-center"><UIcon name="i-uil-user-minus" size="25"/>UNSUBSCRIBE</NuxtLink>
                         </UTooltip>
                     </div>
                 </NuxtLink>
