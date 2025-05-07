@@ -250,8 +250,8 @@
                         <UModal v-model:open="pfpChanged">
                             <template #content>
                                 <img v-if="deleteMode === false" :src="src" alt="pfp" class="w-25 h-25 rounded-full self-center mt-10 mb-3">
-                                <UIcon name="i-uil-exclamation-triangle" v-show="deleteMode === true" id="modalicon" class="text-yellow-500 self-center mb-5" size="60"/>
-                                <span class="text-neutral-900 dark:text-neutral-100 self-center mb-10 font-bold">{{ content }}</span>
+                                <UIcon name="i-uil-exclamation-triangle" v-show="deleteMode === true" id="modalicon" class="text-yellow-500 self-center mb-3 mt-5" size="60"/>
+                                <span class="text-neutral-900 dark:text-neutral-100 self-center font-bold">{{ content }}</span>
                                 <div class="w-full flex gap-5 mt-3 box-border p-5" v-show="deleteMode === true">
                                     <UTooltip :content="{align:'start'}" text="Cancel">
                                     <button class="pr-3 pl-3 text-white w-full h-10 tracking-widest bg-purple-800 hover:bg-purple-900 rounded-2xl font-bold cursor-pointer" @click="pfpChanged = false" v-show="deleting === false">CANCEL</button>

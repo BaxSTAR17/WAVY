@@ -17,7 +17,7 @@
     try {
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
         if(error) throw error
-        data.forEach((explores) => { explore.value.push(explores)})
+        data.forEach((explores) => { if(explores.PodcastID !== 1) explore.value.push(explores)})
     } catch(error) { homeError.value = true; console.log(error) }
     src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
     onMounted(async () => {
@@ -44,7 +44,7 @@
                     try {
                         const { data: poddata, error } = await supabase.from('PODCAST').select("*").eq('CreatorID', subbed.CreatorID).order('PodcastID', { ascending: false })
                         if(error) throw error
-                        poddata.forEach((pod)=>{foryou.value.push(pod)})
+                        poddata.forEach((pod)=>{if(pod.PodcastID !== 1) foryou.value.push(pod)})
                     } catch(error) { homeError.value = true; console.log(error) }
                 })
             } catch(error) { homeError.value = true; console.log(error) }
