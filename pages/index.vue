@@ -7,6 +7,7 @@
     const homeError = ref(false)
     const id = ref(0)
     const explore = ref([])
+    const exploree = ref([])
     const foryou = ref([])
     const src = ref('')
     const hasFYP = ref(false)
@@ -14,7 +15,10 @@
     const fypload = ref(3)
     const infiniteLoad = () => {
         const mainpage = document.getElementById('homepage')
-        if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) payload.value += 1
+        if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) { 
+            payload.value += 1
+            exploree.value = explore.filter(exp => explore.indexOf(exp) <= payload)
+        }
         else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
     }
     const shuffle = (array) => {
@@ -31,6 +35,7 @@
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
         if(error) throw error
         data.forEach((explores) => { explore.value.push(explores)})
+        exploree.value = explore.filter(exp => explore.indexOf(exp) <= payload)
     } catch(error) { homeError.value = true; console.log(error) }
     src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
     if(user.value) {
@@ -93,7 +98,7 @@
                 <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold h-content">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
-                <PodcastPlayer v-for="exp in explore.filter(exp => explore.indexOf(exp) <= payload)" :pid="exp.PodcastID" :key="exp.PodcastID"/>
+                <PodcastPlayer v-for="exp in exploree" :pid="exp.PodcastID" :key="exp.PodcastID"/>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === true">
                 <UTooltip :content="{align:'start'}" text="Tutorial Video">
