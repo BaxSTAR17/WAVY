@@ -9,12 +9,11 @@
     const explore = ref([])
     const exploree = ref([])
     const foryou = ref([])
+    const foryoupage = ref([])
     const src = ref('')
     const hasFYP = ref(false)
-    const payload = ref(2)
+    const payload = ref(3)
     const fypload = ref(3)
-    const infiniteLoad = () => {
-    }
     const shuffle = (array) => {
         let length = array.length
         let rand = 0
@@ -50,6 +49,7 @@
                     if(error) throw error
                     poddata.forEach((pod)=>{foryou.value.push(pod)})
                     shuffle(foryou.value)
+                    foryoupage.value = foryou.value.filter(fyp => foryou.value.indexOf(fyp) <= fypload.value)
                 } catch(error) { homeError.value = true; console.log(error) }
             })
         } catch(error) { homeError.value = true; console.log(error) }
@@ -63,12 +63,14 @@
 
         const mainpage = document.getElementById('homepage')
         mainpage.addEventListener("scroll", () => {
-            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 10 && payload.value < explore.value.length) {
-                console.log("true")
+            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 11 && payload.value < explore.value.length) {
                 payload.value += 1
                 if(payload.value < explore.value.length) exploree.value.push(explore.value[payload.value])
             }
-            else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
+            else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) {
+                fypload.value += 1
+                if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload])
+            }
         })
     })
     useHead({title:'Home | WAVY'})
@@ -127,7 +129,7 @@
                 </p>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === false">
-                <PodcastPlayer v-for="(fyp, index) in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID" v-if="hasFYP === true && index <= fypload"/>
+                <PodcastPlayer v-for="fyp in foryoupage" :pid="fyp.PodcastID" :key="fyp.PodcastID" v-if="hasFYP === true"/>
                 <div class="w-full min-h-dvh box-border flex flex-col p-5 items-center justify-center" v-if="foryou.length == 0">
                     <div class="text-3xl text-neutral-500">You're not subscribed to anyone yet</div>
                     <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>
