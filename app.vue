@@ -36,5 +36,5 @@ useHead({
 </template>
 
 <style>
-html, body { margin: 0; padding: 0; height:100%; overscroll-behavior: none;}
+html, body { margin: 0; padding: 0; height:100%; overscroll-behavior: none; overflow: hidden;}
 </style>
