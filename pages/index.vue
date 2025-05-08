@@ -11,7 +11,7 @@
     const foryou = ref([])
     const src = ref('')
     const hasFYP = ref(false)
-    const payload = ref(1)
+    const payload = ref(2)
     const fypload = ref(3)
     const infiniteLoad = () => {
     }
