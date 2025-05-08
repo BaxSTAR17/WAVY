@@ -36,6 +36,7 @@
         if(error) throw error
         data.forEach((explores) => { explore.value.push(explores)})
         exploree.value = explore.value.filter(exp => explore.value.indexOf(exp) <= payload)
+        console.log(exploree.value)
     } catch(error) { homeError.value = true; console.log(error) }
     src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
     if(user.value) {
