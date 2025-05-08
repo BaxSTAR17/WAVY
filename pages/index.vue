@@ -15,9 +15,9 @@
     const fypload = ref(3)
     const infiniteLoad = () => {
         const mainpage = document.getElementById('homepage')
+        console.log(mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight)
         if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) { 
             payload.value += 1
-            console.log(payload.value)
             exploree.value = explore.value.filter(exp => explore.value.indexOf(exp) <= payload.value)
         }
         else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
