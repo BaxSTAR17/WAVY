@@ -10,7 +10,7 @@
     const foryou = ref([])
     const src = ref('')
     const hasFYP = ref(false)
-    const payload = ref(3)
+    const payload = ref(20)
     const fypload = ref(3)
     const infiniteLoad = () => {
         const mainpage = document.getElementById('homepage')
