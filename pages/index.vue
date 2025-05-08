@@ -63,11 +63,11 @@
 
         const mainpage = document.getElementById('homepage')
         mainpage.addEventListener("scroll", () => {
-            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 11 && payload.value < explore.value.length) {
+            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && payload.value < explore.value.length) {
                 payload.value += 1
                 if(payload.value < explore.value.length) exploree.value.push(explore.value[payload.value])
             }
-            else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) {
+            else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && fypload.value < foryou.value.length) {
                 fypload.value += 1
                 if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload])
             }
