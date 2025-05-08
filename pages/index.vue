@@ -14,13 +14,6 @@
     const payload = ref(3)
     const fypload = ref(3)
     const infiniteLoad = () => {
-        const mainpage = document.getElementById('homepage')
-        console.log(mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight)
-        if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) { 
-            payload.value += 1
-            exploree.value = explore.value.filter(exp => explore.value.indexOf(exp) <= payload.value)
-        }
-        else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
     }
     const shuffle = (array) => {
         let length = array.length
@@ -67,6 +60,17 @@
     onMounted(async () => {
         const setSpeed = () => {document.documentElement.id = "30:30"}
         callOnce(setSpeed)
+
+        const mainpage = document.getElementById('homepage')
+        mainpage.addEventListener("scroll", () => {
+            if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) { 
+                if(payload.value < explore.value.length) {
+                    payload.value += 1
+                    exploree.value.push(explore.value[payload.value])
+                }
+            }
+            else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
+        })
     })
     useHead({title:'Home | WAVY'})
 </script>
