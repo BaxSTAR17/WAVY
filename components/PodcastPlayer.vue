@@ -443,22 +443,22 @@ import { routerKey } from 'vue-router'
                 <div class="w-full flex flex-row items-center justify-between">
                     <div class="flex flex-row items-center">
                         <UTooltip :content="{align:'start'}" :text="`Backtrack (${backtrack} seconds)`">
-                        <UIcon name="i-uil-backward" size="45" class="text-[#8c52ff] cursor-pointer hover:text-neutral-900" @click="backAudio"/>
+                        <UIcon name="i-uil-backward" size="45" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="backAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Play">
-                        <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer hover:text-neutral-900" @click="operateAudio"/>
+                        <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="operateAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Pause">
-                        <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer hover:text-neutral-900" @click="operateAudio"/>
+                        <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="operateAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" :text="`Fast-Forward (${fastforward} seconds)`">
-                        <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer hover:text-neutral-900" @click="skipAudio"/>
+                        <UIcon name="i-uil-forward" size="45" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="skipAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Volume">
-                        <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-neutral-900" @click="muteAudio"/>
+                        <UIcon v-show="muted === false" name="i-uil-volume" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                         </UTooltip>
                         <UTooltip :content="{align:'start'}" text="Volume Muted">
-                        <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-neutral-900" @click="muteAudio"/>
+                        <UIcon v-show="muted===true" name="i-uil-volume-mute" size="40" class="hidden lg:block text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="muteAudio"/>
                         </UTooltip>
                         <!-- <div class="rounded-2xl h-3 bg-neutral-500 w-40"></div> -->
                         <input type="range" :id="`volumeslide${props.pid}`" max="100" value="100" class="hidden lg:block w-40 disabled:opacity-30" disabled>

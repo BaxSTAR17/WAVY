@@ -10,6 +10,13 @@
     const foryou = ref([])
     const src = ref('')
     const hasFYP = ref(false)
+    const payload = ref(3)
+    const fypload = ref(3)
+    const infiniteLoad = () => {
+        const mainpage = document.getElementById('homepage')
+        if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) payload.value += 1
+        else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
+    }
     const shuffle = (array) => {
         let length = array.length
         let rand = 0
@@ -59,7 +66,7 @@
 </script>
 
 <template>
-        <div class="bg-neutral-200 dark:bg-neutral-800 overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="homeError === false">
+        <div id="homepage" class="bg-neutral-200 dark:bg-neutral-800 overflow-y-auto w-screen box-border flex flex-col p-3 gap-3" v-if="homeError === false" @scroll="infinteLoad">
             <div class="w-full flex flex-row h-20 gap-3">
                 <img :src="src" alt="PFP" class="rounded-2xl h-20 w-20">
                 <div class="w-full flex flex-col h-20 justify-around items-start">
@@ -86,7 +93,7 @@
                 <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold h-content">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
-                <PodcastPlayer v-for="exp in explore" :pid="exp.PodcastID" :key="exp.PodcastID"/>
+                <PodcastPlayer v-for="(exp, index) in explore" :pid="exp.PodcastID" :key="exp.PodcastID" v-if="index <= payload"/>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === true">
                 <UTooltip :content="{align:'start'}" text="Tutorial Video">
@@ -111,7 +118,7 @@
                 </p>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === false">
-                <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID" v-show="hasFYP === true"/>
+                <PodcastPlayer v-for="(fyp, index) in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID" v-if="hasFYP === true && index <= fypload"/>
                 <div class="w-full min-h-dvh box-border flex flex-col p-5 items-center justify-center" v-if="foryou.length == 0">
                     <div class="text-3xl text-neutral-500">You're not subscribed to anyone yet</div>
                     <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>
