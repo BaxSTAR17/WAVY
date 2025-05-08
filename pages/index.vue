@@ -9,6 +9,7 @@
     const explore = ref([])
     const foryou = ref([])
     const src = ref('')
+    const hasFYP = ref(false)
     const shuffle = (array) => {
         let length = array.length
         let rand = 0
@@ -17,6 +18,7 @@
             length--;
             [array[length], array[rand]] = [array[rand], array[length]]
         }
+        hasFYP.value = true
     }
     try {
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
@@ -109,7 +111,7 @@
                 </p>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === false">
-                <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID"/>
+                <PodcastPlayer v-for="fyp in foryou" :pid="fyp.PodcastID" :key="fyp.PodcastID" v-show="hasFYP === true"/>
                 <div class="w-full min-h-dvh box-border flex flex-col p-5 items-center justify-center" v-if="foryou.length == 0">
                     <div class="text-3xl text-neutral-500">You're not subscribed to anyone yet</div>
                     <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>

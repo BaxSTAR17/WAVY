@@ -357,25 +357,24 @@ import { routerKey } from 'vue-router'
                     <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
                     </UTooltip>
                 </div>
-                <div class="w-full flex flex-row justify-center">
+                <div class="w-full flex flex-row justify-center items-center">
                     <UTooltip :content="{align:'start'}" :text="`Backtrack (${backtrack} seconds)`">
-                    <UIcon name="i-uil-backward" size="25" class="text-[#8c52ff] cursor-pointer" @click="backAudio"/>
+                    <UIcon name="i-uil-backward" size="40" class="text-[#8c52ff] cursor-pointer" @click="backAudio"/>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" text="Play">
-                    <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="25" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
+                    <UIcon v-show="isPlaying === false" name="i-basil-play-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" text="Pause">
-                    <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="25" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
+                    <UIcon v-show="isPlaying === true" name="i-basil-pause-solid" size="45" class="text-[#8c52ff] cursor-pointer" @click="operateAudio"/>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" :text="`Fast-Forward (${fastforward} seconds)`">
-                    <UIcon name="i-uil-forward" size="25" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
+                    <UIcon name="i-uil-forward" size="40" class="text-[#8c52ff] cursor-pointer" @click="skipAudio"/>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" text="Loading...">
-                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="25" class="text-neutral-600 transition-all"/>
+                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="40" class="text-neutral-600 transition-all"/>
                     </UTooltip>
                 </div>
                 <div class="w-full flex flex-row h-7 items-center">
-                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="45" class="text-neutral-600 transition-all"/>
                     <UTooltip :content="{align:'start'}" :text="`${starttime}`">
                     <span class="text-neutral-900 dark:text-neutral-100">&nbsp;&nbsp;{{starttime}}&nbsp;</span>
                     </UTooltip>
