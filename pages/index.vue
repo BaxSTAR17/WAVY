@@ -63,6 +63,7 @@
 
         const mainpage = document.getElementById('homepage')
         mainpage.addEventListener("scroll", () => {
+            console.log(mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight)
             if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) { 
                 if(payload.value < explore.value.length) {
                     payload.value += 1
