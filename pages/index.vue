@@ -17,7 +17,7 @@
         const mainpage = document.getElementById('homepage')
         if(mode.value === 'mode1' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) { 
             payload.value += 1
-            exploree.value = explore.value.filter(exp => explore.indexOf(exp) <= payload)
+            exploree.value = explore.value.filter(exp => explore.value.indexOf(exp) <= payload)
         }
         else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && fypload.value < foryou.value.length) fypload.value += 1
     }
@@ -35,7 +35,7 @@
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
         if(error) throw error
         data.forEach((explores) => { explore.value.push(explores)})
-        exploree.value = explore.value.filter(exp => explore.indexOf(exp) <= payload)
+        exploree.value = explore.value.filter(exp => explore.value.indexOf(exp) <= payload)
     } catch(error) { homeError.value = true; console.log(error) }
     src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
     if(user.value) {
