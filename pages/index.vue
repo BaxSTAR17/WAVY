@@ -10,7 +10,7 @@
     const foryou = ref([])
     const src = ref('')
     const hasFYP = ref(false)
-    const payload = ref(20)
+    const payload = ref(3)
     const fypload = ref(3)
     const infiniteLoad = () => {
         const mainpage = document.getElementById('homepage')
@@ -93,7 +93,7 @@
                 <div v-if="mode === 'mode2'" class="font-bold w-full font-thin rounded-4xl tracking-widest text-neutral-100 bg-purple-800 dark:bg-[#4e4b55] flex justify-center items-center font-bold h-content">EXPLORE</div>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode2'">
-                <PodcastPlayer v-for="(exp, index) in explore" :pid="exp.PodcastID" :key="exp.PodcastID" v-if="index <= payload"/>
+                <PodcastPlayer v-for="exp in explore.filter(exp => explore.indexOf(exp) <= payload)" :pid="exp.PodcastID" :key="exp.PodcastID"/>
             </div>
             <div class="w-full flex flex-col h-content" v-show="mode === 'mode1' && guestMode === true">
                 <UTooltip :content="{align:'start'}" text="Tutorial Video">
