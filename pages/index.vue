@@ -11,7 +11,7 @@
     const foryou = ref([])
     const src = ref('')
     const hasFYP = ref(false)
-    const payload = ref(3)
+    const payload = ref(1)
     const fypload = ref(3)
     const infiniteLoad = () => {
     }
@@ -63,7 +63,7 @@
 
         const mainpage = document.getElementById('homepage')
         mainpage.addEventListener("scroll", () => {
-            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) === 0 && payload.value < explore.value.length) {
+            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 10 && payload.value < explore.value.length) {
                 console.log("true")
                 payload.value += 1
                 if(payload.value < explore.value.length) exploree.value.push(explore.value[payload.value])
