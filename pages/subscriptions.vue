@@ -58,7 +58,7 @@ import { data } from 'autoprefixer'
                 </NuxtLink>
             </div>
         </div>
-        <div class="bg-neutral-200 darK:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
+        <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-screen box-border flex flex-col border-box p-5 items-center justify-center" v-else>
             <div class="text-3xl text-neutral-500">You're not subscribed to anyone yet</div>
             <UIcon name="i-uil-annoyed" class="text-neutral-500" size="80"/>
         </div>
