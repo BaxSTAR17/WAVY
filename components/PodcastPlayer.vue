@@ -338,6 +338,11 @@ import { routerKey } from 'vue-router'
         })
         endtime.value = endTime(audio.duration)
         loading.value = false
+        if(props.pod === true) {
+            document.body.onkeyup = function(event) {
+                if(event.key === ' ' || event.key === 'Spacebar' || event.code === 'Space') operateAudio.value()
+            }
+        }
     })
 </script>
 
@@ -415,19 +420,21 @@ import { routerKey } from 'vue-router'
                 </UTooltip>
             </div>
         </div>
-        <div class="text-md text-neutral-600 dark:text-neutral-400 tracking-wide flex flex-row items-center w-full h-5" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
-            <UTooltip :content="{align:'start'}" text="Listens">
-            <UIcon name="i-uil-play" size="15" />
+        <div class="text-md text-neutral-600 dark:text-neutral-400 tracking-wide flex flex-row items-center w-full h-5 justify-between" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">
+            <div class="w-content h-5 flex flex-row items-center">
+                <UTooltip :content="{align:'start'}" :text="`${listens} Listens`">
+                <UIcon name="i-uil-play" size="15" />
+                </UTooltip>
+                <span>{{ listens }}  |&nbsp;</span>
+                <UTooltip :content="{align:'start'}" :text="`${likes} Likes`">
+                <UIcon name="i-uil-heart" size="15" />
+                </UTooltip>
+                <span>{{ likes }}</span>
+            </div>
+            <UTooltip :content="{align:'start'}" text="View Transcript">
+            <NuxtLink :to="`/podcast/${props.pid}`" v-if="props.pod === false" class="text-neutral-500 hover:text-neutral-400 w-content ">View Transcript</NuxtLink>
             </UTooltip>
-            <span>{{ listens }}  |&nbsp;</span>
-            <UTooltip :content="{align:'start'}" text="Likes">
-            <UIcon name="i-uil-heart" size="15" />
-            </UTooltip>
-            <span>{{ likes }}</span>
         </div>
-        <UTooltip :content="{align:'start'}" text="View Transcript">
-        <NuxtLink :to="`/podcast/${props.pid}`" v-if="props.pod === false" class="text-neutral-500 hover:text-neutral-400 w-content">View Transcript</NuxtLink>
-        </UTooltip>
         <div v-if="props.pod === true">
             <div class="w-full flex flex-col h-content">
                 <div class="w-full flex flex-row items-center">
