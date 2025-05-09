@@ -14,6 +14,7 @@
     const hasFYP = ref(false)
     const payload = ref(3)
     const fypload = ref(3)
+    const route = useRoute()
     const shuffle = (array) => {
         let length = array.length
         let rand = 0
@@ -60,18 +61,32 @@
     onMounted(async () => {
         const setSpeed = () => {document.documentElement.id = "30:30"}
         callOnce(setSpeed)
-
         const mainpage = document.getElementById('homepage')
-        mainpage.addEventListener("scroll", () => {
-            if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && payload.value < explore.value.length) {
-                payload.value += 1
-                if(payload.value < explore.value.length) exploree.value.push(explore.value[payload.value])
+        if(window.matchMedia('(width >= 64rem)').matches === true) {
+            mainpage.addEventListener("scroll", () => {
+                if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && payload.value < explore.value.length) {
+                    payload.value += 1
+                    if(payload.value < explore.value.length) exploree.value.push(explore.value[payload.value])
+                }
+                else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && fypload.value < foryou.value.length) {
+                    fypload.value += 1
+                    if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload])
+                }
+            })
+        } else {
+            window.onscroll = () => {
+                if(route.path === '/') {
+                    if(mode.value === 'mode2' && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && payload.value < explore.value.length) {
+                        payload.value += 1
+                        if(payload.value < explore.value.length) exploree.value.push(explore.value[payload.value])
+                    }
+                    else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && fypload.value < foryou.value.length) {
+                        fypload.value += 1
+                        if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload])
+                    }
+                }
             }
-            else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && fypload.value < foryou.value.length) {
-                fypload.value += 1
-                if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload])
-            }
-        })
+        }
     })
     useHead({title:'Home | WAVY'})
 </script>

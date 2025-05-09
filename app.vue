@@ -36,5 +36,9 @@ useHead({
 </template>
 
 <style>
-html, body { margin: 0; padding: 0; height:100%; overscroll-behavior: none; overflow: hidden;}
+html, body { margin: 0; padding: 0; height:100%; overscroll-behavior: none; }
+
+@media (width >= 64rem) {
+  body {overflow:hidden}
+}
 </style>
