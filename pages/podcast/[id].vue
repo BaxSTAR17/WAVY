@@ -22,8 +22,7 @@
         <div class="bg-neutral-200 dark:bg-neutral-800 min-h-dvh overflow-y-auto w-full box-border flex flex-col border-box p-5 gap-2" v-if="noPodcast === false">
             <PodcastPlayer :pid="pid" pod/>
             <UTooltip :content="{align:'start'}" text="Transcript of the Podcast">
-            <div class="p-3 text-white tracking-widest bg-purple-800 rounded-2xl w-40 text-center">
-                <!-- <span>UPLOAD PODCAST</span> -->
+            <div class="p-3 text-neutral-900 dark:text-neutral-100 tracking-widest bg-purple-100 dark:bg-neutral-900 rounded-2xl w-40 text-center">
                 <span>TRANSCRIPT</span>
             </div>
             </UTooltip>

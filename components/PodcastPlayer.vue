@@ -362,7 +362,7 @@ import { routerKey } from 'vue-router'
                     <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" text="Loading...">
-                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="25" class="ml-5 text-neutral-600 transition-all sel"/>
+                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="25" class="ml-2 text-neutral-600 transition-all sel"/>
                     </UTooltip>
                 </div>
                 <div class="w-full flex flex-row justify-center items-center">

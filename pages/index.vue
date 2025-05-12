@@ -23,7 +23,6 @@
             length--;
             [array[length], array[rand]] = [array[rand], array[length]]
         }
-        hasFYP.value = true
     }
     try {
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
@@ -50,7 +49,9 @@
                     if(error) throw error
                     poddata.forEach((pod)=>{foryou.value.push(pod)})
                     shuffle(foryou.value)
-                    for(let i = 0; i < 4; i++) setTimeout(() => {foryoupage.value.push(foryou.value[i])}, 500)
+                    hasFYP.value = true
+                    const max = 4 > foryou.value.length ? foryou.value.length : 4;
+                    for(let i = 0; i < max; i++) setTimeout(() => {foryoupage.value.push(foryou.value[i])}, 500)
                 } catch(error) { homeError.value = true; console.log(error) }
             })
         } catch(error) { homeError.value = true; console.log(error) }
