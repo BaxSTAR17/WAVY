@@ -361,11 +361,11 @@ import { routerKey } from 'vue-router'
                     <UTooltip :content="{align:'start'}" :text="`${creator}`">
                     <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
                     </UTooltip>
+                    <UTooltip :content="{align:'start'}" text="Loading...">
+                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="20" class="text-neutral-600 transition-all sel"/>
+                    </UTooltip>
                 </div>
                 <div class="w-full flex flex-row justify-center items-center">
-                    <UTooltip :content="{align:'start'}" text="Loading...">
-                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="40" class="text-neutral-600 transition-all sel"/>
-                    </UTooltip>
                     <UTooltip :content="{align:'start'}" :text="`Backtrack (${backtrack} seconds)`">
                     <UIcon name="i-uil-backward" size="40" class="text-[#8c52ff] cursor-pointer hover:text-purple-900" @click="backAudio"/>
                     </UTooltip>

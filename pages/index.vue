@@ -29,7 +29,7 @@
         const { data, error } = await supabase.from('PODCAST').select('*').order('Likes', { ascending: false })
         if(error) throw error
         data.forEach((explores) => { explore.value.push(explores)})
-        exploree.value = explore.value.filter(exp => explore.value.indexOf(exp) <= payload.value)
+        for(let i = 0; i < 4; i++) setTimeout(() => {exploree.value.push(explore.value[i])}, 500)
     } catch(error) { homeError.value = true; console.log(error) }
     src.value = supabase.storage.from('files').getPublicUrl('pfps/01110.svg').data.publicUrl
     if(user.value) {
@@ -50,7 +50,7 @@
                     if(error) throw error
                     poddata.forEach((pod)=>{foryou.value.push(pod)})
                     shuffle(foryou.value)
-                    foryoupage.value = foryou.value.filter(fyp => foryou.value.indexOf(fyp) <= fypload.value)
+                    for(let i = 0; i < 4; i++) setTimeout(() => {foryoupage.value.push(foryou.value[i])}, 500)
                 } catch(error) { homeError.value = true; console.log(error) }
             })
         } catch(error) { homeError.value = true; console.log(error) }
