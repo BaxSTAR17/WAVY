@@ -83,7 +83,7 @@
                     }
                     else if(mode.value === 'mode1' && user.value && (mainpage.scrollHeight - mainpage.scrollTop - mainpage.clientHeight) < 9 && fypload.value < foryou.value.length) {
                         fypload.value += 1
-                        if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload])
+                        if(fypload.value < foryou.value.length) foryoupage.value.push(foryou.value[fypload.value])
                     }
                 }
             }
