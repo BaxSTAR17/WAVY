@@ -51,7 +51,7 @@
                     shuffle(foryou.value)
                     hasFYP.value = true
                     const max = 4 > foryou.value.length ? foryou.value.length : 4;
-                    for(let i = 0; i < max; i++) setTimeout(() => {foryoupage.value.push(foryou.value[i])}, 500)
+                    if(max !== 0) for(let i = 0; i < max; i++) setTimeout(() => {foryoupage.value.push(foryou.value[i])}, 500)
                 } catch(error) { homeError.value = true; console.log(error) }
             })
         } catch(error) { homeError.value = true; console.log(error) }
