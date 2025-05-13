@@ -354,7 +354,7 @@ import { routerKey } from 'vue-router'
             <NuxtLink :to="`/podcast/${props.pid}`" class="w-15 h-15 rounded-lg hidden lg:block bg-neutral-200 dark:bg-neutral-800"><img :src="thumbnail" class="w-full h-full" id="img" alt="Thumbnail"></NuxtLink>
             </UTooltip>
             <div class="w-full flex flex-col justify-center p-1 box-border" v-if="props.pod === false">
-                <div class="flex flex-row items-center">
+                <div>
                     <UTooltip :content="{align:'start'}" :text="`${title}`">
                     <NuxtLink :to="`/podcast/${props.pid}`" class="text-neutral-900 dark:text-neutral-100 text-lg font-bold hover:underline">{{ title }}&nbsp;</NuxtLink>
                     </UTooltip>
@@ -362,7 +362,7 @@ import { routerKey } from 'vue-router'
                     <NuxtLink :to="`/profile/${cid}`" class="text-neutral-900 dark:text-neutral-100 text-sm hover:underline" style="font-family: 'Arial Narrow', sans-serif; font-weight: 300;">by {{ creator }}</NuxtLink>
                     </UTooltip>
                     <UTooltip :content="{align:'start'}" text="Loading...">
-                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="25" class="ml-2 text-neutral-600 transition-all sel"/>
+                    <UIcon v-show="buffering === true" name="i-svg-spinners-bars-scale" size="25" class="ml-2 mt-2 text-neutral-600 transition-all sel"/>
                     </UTooltip>
                 </div>
                 <div class="w-full flex flex-row justify-center items-center">

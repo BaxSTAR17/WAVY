@@ -3,6 +3,7 @@
     const user = useSupabaseUser()
     const likings = ref([])
     const likeError = ref(false)
+    useHead({title:'Likes | WAVY'})
     if(user.value) {
         try{
             const { data: userdata, error } = await supabase.from('USER').select("UserID").eq("UserEmail", user.value.email)
@@ -10,11 +11,10 @@
             try {
                 const { data: likedata, error } = await supabase.from('LIKE FEED').select("PodcastID").eq("LikerID", userdata[0].UserID)
                 if(error) throw error
-                likedata.forEach((liked)=>{likings.value.push(liked)})
+                likedata.forEach((liked)=>{setTimeout(() => {likings.value.push(liked)}, 500)})
             } catch(error) {likeError.value = true; console.log(error)}
         } catch(error) {likeError.value = true; console.log(error)}
     } else { likeError.value = true; }
-    useHead({title:'Likes | WAVY'})
 </script>
 
 <template>
