@@ -154,7 +154,7 @@ import { NuxtLink } from '#components'
                 <NuxtLink to="/contact" class="text-sl text-neutral-900 dark:text-neutral-100 cursor-pointer flex flex-row gap-2 items-center w-full rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-all duration-80 ease-linear p-1">
                     <UIcon name="i-uil-phone" size="21"/>
                     <span class="underline" v-if="useRoute().path === '/contact'">Contact Us</span>
-                    <span>Contact Us</span>
+                    <span v-else>Contact Us</span>
                 </NuxtLink>
             </div>
             </UTooltip>
