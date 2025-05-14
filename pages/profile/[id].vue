@@ -79,7 +79,7 @@ import Subscriptions from '../subscriptions.vue'
             const { data, error } = await supabase.from('PODCAST').select("*").eq('CreatorID', id.value).order('PodcastID', { ascending: false })
             if(error) throw error
             data.forEach((podcast) => {setTimeout(()=>{podcasts.value.push(podcast)}, 500)})
-            if(podcasts.value.length > 0) hasUploaded.value = true
+            if(data.length > 0) hasUploaded.value = true
         } catch(error) { console.log(error) }
     } catch(error) { noUser.value = true; console.log(error) }
     if(noUser.value === true) useHead({title: 'User Not Found | WAVY'})
