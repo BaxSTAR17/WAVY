@@ -307,7 +307,7 @@ import { routerKey } from 'vue-router'
             endtime.value = endTime(audio.duration)
             buffering.value = false
             duration_slide.disabled = false
-            volume_slide.disabled = false
+            if(muted.value === false) volume_slide.disabled = false
             starttime.value = endTime(Math.floor(duration_slide.value*audio.duration/100))
         })
         audio.addEventListener("ended", () => {
@@ -319,17 +319,17 @@ import { routerKey } from 'vue-router'
         audio.addEventListener("playing", () => {
             buffering.value = false
             duration_slide.disabled = false
-            volume_slide.disabled = false
+            if(muted.value === false) volume_slide.disabled = false
         })
         audio.addEventListener("play", () => {
             buffering.value = false
             duration_slide.disabled = false
-            volume_slide.disabled = false
+            if(muted.value === false) volume_slide.disabled = false
         })
         audio.addEventListener("pause", () => {
             buffering.value = false
             duration_slide.disabled = false
-            volume_slide.disabled = false
+            if(muted.value === false) volume_slide.disabled = false
         })
         audio.addEventListener("waiting", () => {
             buffering.value = true
