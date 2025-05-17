@@ -116,7 +116,7 @@
                 </UTooltip>
                 <div class="flex gap-1 mt-3">
                     <UTooltip :content="{align:'start'}" text="I agree to the Terms & Conditions">
-                    <input type="checkbox" name="terms" value="terms" class="w-10 cursor-pointer" style="accent-color: #8c52ff;" id="termsandconditions" v-model="checked">
+                    <input type="checkbox" v-if="!verifying" name="terms" value="terms" class="w-10 cursor-pointer" style="accent-color: #8c52ff;" id="termsandconditions" v-model="checked">
                     </UTooltip>
                     <label for="terms" class="text-neutral-900 dark:text-neutral-100">I agree to the <span class="text-purple-600 dark:text-purple-400 cursor-pointer" @click="checkterms = true">Terms & Conditions</span></label>
                 </div>
